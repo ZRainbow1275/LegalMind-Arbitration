@@ -1,8 +1,10 @@
 # 📚 LegalMind仲裁平台 - 技术文档库
 
 **项目版本**：v5.0
-**最后更新**：2025-10-30
+**最后更新**：2026-01-12
 **文档状态**：已精简整合
+
+> 注意：本 README 中的“评分/完成度/就绪度”等为历史汇总口径；当前真实实现以 `docs/TRACEABILITY_MATRIX.md` 与 `docs/GAP_ANALYSIS.md` 的审计结论为准。
 
 ---
 
@@ -37,6 +39,8 @@
 - [开发历史记录](./DEVELOPMENT_HISTORY.md)
 - [Prototype UI/UX 设计语言](./PROTOTYPE_UI_UX_DESIGN_LANGUAGE.md)
 - [仓库上传与必要配置说明](./REPOSITORY_SETUP.md)
+- [需求-实现对照矩阵（工作台 dev + 仲裁系统 Prototype）](./TRACEABILITY_MATRIX.md)
+- [缺口分析（工作台 dev + 仲裁系统 Prototype）](./GAP_ANALYSIS.md)
 
 ---
 
