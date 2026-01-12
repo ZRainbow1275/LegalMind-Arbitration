@@ -35,6 +35,8 @@
 - [法律工作台项目状态](./PROTOTYPE_STATUS.md)
 - [法律工作台技术指南](./PROTOTYPE_TECHNICAL_GUIDE.md)
 - [开发历史记录](./DEVELOPMENT_HISTORY.md)
+- [Prototype UI/UX 设计语言](./PROTOTYPE_UI_UX_DESIGN_LANGUAGE.md)
+- [仓库上传与必要配置说明](./REPOSITORY_SETUP.md)
 
 ---
 
@@ -48,7 +50,7 @@
 
 **文档分类**：
 - **主项目文档**：15个（需求、技术栈、API、数据库、部署等）
-- **法律工作台文档**：3个（项目状态、技术指南、开发历史）
+- **法律工作台文档**：4个（项目状态、技术指南、开发历史、UI/UX设计语言）
 
 ---
 
@@ -323,4 +325,3 @@
 **文档维护者**：LegalMind开发团队
 **最后更新**：2025-10-30
 **文档版本**：v5.0（已精简整合）
-

@@ -50,3 +50,5 @@ dev/
 
 # Prototype 内的上游参考仓库（自带 .git），避免作为嵌套仓库/子模块被提交
 Prototype/drawnix-reference/
+.ace-tool/
+.codex/
