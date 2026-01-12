@@ -1,0 +1,1065 @@
+[
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\components\\LegalWorkspaceEmbed.tsx",
+    "errors": [
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect has missing dependencies: 'initCanvas', 'onError', and 'updateViewport'. Either include them or remove the dependency array. If 'onError' changes too often, find the parent component that defines it and wrap that definition in useCallback.",
+        "line": 104,
+        "column": 6,
+        "nodeType": "ArrayExpression",
+        "endLine": 104,
+        "endColumn": 52,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [mode, data, adapter, config, initialViewport, initCanvas, updateViewport, onError]",
+            "fix": {
+              "range": [
+                2563,
+                2609
+              ],
+              "text": "[mode, data, adapter, config, initialViewport, initCanvas, updateViewport, onError]"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\components\\PerformanceTestPage.tsx",
+    "errors": [
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect has a missing dependency: 'renderCount'. Either include it or remove the dependency array.",
+        "line": 30,
+        "column": 6,
+        "nodeType": "ArrayExpression",
+        "endLine": 30,
+        "endColumn": 8,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [renderCount]",
+            "fix": {
+              "range": [
+                852,
+                854
+              ],
+              "text": "[renderCount]"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\ai-recommendation.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'Connection' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 21,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 31
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'createLegalNode' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 33,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 48
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\auto-save.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'compress' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 69,
+        "column": 39,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 69,
+        "endColumn": 47
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'compress' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 93,
+        "column": 31,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 93,
+        "endColumn": 39
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\canvas-intelligence.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'cacheManager' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 9,
+        "column": 10,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 9,
+        "endColumn": 22
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\canvas-optimizations.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'tree' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 200,
+        "column": 15,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 200,
+        "endColumn": 19
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\cleanup-utils.ts",
+    "errors": [
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array.",
+        "line": 115,
+        "column": 6,
+        "nodeType": "ArrayExpression",
+        "endLine": 115,
+        "endColumn": 76,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [target, eventType, options.capture, options.passive, options.once, options]",
+            "fix": {
+              "range": [
+                2171,
+                2241
+              ],
+              "text": "[target, eventType, options.capture, options.passive, options.once, options]"
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useCallback was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies.",
+        "line": 202,
+        "column": 6,
+        "nodeType": "Identifier",
+        "endLine": 202,
+        "endColumn": 10
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useCallback has a missing dependency: 'asyncFn'. Either include it or remove the dependency array. If 'asyncFn' changes too often, find the parent component that defines it and wrap that definition in useCallback.",
+        "line": 202,
+        "column": 6,
+        "nodeType": "Identifier",
+        "endLine": 202,
+        "endColumn": 10,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [asyncFn]",
+            "fix": {
+              "range": [
+                3921,
+                3925
+              ],
+              "text": "[asyncFn]"
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies.",
+        "line": 262,
+        "column": 6,
+        "nodeType": "Identifier",
+        "endLine": 262,
+        "endColumn": 10
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect has a missing dependency: 'subscribe'. Either include it or remove the dependency array. If 'subscribe' changes too often, find the parent component that defines it and wrap that definition in useCallback.",
+        "line": 262,
+        "column": 6,
+        "nodeType": "Identifier",
+        "endLine": 262,
+        "endColumn": 10,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [subscribe]",
+            "fix": {
+              "range": [
+                5038,
+                5042
+              ],
+              "text": "[subscribe]"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\collaboration-engine.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'CanvasElement' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 30,
+        "column": 15,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 30,
+        "endColumn": 28
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\collaboration-socketio.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'LegalNode' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 16,
+        "column": 15,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 16,
+        "endColumn": 24
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\connection-renderer-optimized.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'Connection' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 17,
+        "column": 10,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 17,
+        "endColumn": 20
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'ConnectionData' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 17,
+        "column": 22,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 17,
+        "endColumn": 36
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'prevPoint' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 117,
+        "column": 11,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 117,
+        "endColumn": 20
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\data-sync-manager.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'createSnapshot' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 13,
+        "column": 36,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 13,
+        "endColumn": 50
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'DataSnapshot' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 13,
+        "column": 52,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 13,
+        "endColumn": 64
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'state' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 413,
+        "column": 11,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 413,
+        "endColumn": 16
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\document-sync.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'LegalDocumentNode' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 10,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 27
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'createLegalDocumentNode' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 29,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 52
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'Point' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 8,
+        "column": 10,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 8,
+        "endColumn": 15
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\export-service.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'options' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 137,
+        "column": 47,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 137,
+        "endColumn": 54
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\file-upload.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'DocumentNodeData' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 15,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 31
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'createDocumentNodeData' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 8,
+        "column": 10,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 8,
+        "endColumn": 32
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\layout-engine.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'vx' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 291,
+        "column": 29,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 291,
+        "endColumn": 31
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'vy' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 291,
+        "column": 33,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 291,
+        "endColumn": 35
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\memory-leak-detector.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'useRef' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 8,
+        "column": 21,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 8,
+        "endColumn": 27
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'useCallback' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 8,
+        "column": 29,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 8,
+        "endColumn": 40
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\react-optimization.ts",
+    "errors": [
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead.",
+        "line": 60,
+        "column": 10,
+        "nodeType": "Identifier",
+        "endLine": 60,
+        "endColumn": 21
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead.",
+        "line": 83,
+        "column": 10,
+        "nodeType": "Identifier",
+        "endLine": 83,
+        "endColumn": 21
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies.",
+        "line": 133,
+        "column": 6,
+        "nodeType": "Identifier",
+        "endLine": 133,
+        "endColumn": 10
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect has a missing dependency: 'loader'. Either include it or remove the dependency array. If 'loader' changes too often, find the parent component that defines it and wrap that definition in useCallback.",
+        "line": 133,
+        "column": 6,
+        "nodeType": "Identifier",
+        "endLine": 133,
+        "endColumn": 10,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [loader]",
+            "fix": {
+              "range": [
+                2684,
+                2688
+              ],
+              "text": "[loader]"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\render-batch.ts",
+    "errors": [
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "The ref value 'managerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'managerRef.current' to a variable inside the effect, and use that variable in the cleanup function.",
+        "line": 279,
+        "column": 18,
+        "nodeType": "Identifier",
+        "endLine": 279,
+        "endColumn": 25
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\smart-node-recommender.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'position' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 121,
+        "column": 5,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 121,
+        "endColumn": 13
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'nodes' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 221,
+        "column": 5,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 221,
+        "endColumn": 10
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\undo-redo.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'draft' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 204,
+        "column": 26,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 204,
+        "endColumn": 31
+      },
+      {
+        "ruleId": "react-hooks/exhaustive-deps",
+        "severity": 1,
+        "message": "React Hook useEffect has a missing dependency: 'initialState'. Either include it or remove the dependency array.",
+        "line": 249,
+        "column": 6,
+        "nodeType": "ArrayExpression",
+        "endLine": 249,
+        "endColumn": 8,
+        "suggestions": [
+          {
+            "desc": "Update the dependencies array to be: [initialState]",
+            "fix": {
+              "range": [
+                4761,
+                4763
+              ],
+              "text": "[initialState]"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\unified-data-manager.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'get' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 164,
+        "column": 67,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 164,
+        "endColumn": 70
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'backupId' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 192,
+        "column": 13,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 192,
+        "endColumn": 21
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\virtual-scroll.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'throttle' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 9,
+        "column": 10,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 9,
+        "endColumn": 18
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\virtualization.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'Position' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 30,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 38
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'Size' is defined but never used. Allowed unused vars must match /^_/u.",
+        "line": 7,
+        "column": 40,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 7,
+        "endColumn": 44
+      },
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'elementBounds' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 248,
+        "column": 11,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 248,
+        "endColumn": 24
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\workspace-manager.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'event' is defined but never used. Allowed unused args must match /^_/u.",
+        "line": 441,
+        "column": 31,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 441,
+        "endColumn": 36
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\lib\\xss-protection.tsx",
+    "errors": [
+      {
+        "ruleId": "react-refresh/only-export-components",
+        "severity": 1,
+        "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+        "line": 12,
+        "column": 10,
+        "nodeType": "Identifier",
+        "messageId": "namedExport",
+        "endLine": 12,
+        "endColumn": 26
+      },
+      {
+        "ruleId": "react-refresh/only-export-components",
+        "severity": 1,
+        "message": "Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components.",
+        "line": 30,
+        "column": 17,
+        "nodeType": "Identifier",
+        "messageId": "namedExport",
+        "endLine": 30,
+        "endColumn": 28
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\plugins\\legal-node-drag-plugin.ts",
+    "errors": [
+      {
+        "ruleId": "@typescript-eslint/no-unused-vars",
+        "severity": 1,
+        "message": "'perfId' is assigned a value but never used. Allowed unused vars must match /^_/u.",
+        "line": 53,
+        "column": 17,
+        "nodeType": null,
+        "messageId": "unusedVar",
+        "endLine": 53,
+        "endColumn": 23
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\plugins\\legal-nodes\\components\\LegalNodeComponent.tsx",
+    "errors": [
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 40,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 40,
+        "endColumn": 66
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 41,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 41,
+        "endColumn": 53
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 42,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 42,
+        "endColumn": 54
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 85,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 85,
+        "endColumn": 60
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 86,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 86,
+        "endColumn": 61
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 89,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 92,
+        "endColumn": 64
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 124,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 124,
+        "endColumn": 56
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 125,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 125,
+        "endColumn": 57
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 126,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 126,
+        "endColumn": 75
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 128,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 128,
+        "endColumn": 30
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 175,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 175,
+        "endColumn": 57
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 176,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 176,
+        "endColumn": 58
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 177,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 177,
+        "endColumn": 77
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 178,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 178,
+        "endColumn": 47
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 180,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 180,
+        "endColumn": 31
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 219,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 219,
+        "endColumn": 34
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 220,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 227,
+        "endColumn": 83
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\plugins\\legal-nodes\\engines\\legal-node-engine.ts",
+    "errors": [
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 139,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 139,
+        "endColumn": 55
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 142,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 142,
+        "endColumn": 55
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 145,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 145,
+        "endColumn": 54
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 148,
+        "column": 9,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 148,
+        "endColumn": 59
+      }
+    ]
+  },
+  {
+    "filePath": "D:\\Desktop\\LegalMind-Arbitration\\Prototype\\src\\plugins\\legal-nodes\\with-legal-nodes.ts",
+    "errors": [
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 129,
+        "column": 11,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 129,
+        "endColumn": 50
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 136,
+        "column": 11,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 136,
+        "endColumn": 52
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 143,
+        "column": 11,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 143,
+        "endColumn": 49
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 150,
+        "column": 11,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 150,
+        "endColumn": 54
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 157,
+        "column": 11,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 157,
+        "endColumn": 53
+      },
+      {
+        "ruleId": "no-case-declarations",
+        "severity": 2,
+        "message": "Unexpected lexical declaration in case block.",
+        "line": 164,
+        "column": 11,
+        "nodeType": "VariableDeclaration",
+        "messageId": "unexpected",
+        "endLine": 164,
+        "endColumn": 48
+      }
+    ]
+  }
+]

@@ -1,0 +1,917 @@
+
+> legal-workspace-prototype@0.1.0 lint
+> eslint . --ext ts,tsx --report-unused-disable-directives
+
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\__tests__\integration\adapter-canvas.integration.test.ts
+  30:27  warning  'addElement' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\__tests__\integration\canvas-workflow.integration.test.ts
+  49:70  warning  'getElement' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\__tests__\performance\adapter-performance.test.ts
+  90:13  warning  'canvasData' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\__tests__\performance\batch-operations-performance.test.ts
+  217:40  warning  'history' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\__tests__\performance\canvas-performance.test.ts
+  140:13  warning  'visibleElements' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  307:13  warning  'result' is assigned a value but never used           @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\adapters\HearingDataAdapter.ts
+  13:42  warning  'Position' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\app\api\cases\[id]\canvas\route.ts
+  23:11  warning  'version' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\app\cases\[id]\workspace\page.tsx
+   36:6   warning  React Hook useEffect has a missing dependency: 'loadCaseAndCanvas'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  154:22  warning  React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead            react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\AIAssistant.tsx
+  15:3  warning  'Copy' is defined but never used        @typescript-eslint/no-unused-vars
+  16:3  warning  'ThumbsUp' is defined but never used    @typescript-eslint/no-unused-vars
+  17:3  warning  'ThumbsDown' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\AIAssistantPanel.tsx
+   17:3  warning  'Sparkles' is defined but never used                       @typescript-eslint/no-unused-vars
+   24:3  warning  'Zap' is defined but never used                            @typescript-eslint/no-unused-vars
+   27:3  warning  'ChevronUp' is defined but never used                      @typescript-eslint/no-unused-vars
+   57:3  warning  'isVisible' is defined but never used                      @typescript-eslint/no-unused-vars
+  146:9  warning  'createNodeSuggestion' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\AIDialog.tsx
+  15:3  warning  'Copy' is defined but never used        @typescript-eslint/no-unused-vars
+  16:3  warning  'ThumbsUp' is defined but never used    @typescript-eslint/no-unused-vars
+  17:3  warning  'ThumbsDown' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\AILegalAdvisor.tsx
+    8:3   warning  'FileText' is defined but never used                  @typescript-eslint/no-unused-vars
+   13:3   warning  'Maximize2' is defined but never used                 @typescript-eslint/no-unused-vars
+   14:3   warning  'AlertCircle' is defined but never used               @typescript-eslint/no-unused-vars
+   15:3   warning  'CheckCircle' is defined but never used               @typescript-eslint/no-unused-vars
+   16:3   warning  'Clock' is defined but never used                     @typescript-eslint/no-unused-vars
+   52:5   warning  'connections' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   53:5   warning  'currentTemplate' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  170:31  warning  'userInput' is defined but never used                 @typescript-eslint/no-unused-vars
+  170:50  warning  'nodeId' is defined but never used                    @typescript-eslint/no-unused-vars
+  182:32  warning  'userInput' is defined but never used                 @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ChatNote.tsx
+   9:63  warning  'Edit2' is defined but never used                 @typescript-eslint/no-unused-vars
+  27:3   warning  'onClose' is defined but never used               @typescript-eslint/no-unused-vars
+  42:9   warning  'currentUser' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ConnectionLines.tsx
+  15:76  warning  'viewport' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ContextMenu.tsx
+  40:3  warning  'nodeId' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\DataFlowConnection.tsx
+    2:10  warning  'cn' is defined but never used                 @typescript-eslint/no-unused-vars
+  163:11  warning  'distance' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  195:9   warning  'style' is assigned a value but never used     @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\DataManagementPanel.tsx
+  31:3   warning  'needsMigration' is defined but never used         @typescript-eslint/no-unused-vars
+  55:27  warning  'updateConfig' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\DocumentManager.tsx
+   12:3  warning  'Eye' is defined but never used                       @typescript-eslint/no-unused-vars
+   17:3  warning  'Unlock' is defined but never used                    @typescript-eslint/no-unused-vars
+   22:3  warning  'Plus' is defined but never used                      @typescript-eslint/no-unused-vars
+   26:3  warning  'User' is defined but never used                      @typescript-eslint/no-unused-vars
+   27:3  warning  'Tag' is defined but never used                       @typescript-eslint/no-unused-vars
+   29:3  warning  'AlertCircle' is defined but never used               @typescript-eslint/no-unused-vars
+  157:9  error    'filtered' is never reassigned. Use 'const' instead   prefer-const
+  233:9  warning  'handleSelectAll' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\DraggableLegalNode.tsx
+   12:3   warning  'Eye' is defined but never used                                                                                                            @typescript-eslint/no-unused-vars
+   13:3   warning  'Download' is defined but never used                                                                                                       @typescript-eslint/no-unused-vars
+   15:10  warning  'snapPositionToGrid' is defined but never used                                                                                             @typescript-eslint/no-unused-vars
+   48:3   warning  'selectedNodeIds' is assigned a value but never used                                                                                       @typescript-eslint/no-unused-vars
+   67:9   warning  'lastSnapTimeRef' is assigned a value but never used                                                                                       @typescript-eslint/no-unused-vars
+   99:9   warning  'formatFileSize' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  106:9   warning  'handlePreview' is assigned a value but never used                                                                                         @typescript-eslint/no-unused-vars
+  119:9   warning  'handleDownload' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  222:6   warning  React Hook useCallback has unnecessary dependencies: 'node.id' and 'onPositionChange'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+  257:9   warning  'isPersonNode' is assigned a value but never used                                                                                          @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\DrawnixLegalWorkspace.tsx
+   26:10  warning  'Board' is defined but never used                                                                                                         @typescript-eslint/no-unused-vars
+   26:17  warning  'BoardChangeData' is defined but never used                                                                                               @typescript-eslint/no-unused-vars
+   26:34  warning  'Wrapper' is defined but never used                                                                                                       @typescript-eslint/no-unused-vars
+   28:3   warning  'PlaitBoard' is defined but never used                                                                                                    @typescript-eslint/no-unused-vars
+   30:3   warning  'PlaitElement' is defined but never used                                                                                                  @typescript-eslint/no-unused-vars
+   32:3   warning  'PlaitPointerType' is defined but never used                                                                                              @typescript-eslint/no-unused-vars
+   33:3   warning  'PlaitTheme' is defined but never used                                                                                                    @typescript-eslint/no-unused-vars
+   34:3   warning  'Selection' is defined but never used                                                                                                     @typescript-eslint/no-unused-vars
+   35:3   warning  'ThemeColorMode' is defined but never used                                                                                                @typescript-eslint/no-unused-vars
+   36:3   warning  'Viewport' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+   48:10  warning  'withLegalNodes' is defined but never used                                                                                                @typescript-eslint/no-unused-vars
+   53:10  warning  'Button' is defined but never used                                                                                                        @typescript-eslint/no-unused-vars
+   54:10  warning  'Card' is defined but never used                                                                                                          @typescript-eslint/no-unused-vars
+   54:16  warning  'CardContent' is defined but never used                                                                                                   @typescript-eslint/no-unused-vars
+   54:29  warning  'CardHeader' is defined but never used                                                                                                    @typescript-eslint/no-unused-vars
+   55:10  warning  'Badge' is defined but never used                                                                                                         @typescript-eslint/no-unused-vars
+   56:10  warning  'Separator' is defined but never used                                                                                                     @typescript-eslint/no-unused-vars
+   60:10  warning  'ContextMenu' is defined but never used                                                                                                   @typescript-eslint/no-unused-vars
+   61:10  warning  'Minimap' is defined but never used                                                                                                       @typescript-eslint/no-unused-vars
+   62:24  warning  'ViewMode' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+   63:10  warning  'TimelineView' is defined but never used                                                                                                  @typescript-eslint/no-unused-vars
+   64:10  warning  'ListView' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+   66:10  warning  'ErrorBoundary' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+   66:25  warning  'useErrorHandler' is defined but never used                                                                                               @typescript-eslint/no-unused-vars
+   67:10  warning  'PlaitCanvasWrapper' is defined but never used                                                                                            @typescript-eslint/no-unused-vars
+   67:30  warning  'PlaitCanvasWrapperRef' is defined but never used                                                                                         @typescript-eslint/no-unused-vars
+   86:3   warning  'StatusBarItem' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+   87:3   warning  'NodeCreationPanel' is defined but never used                                                                                             @typescript-eslint/no-unused-vars
+   88:3   warning  'FloatingPanel' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+   92:3   warning  'ResizablePanel' is defined but never used                                                                                                @typescript-eslint/no-unused-vars
+  100:10  warning  'NodeTypeSelector' is defined but never used                                                                                              @typescript-eslint/no-unused-vars
+  117:10  warning  'ExportService' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+  118:10  warning  'ImportService' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+  121:49  warning  'withErrorHandling' is defined but never used                                                                                             @typescript-eslint/no-unused-vars
+  122:23  warning  'UserPreferences' is defined but never used                                                                                               @typescript-eslint/no-unused-vars
+  123:10  warning  'autoLayout' is defined but never used                                                                                                    @typescript-eslint/no-unused-vars
+  123:22  warning  'findEmptySpace' is defined but never used                                                                                                @typescript-eslint/no-unused-vars
+  140:10  warning  'IntelligentNodeAnalyzer' is defined but never used                                                                                       @typescript-eslint/no-unused-vars
+  141:10  warning  'EvidenceRelationshipDetector' is defined but never used                                                                                  @typescript-eslint/no-unused-vars
+  145:10  warning  'UserPermissionManager' is defined but never used                                                                                         @typescript-eslint/no-unused-vars
+  147:3   warning  'MessageSquare' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+  148:3   warning  'Brain' is defined but never used                                                                                                         @typescript-eslint/no-unused-vars
+  149:3   warning  'ZoomIn' is defined but never used                                                                                                        @typescript-eslint/no-unused-vars
+  150:3   warning  'RotateCcw' is defined but never used                                                                                                     @typescript-eslint/no-unused-vars
+  151:3   warning  'Maximize' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+  152:3   warning  'Settings' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+  153:3   warning  'Sparkles' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+  154:3   warning  'Target' is defined but never used                                                                                                        @typescript-eslint/no-unused-vars
+  155:3   warning  'Network' is defined but never used                                                                                                       @typescript-eslint/no-unused-vars
+  156:3   warning  'Gavel' is defined but never used                                                                                                         @typescript-eslint/no-unused-vars
+  157:3   warning  'Lightbulb' is defined but never used                                                                                                     @typescript-eslint/no-unused-vars
+  158:3   warning  'Shield' is defined but never used                                                                                                        @typescript-eslint/no-unused-vars
+  159:3   warning  'Save' is defined but never used                                                                                                          @typescript-eslint/no-unused-vars
+  160:3   warning  'Download' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+  161:3   warning  'Plus' is defined but never used                                                                                                          @typescript-eslint/no-unused-vars
+  167:3   warning  'WorkspaceState' is defined but never used                                                                                                @typescript-eslint/no-unused-vars
+  197:3   warning  'caseData' is defined but never used                                                                                                      @typescript-eslint/no-unused-vars
+  198:3   warning  'initialState' is defined but never used                                                                                                  @typescript-eslint/no-unused-vars
+  207:5   warning  'userPreferences' is assigned a value but never used                                                                                      @typescript-eslint/no-unused-vars
+  208:5   warning  'board' is assigned a value but never used                                                                                                @typescript-eslint/no-unused-vars
+  212:5   warning  'setUserPreferences' is assigned a value but never used                                                                                   @typescript-eslint/no-unused-vars
+  213:5   warning  'setBoard' is assigned a value but never used                                                                                             @typescript-eslint/no-unused-vars
+  216:5   warning  'setEditingNode' is assigned a value but never used                                                                                       @typescript-eslint/no-unused-vars
+  217:5   warning  'setAIAnalyzing' is assigned a value but never used                                                                                       @typescript-eslint/no-unused-vars
+  218:5   warning  'setAISuggestions' is assigned a value but never used                                                                                     @typescript-eslint/no-unused-vars
+  219:5   warning  'setConnectionState' is assigned a value but never used                                                                                   @typescript-eslint/no-unused-vars
+  220:5   warning  'addConnection' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  221:5   warning  'setContextMenu' is assigned a value but never used                                                                                       @typescript-eslint/no-unused-vars
+  222:5   warning  'setViewMode' is assigned a value but never used                                                                                          @typescript-eslint/no-unused-vars
+  223:5   warning  'togglePanel' is assigned a value but never used                                                                                          @typescript-eslint/no-unused-vars
+  224:5   warning  'setFullscreen' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  235:5   warning  'handleNodePositionChange' is assigned a value but never used                                                                             @typescript-eslint/no-unused-vars
+  240:5   warning  'performAutoLayout' is assigned a value but never used                                                                                    @typescript-eslint/no-unused-vars
+  245:5   warning  'hasClipboardData' is assigned a value but never used                                                                                     @typescript-eslint/no-unused-vars
+  287:5   warning  'zoomTo' is assigned a value but never used                                                                                               @typescript-eslint/no-unused-vars
+  290:5   warning  'getBoard' is assigned a value but never used                                                                                             @typescript-eslint/no-unused-vars
+  305:10  warning  'filteredNodes' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  311:10  warning  'showPerformanceMonitor' is assigned a value but never used                                                                               @typescript-eslint/no-unused-vars
+  311:34  warning  'setShowPerformanceMonitor' is assigned a value but never used                                                                            @typescript-eslint/no-unused-vars
+  443:5   warning  'isTablet' is assigned a value but never used                                                                                             @typescript-eslint/no-unused-vars
+  444:5   warning  'isDesktop' is assigned a value but never used                                                                                            @typescript-eslint/no-unused-vars
+  445:5   warning  'breakpoint' is assigned a value but never used                                                                                           @typescript-eslint/no-unused-vars
+  446:5   warning  'isTouchDevice' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  447:5   warning  'isLandscape' is assigned a value but never used                                                                                          @typescript-eslint/no-unused-vars
+  448:12  warning  'screenWidth' is assigned a value but never used                                                                                          @typescript-eslint/no-unused-vars
+  449:13  warning  'screenHeight' is assigned a value but never used                                                                                         @typescript-eslint/no-unused-vars
+  490:12  warning  'undoRedoState' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  496:12  warning  'clearHistory' is assigned a value but never used                                                                                         @typescript-eslint/no-unused-vars
+  517:6   warning  React Hook useEffect has missing dependencies: 'setUndoRedoState' and 'undoRedoData'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  520:9   warning  'batchedSetNodes' is assigned a value but never used                                                                                      @typescript-eslint/no-unused-vars
+  535:9   warning  'nodeAnimation' is assigned a value but never used                                                                                        @typescript-eslint/no-unused-vars
+  551:9   warning  'nodeTypeConfig' is assigned a value but never used                                                                                       @typescript-eslint/no-unused-vars
+  638:9   warning  'visibleConnections' is assigned a value but never used                                                                                   @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ErrorBoundary.tsx
+  359:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  379:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  400:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  415:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  422:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  433:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  440:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\EvidenceChainVisualization.tsx
+  70:9  warning  'relationTypeConfig' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\FloatingToolbar.tsx
+  42:3  warning  'MessageSquare' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\FlowNode.tsx
+   11:3   warning  'MoreHorizontal' is defined but never used  @typescript-eslint/no-unused-vars
+   12:3   warning  'Play' is defined but never used            @typescript-eslint/no-unused-vars
+   13:3   warning  'Pause' is defined but never used           @typescript-eslint/no-unused-vars
+   19:3   warning  'ArrowRight' is defined but never used      @typescript-eslint/no-unused-vars
+   20:3   warning  'Eye' is defined but never used             @typescript-eslint/no-unused-vars
+   21:3   warning  'Edit3' is defined but never used           @typescript-eslint/no-unused-vars
+   53:3   warning  'onDelete' is defined but never used        @typescript-eslint/no-unused-vars
+  325:43  warning  'index' is defined but never used           @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\HearingManagementPanel.tsx
+  65:9  warning  'getStatusColor' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\IntegrationTestPage.tsx
+   41:22  warning  'chains' is assigned a value but never used                                                                     @typescript-eslint/no-unused-vars
+  171:6   warning  React Hook useEffect has a missing dependency: 'runAllTests'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  174:9   warning  'handleNodesChange' is assigned a value but never used                                                          @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalCanvas.tsx
+  23:3   warning  'onCreateNode' is defined but never used        @typescript-eslint/no-unused-vars
+  24:3   warning  'onConnectNodes' is defined but never used      @typescript-eslint/no-unused-vars
+  25:3   warning  'zoomLevel' is defined but never used           @typescript-eslint/no-unused-vars
+  26:3   warning  'panOffset' is defined but never used           @typescript-eslint/no-unused-vars
+  31:10  warning  'dragStart' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  62:46  warning  'e' is defined but never used                   @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalMindWorkspace.tsx
+   87:10  warning  'board' is assigned a value but never used                  @typescript-eslint/no-unused-vars
+  160:9   warning  'handleNodeDoubleClick' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  230:57  warning  'data' is defined but never used                            @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalNodeEditor.tsx
+  5:10  warning  'Separator' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalRelationshipGraph.tsx
+   10:3   warning  'LegalRelationship' is defined but never used  @typescript-eslint/no-unused-vars
+  170:30  warning  'index' is defined but never used              @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalWorkflowNode.tsx
+  11:3  warning  'Play' is defined but never used          @typescript-eslint/no-unused-vars
+  12:3  warning  'Pause' is defined but never used         @typescript-eslint/no-unused-vars
+  40:3  warning  'position' is defined but never used      @typescript-eslint/no-unused-vars
+  43:3  warning  'onDelete' is defined but never used      @typescript-eslint/no-unused-vars
+  44:3  warning  'onUpdateNode' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalWorkspace.tsx
+  16:3  warning  'History' is defined but never used                  @typescript-eslint/no-unused-vars
+  30:5  warning  'selectedNodeId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  33:5  warning  'userSettings' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  41:5  warning  'resetWorkspace' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalWorkspaceCanvas.tsx
+    7:40  warning  'useRef' is defined but never used               @typescript-eslint/no-unused-vars
+  165:3   warning  'onNodeAdded' is defined but never used          @typescript-eslint/no-unused-vars
+  167:3   warning  'onNodeRemoved' is defined but never used        @typescript-eslint/no-unused-vars
+  168:3   warning  'onConnectionAdded' is defined but never used    @typescript-eslint/no-unused-vars
+  169:3   warning  'onConnectionRemoved' is defined but never used  @typescript-eslint/no-unused-vars
+  170:3   warning  'onSelectionChanged' is defined but never used   @typescript-eslint/no-unused-vars
+  171:3   warning  'readOnly' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalWorkspaceDashboard.tsx
+   15:3   warning  'Maximize2' is defined but never used                       @typescript-eslint/no-unused-vars
+   16:3   warning  'Minimize2' is defined but never used                       @typescript-eslint/no-unused-vars
+   17:3   warning  'Grid3X3' is defined but never used                         @typescript-eslint/no-unused-vars
+   19:3   warning  'Filter' is defined but never used                          @typescript-eslint/no-unused-vars
+   21:3   warning  'Plus' is defined but never used                            @typescript-eslint/no-unused-vars
+   22:3   warning  'Eye' is defined but never used                             @typescript-eslint/no-unused-vars
+   23:3   warning  'EyeOff' is defined but never used                          @typescript-eslint/no-unused-vars
+  139:3   warning  'onConnectionUpdate' is defined but never used              @typescript-eslint/no-unused-vars
+  164:3   warning  'readOnly' is assigned a value but never used               @typescript-eslint/no-unused-vars
+  168:10  warning  'showLayoutControls' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  168:30  warning  'setShowLayoutControls' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  170:10  warning  'selectedComponent' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  170:29  warning  'setSelectedComponent' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  192:9   warning  'updateComponentSize' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LegalWorkspaceEmbed.tsx
+   43:3  warning  'onImport' is defined but never used                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   61:5  warning  'loadCanvas' is assigned a value but never used                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  104:6  warning  React Hook useEffect has missing dependencies: 'initCanvas', 'onError', and 'updateViewport'. Either include them or remove the dependency array. If 'onError' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ListView.tsx
+  76:9  error  Unexpected lexical declaration in case block  no-case-declarations
+  77:9  error  Unexpected lexical declaration in case block  no-case-declarations
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\LovartWorkspace.tsx
+  10:3   warning  'Save' is defined but never used                        @typescript-eslint/no-unused-vars
+  14:3   warning  'Grid' is defined but never used                        @typescript-eslint/no-unused-vars
+  16:3   warning  'Play' is defined but never used                        @typescript-eslint/no-unused-vars
+  17:3   warning  'Pause' is defined but never used                       @typescript-eslint/no-unused-vars
+  18:3   warning  'RotateCcw' is defined but never used                   @typescript-eslint/no-unused-vars
+  20:3   warning  'BarChart3' is defined but never used                   @typescript-eslint/no-unused-vars
+  24:3   warning  'Plus' is defined but never used                        @typescript-eslint/no-unused-vars
+  29:3   warning  'History' is defined but never used                     @typescript-eslint/no-unused-vars
+  42:5   warning  'activeTemplateId' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  43:5   warning  'userSettings' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  45:5   warning  'updateNode' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  46:5   warning  'deleteNode' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  47:5   warning  'setSelectedNode' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  51:5   warning  'resetWorkspace' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  57:10  warning  'leftPanelWidth' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  57:26  warning  'setLeftPanelWidth' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\Minimap.tsx
+  135:6  warning  React Hook useCallback has a missing dependency: 'handleViewportMove'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  140:6  warning  React Hook useCallback has a missing dependency: 'handleViewportMove'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\NodeFilterPanel.tsx
+  102:6  warning  React Hook useEffect has missing dependencies: 'applyFilters' and 'onFilterChange'. Either include them or remove the dependency array. If 'onFilterChange' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\NodeSearchPanel.tsx
+  16:36  warning  'ChevronDown' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\PerformanceMonitorPanel.tsx
+  12:10  warning  'Card' is defined but never used          @typescript-eslint/no-unused-vars
+  12:16  warning  'CardContent' is defined but never used   @typescript-eslint/no-unused-vars
+  12:29  warning  'CardHeader' is defined but never used    @typescript-eslint/no-unused-vars
+  12:41  warning  'CardTitle' is defined but never used     @typescript-eslint/no-unused-vars
+  23:3   warning  'TrendingUp' is defined but never used    @typescript-eslint/no-unused-vars
+  24:3   warning  'TrendingDown' is defined but never used  @typescript-eslint/no-unused-vars
+  26:3   warning  'CheckCircle' is defined but never used   @typescript-eslint/no-unused-vars
+  30:3   warning  'BarChart3' is defined but never used     @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\PerformanceTestPage.tsx
+  27:3  warning  React Hook useEffect contains a call to 'setRenderCount'. Without a list of dependencies, this can lead to an infinite chain of updates. To fix this, pass [renderCount] as a second argument to the useEffect Hook  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\PerformanceVerificationPage.tsx
+   86:20  warning  'setViewport' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  100:5   warning  'visibleNodes' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\PlaitBoard.tsx
+   33:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+   54:7   warning  'LegalNodeComponent' is assigned a value but never used                                                                         @typescript-eslint/no-unused-vars
+  160:3   warning  'onNodeCreate' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+  161:3   warning  'onNodeUpdate' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+  167:10  warning  'dragOffset' is assigned a value but never used                                                                                 @typescript-eslint/no-unused-vars
+  167:22  warning  'setDragOffset' is assigned a value but never used                                                                              @typescript-eslint/no-unused-vars
+  248:6   warning  React Hook useEffect has a missing dependency: 'nodePositions'. Either include it or remove the dependency array                react-hooks/exhaustive-deps
+  455:9   warning  'handleMouseMove' is assigned a value but never used                                                                            @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\PlaitCanvasWrapper.tsx
+   93:11  warning  'lastViewportRef' is assigned a value but never used                                                                                           @typescript-eslint/no-unused-vars
+  117:8   warning  React Hook useEffect has missing dependencies: 'viewport.origination' and 'viewport.zoom'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  124:30  warning  'point' is defined but never used                                                                                                              @typescript-eslint/no-unused-vars
+  404:30  warning  'newViewport' is defined but never used                                                                                                        @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ProcessTemplateManager.tsx
+    7:27  warning  'useRef' is defined but never used                   @typescript-eslint/no-unused-vars
+   14:3   warning  'RotateCcw' is defined but never used                @typescript-eslint/no-unused-vars
+   17:3   warning  'Clock' is defined but never used                    @typescript-eslint/no-unused-vars
+   21:3   warning  'Trash2' is defined but never used                   @typescript-eslint/no-unused-vars
+   23:3   warning  'Save' is defined but never used                     @typescript-eslint/no-unused-vars
+   24:3   warning  'Upload' is defined but never used                   @typescript-eslint/no-unused-vars
+   25:3   warning  'Download' is defined but never used                 @typescript-eslint/no-unused-vars
+   26:3   warning  'Eye' is defined but never used                      @typescript-eslint/no-unused-vars
+   27:3   warning  'EyeOff' is defined but never used                   @typescript-eslint/no-unused-vars
+  151:7   warning  'STATUS_CONFIG' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  164:3   warning  'onTemplateCreate' is defined but never used         @typescript-eslint/no-unused-vars
+  166:3   warning  'onTemplateDelete' is defined but never used         @typescript-eslint/no-unused-vars
+  175:10  warning  'viewMode' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  175:20  warning  'setViewMode' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  176:10  warning  'showCreateForm' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\RelationshipGraph.tsx
+   18:3   warning  'Link' is defined but never used                       @typescript-eslint/no-unused-vars
+   19:3   warning  'Unlink' is defined but never used                     @typescript-eslint/no-unused-vars
+  139:3   warning  'onRelationshipAdd' is defined but never used          @typescript-eslint/no-unused-vars
+  140:3   warning  'onRelationshipEdit' is defined but never used         @typescript-eslint/no-unused-vars
+  141:3   warning  'onRelationshipDelete' is defined but never used       @typescript-eslint/no-unused-vars
+  149:10  warning  'draggedPerson' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  149:25  warning  'setDraggedPerson' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  153:9   warning  'containerRef' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\SettingsPanel.tsx
+  10:3  warning  'EyeOff' is defined but never used  @typescript-eslint/no-unused-vars
+  12:3  warning  'Save' is defined but never used    @typescript-eslint/no-unused-vars
+  15:3  warning  'Trash2' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\SimpleCanvas.tsx
+  1:35  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\SmartConnectionTool.tsx
+   8:57  warning  'Settings' is defined but never used               @typescript-eslint/no-unused-vars
+  86:10  warning  'selectedType' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\Stage3TestPage.tsx
+  11:27  warning  'useEffect' is defined but never used                    @typescript-eslint/no-unused-vars
+  44:27  warning  'setConnectionCount' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  97:9   warning  'handleNodesChange' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\TimelineVisualization.tsx
+    7:27  warning  'useRef' is defined but never used                 @typescript-eslint/no-unused-vars
+   17:3   warning  'ChevronLeft' is defined but never used            @typescript-eslint/no-unused-vars
+   18:3   warning  'ChevronRight' is defined but never used           @typescript-eslint/no-unused-vars
+  105:3   warning  'onEventAdd' is defined but never used             @typescript-eslint/no-unused-vars
+  106:3   warning  'onEventEdit' is defined but never used            @typescript-eslint/no-unused-vars
+  113:10  warning  'showAddForm' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  115:10  warning  'timeRange' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  115:21  warning  'setTimeRange' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  168:37  warning  'index' is defined but never used                  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\Tutorial.tsx
+  15:10  warning  'TUTORIAL_STEPS' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\TutorialTooltip.tsx
+  71:7  error  'style' is never reassigned. Use 'const' instead  prefer-const
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\VirtualCourtroom.tsx
+    1:40  warning  'useEffect' is defined but never used                @typescript-eslint/no-unused-vars
+   48:3   warning  'hearingId' is defined but never used                @typescript-eslint/no-unused-vars
+   91:21  warning  'setEvidences' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  150:10  warning  'currentSpeaker' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ai\EnhancedAIAssistant.tsx
+   31:3  warning  'onCreateConnection' is defined but never used  @typescript-eslint/no-unused-vars
+  276:9  error    Unexpected lexical declaration in case block    no-case-declarations
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ai\EvidenceRelationshipDetector.tsx
+   7:3  warning  'Zap' is defined but never used         @typescript-eslint/no-unused-vars
+  11:3  warning  'TrendingUp' is defined but never used  @typescript-eslint/no-unused-vars
+  15:3  warning  'Settings' is defined but never used    @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ai\SmartDocumentGenerator.tsx
+  28:3  warning  'caseData' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ai\SmartRecommendationEngine.tsx
+  15:3  warning  'ArrowRight' is defined but never used   @typescript-eslint/no-unused-vars
+  19:3  warning  'Share' is defined but never used        @typescript-eslint/no-unused-vars
+  92:3  warning  'caseContext' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\arbitration\ArbitrationFunctionPanel.tsx
+  47:21  warning  'setFunctions' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\arbitration\ArbitrationProcedureManager.tsx
+   17:3   warning  'Settings' is defined but never used                     @typescript-eslint/no-unused-vars
+   37:3   warning  'onProcedureUpdate' is defined but never used            @typescript-eslint/no-unused-vars
+   59:10  warning  'demoProcedure' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  254:9   warning  'handleUpdateStep' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  261:9   warning  'handleCompleteStep' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\arbitration\DisputeFocusVisualizer.tsx
+   5:10  warning  'Separator' is defined but never used               @typescript-eslint/no-unused-vars
+  32:3   warning  'onFocusUpdate' is defined but never used           @typescript-eslint/no-unused-vars
+  36:36  warning  'updateFocus' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  39:10  warning  'isCreating' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  39:22  warning  'setIsCreating' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\arbitration\EvidenceChainAnalyzer.tsx
+   12:3  warning  'Download' is defined but never used                       @typescript-eslint/no-unused-vars
+   13:3  warning  'Search' is defined but never used                         @typescript-eslint/no-unused-vars
+   14:3  warning  'Filter' is defined but never used                         @typescript-eslint/no-unused-vars
+   40:5  warning  'updateEvidence' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  192:9  warning  'handleDeleteEvidence' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  206:9  warning  'handleAnalyzeChain' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\CommandPalette.tsx
+  186:33  warning  'index' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\CommentSystem.tsx
+   9:15  warning  'Position' is defined but never used                @typescript-eslint/no-unused-vars
+  29:9   warning  'user' is assigned a value but never used           @typescript-eslint/no-unused-vars
+  97:63  warning  'deleteComment' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\ConnectionDrawer.tsx
+   17:3   warning  'elements' is defined but never used                                                                                            @typescript-eslint/no-unused-vars
+   25:27  warning  'setConnectionStyle' is assigned a value but never used                                                                         @typescript-eslint/no-unused-vars
+   30:9   warning  'startDrawing' is assigned a value but never used                                                                               @typescript-eslint/no-unused-vars
+   40:9   warning  'updatePosition' is assigned a value but never used                                                                             @typescript-eslint/no-unused-vars
+   49:9   warning  'endDrawing' is assigned a value but never used                                                                                 @typescript-eslint/no-unused-vars
+   63:9   warning  'cancelDrawing' is assigned a value but never used                                                                              @typescript-eslint/no-unused-vars
+  235:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\ElementRenderer.tsx
+   24:3  warning  'onUpdate' is defined but never used  @typescript-eslint/no-unused-vars
+  384:9  warning  'element' is defined but never used   @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\InfiniteCanvas.tsx
+   1:25  warning  'useEffect' is defined but never used                   @typescript-eslint/no-unused-vars
+   3:10  warning  'Card' is defined but never used                        @typescript-eslint/no-unused-vars
+  43:3   warning  'onConnectionsChange' is defined but never used         @typescript-eslint/no-unused-vars
+  55:10  warning  'connectionMode' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  55:26  warning  'setConnectionMode' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\PermissionPanel.tsx
+  12:8  warning  'InvitationLink' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\TutorialOverlay.tsx
+  321:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\canvas\UniversalCanvas.tsx
+   13:10  warning  'virtualizeElements' is defined but never used                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+   14:10  warning  'debounce' is defined but never used                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   99:6   warning  React Hook useMemo has a missing dependency: 'canvas'. Either include it or remove the dependency array                                                                                                                                                         react-hooks/exhaustive-deps
+  134:6   warning  React Hook useMemo has a missing dependency: 'canvas'. Either include it or remove the dependency array                                                                                                                                                         react-hooks/exhaustive-deps
+  174:6   warning  React Hook useCallback has an unnecessary dependency: 'setSelection'. Either exclude it or remove the dependency array. Outer scope values like 'setSelection' aren't valid dependencies because mutating them doesn't re-render the component                  react-hooks/exhaustive-deps
+  196:27  warning  React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead                                                                                                                                                      react-hooks/exhaustive-deps
+  437:6   warning  React Hook useCallback has an unnecessary dependency: 'addElement'. Either exclude it or remove the dependency array. Outer scope values like 'addElement' aren't valid dependencies because mutating them doesn't re-render the component                      react-hooks/exhaustive-deps
+  536:6   warning  React Hook useCallback has unnecessary dependencies: 'addElement' and 'setSelection'. Either exclude them or remove the dependency array. Outer scope values like 'addElement' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+  577:6   warning  React Hook useCallback has an unnecessary dependency: 'setSelection'. Either exclude it or remove the dependency array. Outer scope values like 'setSelection' aren't valid dependencies because mutating them doesn't re-render the component                  react-hooks/exhaustive-deps
+  648:6   warning  React Hook useCallback has unnecessary dependencies: 'addElement' and 'setSelection'. Either exclude them or remove the dependency array. Outer scope values like 'addElement' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+  778:6   warning  React Hook useEffect has missing dependencies: 'canvas', 'initCanvas', and 'loadCanvas'. Either include them or remove the dependency array                                                                                                                     react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\collaboration\CommentMarker.tsx
+  33:9  warning  'markerSize' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\collaboration\CommentPanel.tsx
+  12:24  warning  'CommentReply' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\collaboration\MultiUserCollaboration.tsx
+    8:3   warning  'Video' is defined but never used                     @typescript-eslint/no-unused-vars
+   10:3   warning  'Eye' is defined but never used                       @typescript-eslint/no-unused-vars
+   14:3   warning  'Bell' is defined but never used                      @typescript-eslint/no-unused-vars
+   18:3   warning  'Camera' is defined but never used                    @typescript-eslint/no-unused-vars
+   19:3   warning  'CameraOff' is defined but never used                 @typescript-eslint/no-unused-vars
+   21:3   warning  'Hand' is defined but never used                      @typescript-eslint/no-unused-vars
+   23:3   warning  'ThumbsDown' is defined but never used                @typescript-eslint/no-unused-vars
+  112:3   warning  'nodes' is defined but never used                     @typescript-eslint/no-unused-vars
+  114:3   warning  'onNodeUpdate' is defined but never used              @typescript-eslint/no-unused-vars
+  116:3   warning  'onActivityLog' is defined but never used             @typescript-eslint/no-unused-vars
+  125:24  warning  'setSelectedNode' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\collaboration\UserPermissionManager.tsx
+    8:3  warning  'Lock' is defined but never used                    @typescript-eslint/no-unused-vars
+    9:3  warning  'Unlock' is defined but never used                  @typescript-eslint/no-unused-vars
+   11:3  warning  'Edit' is defined but never used                    @typescript-eslint/no-unused-vars
+   21:3  warning  'Phone' is defined but never used                   @typescript-eslint/no-unused-vars
+  128:3  warning  'currentUser' is defined but never used             @typescript-eslint/no-unused-vars
+  129:3  warning  'onUserUpdate' is defined but never used            @typescript-eslint/no-unused-vars
+  130:3  warning  'onUserRemove' is defined but never used            @typescript-eslint/no-unused-vars
+  251:9  warning  'hasPermission' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\AllModalsRenderer.tsx
+  58:3  warning  'onCloseEditingNode' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\AuxiliaryUIRenderer.tsx
+  139:6  warning  React Hook React.useMemo has missing dependencies: 'nodes', 'onCreateComment', and 'onPaste'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\CanvasRenderer.tsx
+   18:10  warning  'useVoiceZoneStore' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+   96:11  warning  'canvasX' is assigned a value but never used                                                                                  @typescript-eslint/no-unused-vars
+   97:11  warning  'canvasY' is assigned a value but never used                                                                                  @typescript-eslint/no-unused-vars
+  105:6   warning  React Hook React.useCallback has an unnecessary dependency: 'updateCursor'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\ContextMenu.tsx
+   21:3   warning  'Eye' is defined but never used                                                                                                 @typescript-eslint/no-unused-vars
+   22:3   warning  'Download' is defined but never used                                                                                            @typescript-eslint/no-unused-vars
+   23:3   warning  'Share2' is defined but never used                                                                                              @typescript-eslint/no-unused-vars
+  172:42  warning  'subIndex' is defined but never used                                                                                            @typescript-eslint/no-unused-vars
+  225:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  339:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\DocumentPreview.tsx
+   8:50  warning  'Maximize2' is defined but never used              @typescript-eslint/no-unused-vars
+  22:26  warning  'thumbnailUrl' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\EditorModal.tsx
+  8:17  warning  'useState' is defined but never used     @typescript-eslint/no-unused-vars
+  8:27  warning  'useRef' is defined but never used       @typescript-eslint/no-unused-vars
+  8:35  warning  'useCallback' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\KeyboardShortcutsPanel.tsx
+  40:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  53:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\NodeCreationAnimation.tsx
+  40:3  warning  'nodeType' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\PerformanceMonitor.tsx
+  12:54  warning  'TrendingUp' is defined but never used                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  12:66  warning  'TrendingDown' is defined but never used                                                                                                                                                                 @typescript-eslint/no-unused-vars
+  73:3   warning  React Hook useEffect contains a call to 'setRenderTime'. Without a list of dependencies, this can lead to an infinite chain of updates. To fix this, pass [] as a second argument to the useEffect Hook  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\ResponsiveCanvasContainer.tsx
+  43:22  warning  'center' is defined but never used  @typescript-eslint/no-unused-vars
+  77:19  warning  'point' is defined but never used   @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\common\SidePanel.tsx
+  73:13  warning  'rect' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\dialogs\NodeEditDialog.tsx
+  27:9  warning  'handleInputChange' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\editors\CaseInfoEditor.tsx
+   1:27  warning  'useEffect' is defined but never used    @typescript-eslint/no-unused-vars
+   4:10  warning  'Separator' is defined but never used    @typescript-eslint/no-unused-vars
+   8:3   warning  'Calendar' is defined but never used     @typescript-eslint/no-unused-vars
+   9:3   warning  'DollarSign' is defined but never used   @typescript-eslint/no-unused-vars
+  10:3   warning  'MapPin' is defined but never used       @typescript-eslint/no-unused-vars
+  15:3   warning  'CheckCircle' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\editors\DocumentEditor.tsx
+   1:27  warning  'useEffect' is defined but never used        @typescript-eslint/no-unused-vars
+   4:10  warning  'Separator' is defined but never used        @typescript-eslint/no-unused-vars
+   7:3   warning  'Upload' is defined but never used           @typescript-eslint/no-unused-vars
+   8:3   warning  'Download' is defined but never used         @typescript-eslint/no-unused-vars
+  10:3   warning  'Calendar' is defined but never used         @typescript-eslint/no-unused-vars
+  11:3   warning  'User' is defined but never used             @typescript-eslint/no-unused-vars
+  12:3   warning  'Hash' is defined but never used             @typescript-eslint/no-unused-vars
+  14:3   warning  'AlertTriangle' is defined but never used    @typescript-eslint/no-unused-vars
+  15:3   warning  'CheckCircle' is defined but never used      @typescript-eslint/no-unused-vars
+  17:3   warning  'Tag' is defined but never used              @typescript-eslint/no-unused-vars
+  19:3   warning  'Trash2' is defined but never used           @typescript-eslint/no-unused-vars
+  31:11  warning  'DocumentVersion' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\editors\HearingEditor.tsx
+   1:27  warning  'useEffect' is defined but never used    @typescript-eslint/no-unused-vars
+   4:10  warning  'Separator' is defined but never used    @typescript-eslint/no-unused-vars
+   7:3   warning  'Clock' is defined but never used        @typescript-eslint/no-unused-vars
+   8:3   warning  'MapPin' is defined but never used       @typescript-eslint/no-unused-vars
+  12:3   warning  'Camera' is defined but never used       @typescript-eslint/no-unused-vars
+  15:3   warning  'AlertCircle' is defined but never used  @typescript-eslint/no-unused-vars
+  16:3   warning  'CheckCircle' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\editors\MediationEditor.tsx
+  7:3  warning  'Users' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\editors\PersonEditor.tsx
+   1:27  warning  'useEffect' is defined but never used            @typescript-eslint/no-unused-vars
+   3:10  warning  'Badge' is defined but never used                @typescript-eslint/no-unused-vars
+   4:10  warning  'Separator' is defined but never used            @typescript-eslint/no-unused-vars
+  10:3   warning  'Building' is defined but never used             @typescript-eslint/no-unused-vars
+  12:3   warning  'UserCheck' is defined but never used            @typescript-eslint/no-unused-vars
+  34:11  warning  'LegalRepresentative' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\editors\TimelineEditor.tsx
+   15:3   warning  'ArrowRight' is defined but never used             @typescript-eslint/no-unused-vars
+   61:10  warning  'editingEvent' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  106:9   warning  'updateEvent' is assigned a value but never used   @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\plait\Wrapper.tsx
+   2:57  warning  'PlaitBoard' is defined but never used                 @typescript-eslint/no-unused-vars
+  35:10  warning  'currentSelection' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ui\Toast.tsx
+   28:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  189:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ui\badge.tsx
+  35:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\ui\button.tsx
+  59:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\workspace\hooks\useWorkspaceActions.ts
+  252:65  warning  'layoutError' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\components\workspace\hooks\useWorkspaceState.ts
+  18:23  warning  'WorkspaceStorageState' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\hooks\__tests__\useAdvancedVirtualization.test.ts
+  199:23  warning  'oldResult' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  210:23  warning  'newResult' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\hooks\useAdvancedVirtualization.ts
+   18:27  warning  'useCallback' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+   18:40  warning  'useEffect' is defined but never used                                                                                          @typescript-eslint/no-unused-vars
+   19:10  warning  'ObjectPool' is defined but never used                                                                                         @typescript-eslint/no-unused-vars
+   19:22  warning  'WeakMapCache' is defined but never used                                                                                       @typescript-eslint/no-unused-vars
+  323:11  warning  'quadTreeStartTime' is assigned a value but never used                                                                         @typescript-eslint/no-unused-vars
+  383:6   warning  React Hook useMemo has an unnecessary dependency: 'enableIncrementalUpdate'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\hooks\useBackgroundCompute.ts
+   60:42  warning  'T' is defined but never used       @typescript-eslint/no-unused-vars
+  242:16  warning  'signal' is defined but never used  @typescript-eslint/no-unused-vars
+  275:16  warning  'signal' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\hooks\useKeyboardShortcuts.ts
+  75:9  warning  The 'shortcuts' array makes the dependencies of useCallback Hook (at line 135) change on every render. To fix this, wrap the initialization of 'shortcuts' in its own useMemo() Hook  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\hooks\useLegalWorkspace.ts
+    2:57  warning  'LegalNodeType' is defined but never used  @typescript-eslint/no-unused-vars
+  126:5   warning  'position' is defined but never used       @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\hooks\useOptimizedConnectionRenderer.ts
+  7:42  warning  'useMemo' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\__tests__\canvas-store.test.ts
+  32:27  warning  'canvas' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\__tests__\collaboration-engine.test.ts
+  18:21  warning  'Comment' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\__tests__\command-pattern.test.ts
+  301:7  warning  'state' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\__tests__\connection-renderer-optimized.test.ts
+    5:44  warning  'vi' is defined but never used                    @typescript-eslint/no-unused-vars
+    7:10  warning  'PathPoint' is defined but never used             @typescript-eslint/no-unused-vars
+   67:13  warning  'x' is defined but never used                     @typescript-eslint/no-unused-vars
+   67:24  warning  'y' is defined but never used                     @typescript-eslint/no-unused-vars
+   68:9   warning  'x' is defined but never used                     @typescript-eslint/no-unused-vars
+   68:20  warning  'y' is defined but never used                     @typescript-eslint/no-unused-vars
+   69:10  warning  'path' is defined but never used                  @typescript-eslint/no-unused-vars
+   71:10  warning  'x' is defined but never used                     @typescript-eslint/no-unused-vars
+   71:21  warning  'y' is defined but never used                     @typescript-eslint/no-unused-vars
+   72:10  warning  'x' is defined but never used                     @typescript-eslint/no-unused-vars
+   72:21  warning  'y' is defined but never used                     @typescript-eslint/no-unused-vars
+   73:12  warning  'text' is defined but never used                  @typescript-eslint/no-unused-vars
+   73:26  warning  'x' is defined but never used                     @typescript-eslint/no-unused-vars
+   73:37  warning  'y' is defined but never used                     @typescript-eslint/no-unused-vars
+  203:13  warning  'stats1' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  204:13  warning  'cacheStats1' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  207:13  warning  'stats2' is assigned a value but never used       @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\__tests__\worker-pool-enhanced.test.ts
+  5:55  warning  'vi' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\ai-recommendation.ts
+  7:21  warning  'Connection' is defined but never used       @typescript-eslint/no-unused-vars
+  7:33  warning  'createLegalNode' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\auto-save.ts
+  69:39  warning  'compress' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  93:31  warning  'compress' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\canvas-intelligence.ts
+  9:10  warning  'cacheManager' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\canvas-optimizations.ts
+  200:15  warning  'tree' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\cleanup-utils.ts
+  115:6  warning  React Hook useEffect has a missing dependency: 'options'. Either include it or remove the dependency array                                                                                                                         react-hooks/exhaustive-deps
+  202:6  warning  React Hook useCallback was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies                                                             react-hooks/exhaustive-deps
+  202:6  warning  React Hook useCallback has a missing dependency: 'asyncFn'. Either include it or remove the dependency array. If 'asyncFn' changes too often, find the parent component that defines it and wrap that definition in useCallback    react-hooks/exhaustive-deps
+  262:6  warning  React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies                                                               react-hooks/exhaustive-deps
+  262:6  warning  React Hook useEffect has a missing dependency: 'subscribe'. Either include it or remove the dependency array. If 'subscribe' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\code-splitting.ts
+  28:20  error  Parsing error: '>' expected
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\collaboration-engine.ts
+  30:15  warning  'CanvasElement' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\collaboration-socketio.ts
+  16:15  warning  'LegalNode' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\component-optimization.ts
+  188:20  error  Parsing error: '>' expected
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\conflict-resolution.ts
+  158:11  warning  'localNodesMap' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  172:11  warning  'localConnectionsMap' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  199:11  warning  'localNodesMap' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  239:11  warning  'localConnectionsMap' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\connection-renderer-optimized.ts
+   17:10  warning  'Connection' is defined but never used          @typescript-eslint/no-unused-vars
+   17:22  warning  'ConnectionData' is defined but never used      @typescript-eslint/no-unused-vars
+  117:11  warning  'prevPoint' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\connection-system.ts
+  120:59  warning  'avoidObstacles' is defined but never used  @typescript-eslint/no-unused-vars
+  154:63  warning  'avoidObstacles' is defined but never used  @typescript-eslint/no-unused-vars
+  189:60  warning  'avoidObstacles' is defined but never used  @typescript-eslint/no-unused-vars
+  196:61  warning  'avoidObstacles' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\data-sync-manager.ts
+   13:36  warning  'createSnapshot' is defined but never used  @typescript-eslint/no-unused-vars
+   13:52  warning  'DataSnapshot' is defined but never used    @typescript-eslint/no-unused-vars
+  413:11  warning  'state' is defined but never used           @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\document-sync.ts
+  7:10  warning  'LegalDocumentNode' is defined but never used        @typescript-eslint/no-unused-vars
+  7:29  warning  'createLegalDocumentNode' is defined but never used  @typescript-eslint/no-unused-vars
+  8:10  warning  'Point' is defined but never used                    @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\event-optimization.ts
+   64:5  error  Unexpected aliasing of 'this' to local variable  @typescript-eslint/no-this-alias
+  171:5  error  Unexpected aliasing of 'this' to local variable  @typescript-eslint/no-this-alias
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\export-service.ts
+  137:47  warning  'options' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\file-upload.ts
+  7:15  warning  'DocumentNodeData' is defined but never used        @typescript-eslint/no-unused-vars
+  8:10  warning  'createDocumentNodeData' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\import-service.ts
+   68:7  warning  'WORKSPACE_SCHEMA' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  112:7  warning  'merge' is assigned a value but never used             @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\layout-engine.ts
+  291:29  warning  'vx' is defined but never used  @typescript-eslint/no-unused-vars
+  291:33  warning  'vy' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\memory-leak-detector.ts
+  8:21  warning  'useRef' is defined but never used       @typescript-eslint/no-unused-vars
+  8:29  warning  'useCallback' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\node-implementations.ts
+  822:11  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\performance-wrapper.ts
+  100:66  error  Don't use `{}` as a type. `{}` actually means "any non-nullish value".
+- If you want a type meaning "any object", you probably want `object` instead.
+- If you want a type meaning "any value", you probably want `unknown` instead.
+- If you want a type meaning "empty object", you probably want `Record<string, never>` instead.
+- If you really want a type meaning "any non-nullish value", you probably want `NonNullable<unknown>` instead  @typescript-eslint/ban-types
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\react-optimization.ts
+   60:10  warning  React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead                                                                                                                   react-hooks/exhaustive-deps
+   83:10  warning  React Hook useCallback received a function whose dependencies are unknown. Pass an inline function instead                                                                                                                   react-hooks/exhaustive-deps
+  133:6   warning  React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies                                                         react-hooks/exhaustive-deps
+  133:6   warning  React Hook useEffect has a missing dependency: 'loader'. Either include it or remove the dependency array. If 'loader' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\render-batch.ts
+  279:18  warning  The ref value 'managerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'managerRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\smart-layout-engine.ts
+  107:33  warning  'layerIndex' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\smart-node-recommender.ts
+  121:5  warning  'position' is defined but never used  @typescript-eslint/no-unused-vars
+  221:5  warning  'nodes' is defined but never used     @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\undo-redo.ts
+  204:26  warning  'draft' is defined but never used                                                                                @typescript-eslint/no-unused-vars
+  249:6   warning  React Hook useEffect has a missing dependency: 'initialState'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\unified-data-manager.ts
+  164:67  warning  'get' is defined but never used                @typescript-eslint/no-unused-vars
+  192:13  warning  'backupId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\virtual-scroll.ts
+  9:10  warning  'throttle' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\virtualization.ts
+    7:30  warning  'Position' is defined but never used                @typescript-eslint/no-unused-vars
+    7:40  warning  'Size' is defined but never used                    @typescript-eslint/no-unused-vars
+  248:11  warning  'elementBounds' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\workspace-manager.ts
+  441:31  warning  'event' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\lib\xss-protection.ts
+  242:6  error  Parsing error: '>' expected
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\plugins\legal-connection-plugin.ts
+  175:9  warning  'marker' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  232:9  warning  'midX' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  233:9  warning  'midY' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\plugins\legal-node-drag-plugin.ts
+   53:17  warning  'perfId' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  174:26  warning  'index' is defined but never used            @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\plugins\legal-nodes\components\LegalNodeComponent.tsx
+   15:3   warning  'board' is defined but never used                @typescript-eslint/no-unused-vars
+   40:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   41:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   42:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   85:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   86:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   87:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   87:15  warning  'halfWidth' is assigned a value but never used   @typescript-eslint/no-unused-vars
+   88:9   error    Unexpected lexical declaration in case block     no-case-declarations
+   88:15  warning  'halfHeight' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   90:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  125:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  126:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  127:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  129:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  176:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  177:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  178:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  179:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  181:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  220:9   error    Unexpected lexical declaration in case block     no-case-declarations
+  221:9   error    Unexpected lexical declaration in case block     no-case-declarations
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\plugins\legal-nodes\engines\legal-node-engine.ts
+  143:5  warning  'board' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\plugins\legal-nodes\with-legal-nodes.ts
+  122:11  error    Unexpected lexical declaration in case block             no-case-declarations
+  129:11  error    Unexpected lexical declaration in case block             no-case-declarations
+  136:11  error    Unexpected lexical declaration in case block             no-case-declarations
+  143:11  error    Unexpected lexical declaration in case block             no-case-declarations
+  150:11  error    Unexpected lexical declaration in case block             no-case-declarations
+  157:11  error    Unexpected lexical declaration in case block             no-case-declarations
+  217:17  warning  '__legalNodeVersion' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  217:37  warning  '__serializedAt' is assigned a value but never used      @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\services\AIService.ts
+  169:42  warning  'context' is defined but never used        @typescript-eslint/no-unused-vars
+  219:37  warning  'existingNodes' is defined but never used  @typescript-eslint/no-unused-vars
+  350:48  warning  'config' is defined but never used         @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\stores\workspaceStore.ts
+  568:19  warning  'historyItem' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  577:19  warning  'historyItem' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\test\setup.ts
+  7:10  warning  'expect' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\types\embedding-interface.ts
+  7:27  warning  'CanvasElement' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Desktop\LegalMind-Arbitration\Prototype\src\utils\performance.test.ts
+  9:3  warning  'rafThrottle' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 601 problems (36 errors, 565 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+

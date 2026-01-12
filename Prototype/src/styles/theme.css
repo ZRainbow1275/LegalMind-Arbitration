@@ -1,0 +1,95 @@
+/* LegalMind Theme Variables */
+:root {
+  /* LegalMind Brand Colors - 更鲜艳的橙色系 */
+  --color-primary: 16 100% 60%; /* #FF6B35 in HSL */
+  --color-primary-foreground: 0 0% 100%; /* #FFFFFF */
+  --color-primary-50: 16 100% 97%;
+  --color-primary-100: 16 100% 93%;
+  --color-primary-200: 16 100% 85%;
+  --color-primary-300: 16 100% 78%;
+  --color-primary-400: 16 100% 71%;
+  --color-primary-500: 16 100% 60%;
+  --color-primary-600: 16 85% 53%;
+  --color-primary-700: 16 75% 46%;
+  --color-primary-800: 16 70% 39%;
+  --color-primary-900: 16 85% 32%;
+
+  /* Neutral Colors - 更丰富的灰色系 */
+  --color-background: 0 0% 100%; /* #FFFFFF */
+  --color-foreground: 0 0% 10%; /* #1A1A1A */
+  --color-muted: 210 17% 98%; /* #F8F9FA */
+  --color-muted-foreground: 210 9% 46%; /* #6C757D */
+  --color-card: 0 0% 100%; /* #FFFFFF */
+  --color-card-foreground: 0 0% 10%; /* #1A1A1A */
+  --color-popover: 0 0% 100%; /* #FFFFFF */
+  --color-popover-foreground: 0 0% 10%; /* #1A1A1A */
+  --color-border: 210 16% 93%; /* #E9ECEF */
+  --color-input: 210 17% 98%; /* #F8F9FA */
+  --color-ring: 16 100% 60%; /* #FF6B35 */
+
+  /* Functional Colors - 更鲜明的功能色 */
+  --color-success: 142 71% 45%; /* #28A745 */
+  --color-success-foreground: 0 0% 100%;
+  --color-warning: 45 100% 51%; /* #FFC107 */
+  --color-warning-foreground: 0 0% 10%;
+  --color-destructive: 354 70% 54%; /* #DC3545 */
+  --color-destructive-foreground: 0 0% 100%;
+  --color-info: 188 78% 41%; /* #17A2B8 */
+  --color-info-foreground: 0 0% 100%;
+
+  /* Accent Colors */
+  --color-accent: 210 17% 98%; /* #F8F9FA */
+  --color-accent-foreground: 0 0% 10%;
+  --color-secondary: 210 9% 46%; /* #6C757D */
+  --color-secondary-foreground: 0 0% 100%;
+
+  /* Chart colors - 更鲜艳的图表色 */
+  --color-chart-1: 16 100% 60%; /* #FF6B35 */
+  --color-chart-2: 188 78% 41%; /* #17A2B8 */
+  --color-chart-3: 142 71% 45%; /* #28A745 */
+  --color-chart-4: 45 100% 51%; /* #FFC107 */
+  --color-chart-5: 354 70% 54%; /* #DC3545 */
+
+  /* Radius */
+  --radius: 0.75rem;
+
+  /* Shadows */
+  --shadow-brand: 0 4px 12px rgba(255, 107, 53, 0.15);
+  --shadow-brand-lg: 0 8px 24px rgba(255, 107, 53, 0.2);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  /* Legal Workspace Specific Colors */
+  --legal-primary: #ff6b35;      /* LegalMind 橙色 */
+  --legal-secondary: #2c3e50;    /* 深蓝灰 */
+  --legal-accent: #3498db;       /* 蓝色 */
+  --legal-success: #27ae60;      /* 绿色 */
+  --legal-warning: #f39c12;      /* 黄色 */
+  --legal-danger: #e74c3c;       /* 红色 */
+  --legal-light: #ecf0f1;        /* 浅灰 */
+  --legal-dark: #34495e;         /* 深灰 */
+  
+  /* 节点颜色 */
+  --node-document: #3498db;      /* 文书节点 - 蓝色 */
+  --node-ai: #27ae60;            /* AI节点 - 绿色 */
+  --node-hearing: #e74c3c;       /* 庭审节点 - 红色 */
+  --node-timeline: #9b59b6;      /* 时间线节点 - 紫色 */
+  --node-collaboration: #f39c12; /* 协作节点 - 橙色 */
+}
+
+/* Dark mode support (optional) */
+.dark {
+  --color-background: 0 0% 10%;
+  --color-foreground: 0 0% 98%;
+  --color-card: 0 0% 15%;
+  --color-card-foreground: 0 0% 98%;
+  --color-popover: 0 0% 15%;
+  --color-popover-foreground: 0 0% 98%;
+  --color-muted: 0 0% 20%;
+  --color-muted-foreground: 0 0% 65%;
+  --color-border: 0 0% 25%;
+  --color-input: 0 0% 20%;
+  --color-accent: 0 0% 20%;
+  --color-accent-foreground: 0 0% 98%;
+}
+

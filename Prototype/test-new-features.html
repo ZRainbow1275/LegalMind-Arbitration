@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>功能测试 - LegalMind法律工作台</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #ff6b35;
+      border-bottom: 3px solid #ff6b35;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #333;
+      margin-top: 0;
+    }
+    .test-item {
+      padding: 15px;
+      margin: 10px 0;
+      border-left: 4px solid #ff6b35;
+      background: #fff9f7;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .status.pass {
+      background: #4caf50;
+      color: white;
+    }
+    .status.fail {
+      background: #f44336;
+      color: white;
+    }
+    .status.pending {
+      background: #ff9800;
+      color: white;
+    }
+    .code {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+    .instructions {
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 15px 0;
+    }
+    .instructions h3 {
+      margin-top: 0;
+      color: #1976d2;
+    }
+    button {
+      background: #ff6b35;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #ff5722;
+    }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .result.success {
+      background: #c8e6c9;
+      color: #2e7d32;
+    }
+    .result.error {
+      background: #ffcdd2;
+      color: #c62828;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 LegalMind法律工作台 - 新功能测试</h1>
+  
+  <div class="test-section">
+    <h2>📋 测试概览</h2>
+    <p>本页面用于测试2025-10-31新实现的功能：</p>
+    <ul>
+      <li><strong>聊天贴创建功能</strong> - 在画布上创建和管理聊天贴</li>
+      <li><strong>复制粘贴功能</strong> - 使用Ctrl+C/V/X复制粘贴节点</li>
+    </ul>
+  </div>
+
+  <div class="test-section">
+    <h2>✅ 代码完整性检查</h2>
+    
+    <div class="test-item">
+      <strong>1. ChatNote组件</strong>
+      <span class="status pass">✓ 已创建</span>
+      <div class="code">Prototype/src/components/ChatNote.tsx (300行)</div>
+      <p>包含完整的聊天贴UI：展开/折叠、回复、解决、删除功能</p>
+    </div>
+
+    <div class="test-item">
+      <strong>2. ChatNoteLayer组件</strong>
+      <span class="status pass">✓ 已创建</span>
+      <div class="code">Prototype/src/components/ChatNoteLayer.tsx (40行)</div>
+      <p>管理所有聊天贴的图层组件</p>
+    </div>
+
+    <div class="test-item">
+      <strong>3. clipboard-manager</strong>
+      <span class="status pass">✓ 已创建</span>
+      <div class="code">Prototype/src/lib/clipboard-manager.ts (130行)</div>
+      <p>剪贴板管理器：copy/paste/cut功能，自动偏移和ID生成</p>
+    </div>
+
+    <div class="test-item">
+      <strong>4. 主组件集成</strong>
+      <span class="status pass">✓ 已完成</span>
+      <div class="code">DrawnixLegalWorkspace.tsx - 已集成所有新功能</div>
+      <ul>
+        <li>✓ ChatNoteLayer已添加到渲染树</li>
+        <li>✓ onCreateChatNote回调已实现</li>
+        <li>✓ pasteNodes已传递到AuxiliaryUIRenderer</li>
+        <li>✓ 剪贴板操作已传递到快捷键系统</li>
+      </ul>
+    </div>
+
+    <div class="test-item">
+      <strong>5. 快捷键配置</strong>
+      <span class="status pass">✓ 已完成</span>
+      <div class="code">useKeyboardShortcuts.ts - 已添加Ctrl+C/V/X</div>
+      <ul>
+        <li>✓ Ctrl+C - 复制</li>
+        <li>✓ Ctrl+V - 粘贴</li>
+        <li>✓ Ctrl+X - 剪切</li>
+      </ul>
+    </div>
+
+    <div class="test-item">
+      <strong>6. TypeScript编译</strong>
+      <span class="status pass">✓ 无错误</span>
+      <p>所有文件通过TypeScript类型检查，0个IDE错误</p>
+    </div>
+
+    <div class="test-item">
+      <strong>7. 运行时错误修复</strong>
+      <span class="status pass">✓ 已修复</span>
+      <p>修复了renderBatch初始化顺序问题，页面正常加载</p>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>🎯 手动测试指南</h2>
+    
+    <div class="instructions">
+      <h3>测试1: 聊天贴创建功能</h3>
+      <ol>
+        <li>打开 <a href="http://localhost:3001/" target="_blank">http://localhost:3001/</a></li>
+        <li>在画布空白处右键点击</li>
+        <li>选择"创建聊天贴"选项</li>
+        <li>输入聊天内容</li>
+        <li>验证聊天贴是否出现在画布上</li>
+        <li>点击聊天贴测试展开/折叠</li>
+        <li>添加回复测试回复功能</li>
+        <li>测试标记为已解决</li>
+        <li>测试删除聊天贴</li>
+      </ol>
+      <button onclick="window.open('http://localhost:3001/', '_blank')">打开工作台</button>
+    </div>
+
+    <div class="instructions">
+      <h3>测试2: 复制粘贴功能</h3>
+      <ol>
+        <li>在工作台中选中一个节点（点击节点）</li>
+        <li>按 <code>Ctrl+C</code> 复制节点</li>
+        <li>按 <code>Ctrl+V</code> 粘贴节点</li>
+        <li>验证新节点是否出现（应该偏移20px）</li>
+        <li>验证新节点标题是否带"(副本)"</li>
+        <li>验证新节点是否自动被选中</li>
+        <li>测试 <code>Ctrl+X</code> 剪切功能</li>
+        <li>验证原节点是否被删除</li>
+        <li>再次 <code>Ctrl+V</code> 粘贴</li>
+      </ol>
+      <button onclick="window.open('http://localhost:3001/', '_blank')">打开工作台</button>
+    </div>
+
+    <div class="instructions">
+      <h3>测试3: 右键菜单粘贴</h3>
+      <ol>
+        <li>选中节点并复制（Ctrl+C）</li>
+        <li>在画布空白处右键点击</li>
+        <li>选择"粘贴"选项</li>
+        <li>验证节点是否粘贴成功</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>📊 测试结果记录</h2>
+    <div id="test-results">
+      <p>请在上方打开工作台进行手动测试，并在下方记录结果。</p>
+    </div>
+    
+    <div style="margin-top: 20px;">
+      <button onclick="recordResult('chat-note', true)">✓ 聊天贴功能正常</button>
+      <button onclick="recordResult('chat-note', false)">✗ 聊天贴功能异常</button>
+      <button onclick="recordResult('paste', true)">✓ 粘贴功能正常</button>
+      <button onclick="recordResult('paste', false)">✗ 粘贴功能异常</button>
+      <button onclick="clearResults()">清除记录</button>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>🔍 已知问题</h2>
+    <div class="test-item">
+      <strong>1. 右键菜单触发</strong>
+      <span class="status pending">待验证</span>
+      <p>需要在实际应用中测试右键菜单是否正常触发。如果无法触发，可能需要检查事件处理逻辑。</p>
+    </div>
+
+    <div class="test-item">
+      <strong>2. AI功能</strong>
+      <span class="status pending">模拟实现</span>
+      <p>AI功能仍为模拟实现（硬编码数据），不影响聊天贴和粘贴功能的测试。</p>
+    </div>
+  </div>
+
+  <script>
+    const results = {};
+
+    function recordResult(feature, success) {
+      results[feature] = {
+        success,
+        timestamp: new Date().toLocaleString('zh-CN')
+      };
+      updateResultsDisplay();
+    }
+
+    function clearResults() {
+      Object.keys(results).forEach(key => delete results[key]);
+      updateResultsDisplay();
+    }
+
+    function updateResultsDisplay() {
+      const container = document.getElementById('test-results');
+      if (Object.keys(results).length === 0) {
+        container.innerHTML = '<p>暂无测试结果记录。</p>';
+        return;
+      }
+
+      let html = '<h3>测试结果：</h3>';
+      for (const [feature, result] of Object.entries(results)) {
+        const featureName = feature === 'chat-note' ? '聊天贴功能' : '粘贴功能';
+        const statusClass = result.success ? 'success' : 'error';
+        const statusText = result.success ? '✓ 通过' : '✗ 失败';
+        html += `
+          <div class="result ${statusClass}">
+            <strong>${featureName}</strong>: ${statusText}
+            <br><small>测试时间: ${result.timestamp}</small>
+          </div>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    // 页面加载时显示初始状态
+    updateResultsDisplay();
+  </script>
+</body>
+</html>
+

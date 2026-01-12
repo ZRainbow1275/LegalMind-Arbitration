@@ -1,0 +1,455 @@
+/**
+ * Plait法律节点插件
+ * 
+ * 功能：
+ * 1. 自定义法律节点渲染
+ * 2. 节点交互增强
+ * 3. 连接线样式定制
+ * 4. 节点验证和约束
+ */
+
+import { PlaitBoard, PlaitElement, Point } from '@plait/core';
+
+// ==================== 法律节点类型定义 ====================
+
+export type LegalNodeType =
+  | 'case'           // 案件节点
+  | 'party'          // 当事人节点
+  | 'evidence'       // 证据节点
+  | 'claim'          // 诉求节点
+  | 'law'            // 法律条文节点
+  | 'timeline'       // 时间线节点
+  | 'person';        // 人物节点
+
+export interface LegalNodeData {
+  type: LegalNodeType;
+  title: string;
+  content: string;
+  metadata?: {
+    date?: string;
+    amount?: number;
+    status?: string;
+    tags?: string[];
+    [key: string]: any;
+  };
+  style?: {
+    color?: string;
+    gradient?: string;
+    icon?: string;
+    shape?: 'rect' | 'circle' | 'diamond' | 'hexagon';
+  };
+}
+
+export interface LegalNode extends PlaitElement {
+  id: string;
+  type: 'legal-node';
+  data: LegalNodeData;
+  points: Point[];
+  children?: PlaitElement[];
+}
+
+// ==================== 节点样式配置 ====================
+
+export const LEGAL_NODE_STYLES: Record<LegalNodeType, {
+  gradient: string;
+  icon: string;
+  shape: 'rect' | 'circle' | 'diamond' | 'hexagon';
+  defaultColor: string;
+}> = {
+  case: {
+    gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    icon: '⚖️',
+    shape: 'rect',
+    defaultColor: '#667eea'
+  },
+  party: {
+    gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    icon: '👤',
+    shape: 'rect',
+    defaultColor: '#f093fb'
+  },
+  evidence: {
+    gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    icon: '📄',
+    shape: 'rect',
+    defaultColor: '#4facfe'
+  },
+  claim: {
+    gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+    icon: '💰',
+    shape: 'rect',
+    defaultColor: '#43e97b'
+  },
+  law: {
+    gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+    icon: '📖',
+    shape: 'rect',
+    defaultColor: '#fa709a'
+  },
+  timeline: {
+    gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
+    icon: '⏱️',
+    shape: 'rect',
+    defaultColor: '#30cfd0'
+  },
+  person: {
+    gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+    icon: '👨',
+    shape: 'circle',
+    defaultColor: '#a8edea'
+  }
+};
+
+// ==================== 节点创建工厂 ====================
+
+/**
+ * 创建法律节点
+ */
+export function createLegalNode(
+  type: LegalNodeType,
+  title: string,
+  content: string,
+  position: Point,
+  metadata?: LegalNodeData['metadata']
+): LegalNode {
+  const style = LEGAL_NODE_STYLES[type];
+
+  return {
+    id: `node-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    type: 'legal-node',
+    data: {
+      type,
+      title,
+      content,
+      metadata: metadata || {},
+      style: {
+        gradient: style.gradient,
+        icon: style.icon,
+        shape: style.shape,
+        color: style.defaultColor
+      }
+    },
+    points: [position],
+    children: []
+  };
+}
+
+/**
+ * 批量创建节点
+ */
+export function createLegalNodes(
+  nodes: Array<{
+    type: LegalNodeType;
+    title: string;
+    content: string;
+    position: Point;
+    metadata?: LegalNodeData['metadata'];
+  }>
+): LegalNode[] {
+  return nodes.map(node => 
+    createLegalNode(node.type, node.title, node.content, node.position, node.metadata)
+  );
+}
+
+// ==================== 节点验证 ====================
+
+/**
+ * 验证节点数据
+ */
+export function validateLegalNode(node: LegalNode): {
+  valid: boolean;
+  errors: string[];
+} {
+  const errors: string[] = [];
+  
+  if (!node.data) {
+    errors.push('节点缺少数据');
+    return { valid: false, errors };
+  }
+  
+  if (!node.data.type) {
+    errors.push('节点缺少类型');
+  }
+  
+  if (!node.data.title || node.data.title.trim() === '') {
+    errors.push('节点标题不能为空');
+  }
+  
+  if (node.data.title && node.data.title.length > 100) {
+    errors.push('节点标题过长（最多100字符）');
+  }
+  
+  if (node.data.content && node.data.content.length > 1000) {
+    errors.push('节点内容过长（最多1000字符）');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+}
+
+/**
+ * 验证节点连接
+ */
+export function validateConnection(
+  sourceNode: LegalNode,
+  targetNode: LegalNode
+): {
+  valid: boolean;
+  reason?: string;
+} {
+  // 定义允许的连接规则
+  const allowedConnections: Record<LegalNodeType, LegalNodeType[]> = {
+    case: ['party', 'evidence', 'claim', 'timeline'],
+    party: ['evidence', 'claim', 'person'],
+    evidence: ['law', 'timeline'],
+    claim: ['law', 'evidence'],
+    law: ['evidence'],
+    timeline: ['evidence', 'party'],
+    person: ['party', 'evidence']
+  };
+  
+  const sourceType = sourceNode.data.type;
+  const targetType = targetNode.data.type;
+  
+  const allowed = allowedConnections[sourceType];
+  
+  if (!allowed || !allowed.includes(targetType)) {
+    return {
+      valid: false,
+      reason: `不允许从 ${sourceType} 连接到 ${targetType}`
+    };
+  }
+  
+  return { valid: true };
+}
+
+// ==================== 节点操作 ====================
+
+/**
+ * 更新节点数据
+ */
+export function updateLegalNode(
+  node: LegalNode,
+  updates: Partial<LegalNodeData>
+): LegalNode {
+  return {
+    ...node,
+    data: {
+      ...node.data,
+      ...updates,
+      metadata: {
+        ...node.data.metadata,
+        ...updates.metadata
+      },
+      style: {
+        ...node.data.style,
+        ...updates.style
+      }
+    }
+  };
+}
+
+/**
+ * 克隆节点
+ */
+export function cloneLegalNode(node: LegalNode, newPosition: Point): LegalNode {
+  return {
+    ...node,
+    id: `node-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    points: [newPosition]
+  };
+}
+
+/**
+ * 查找节点
+ */
+export function findLegalNode(
+  board: PlaitBoard,
+  nodeId: string
+): LegalNode | null {
+  const findInChildren = (elements: PlaitElement[]): LegalNode | null => {
+    for (const element of elements) {
+      if (element.id === nodeId) {
+        return element as LegalNode;
+      }
+      if ('children' in element && Array.isArray(element.children)) {
+        const found = findInChildren(element.children);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+  
+  return findInChildren(board.children);
+}
+
+/**
+ * 获取所有法律节点
+ */
+export function getAllLegalNodes(board: PlaitBoard): LegalNode[] {
+  const nodes: LegalNode[] = [];
+  
+  const collectNodes = (elements: PlaitElement[]) => {
+    for (const element of elements) {
+      if ('data' in element && (element as any).data?.type) {
+        nodes.push(element as LegalNode);
+      }
+      if ('children' in element && Array.isArray(element.children)) {
+        collectNodes(element.children);
+      }
+    }
+  };
+  
+  collectNodes(board.children);
+  return nodes;
+}
+
+/**
+ * 按类型过滤节点
+ */
+export function filterNodesByType(
+  board: PlaitBoard,
+  type: LegalNodeType
+): LegalNode[] {
+  const allNodes = getAllLegalNodes(board);
+  return allNodes.filter(node => node.data.type === type);
+}
+
+/**
+ * 搜索节点
+ */
+export function searchNodes(
+  board: PlaitBoard,
+  query: string
+): LegalNode[] {
+  const allNodes = getAllLegalNodes(board);
+  const lowerQuery = query.toLowerCase();
+  
+  return allNodes.filter(node => 
+    node.data.title.toLowerCase().includes(lowerQuery) ||
+    node.data.content.toLowerCase().includes(lowerQuery)
+  );
+}
+
+// ==================== 节点布局算法 ====================
+
+/**
+ * 自动布局节点（树形布局）
+ */
+export function autoLayoutNodes(
+  nodes: LegalNode[],
+  rootPosition: Point = [100, 100],
+  horizontalSpacing: number = 200,
+  verticalSpacing: number = 150
+): Map<string, Point> {
+  const positions = new Map<string, Point>();
+  
+  if (nodes.length === 0) return positions;
+  
+  // 简单的网格布局
+  const columns = Math.ceil(Math.sqrt(nodes.length));
+  
+  nodes.forEach((node, index) => {
+    const row = Math.floor(index / columns);
+    const col = index % columns;
+    
+    const x = rootPosition[0] + col * horizontalSpacing;
+    const y = rootPosition[1] + row * verticalSpacing;
+    
+    positions.set(node.id, [x, y]);
+  });
+  
+  return positions;
+}
+
+/**
+ * 力导向布局（简化版）
+ */
+export function forceDirectedLayout(
+  nodes: LegalNode[],
+  connections: Array<{ source: string; target: string }>,
+  iterations: number = 50
+): Map<string, Point> {
+  const positions = new Map<string, Point>();
+  
+  // 初始化随机位置
+  nodes.forEach(node => {
+    positions.set(node.id, [
+      Math.random() * 800 + 100,
+      Math.random() * 600 + 100
+    ]);
+  });
+  
+  // 力导向迭代
+  for (let i = 0; i < iterations; i++) {
+    const forces = new Map<string, Point>();
+    
+    // 初始化力
+    nodes.forEach(node => {
+      forces.set(node.id, [0, 0]);
+    });
+    
+    // 计算排斥力
+    for (let j = 0; j < nodes.length; j++) {
+      for (let k = j + 1; k < nodes.length; k++) {
+        const node1 = nodes[j];
+        const node2 = nodes[k];
+        
+        const pos1 = positions.get(node1.id)!;
+        const pos2 = positions.get(node2.id)!;
+        
+        const dx = pos2[0] - pos1[0];
+        const dy = pos2[1] - pos1[1];
+        const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+        
+        const repulsion = 1000 / (distance * distance);
+        const fx = (dx / distance) * repulsion;
+        const fy = (dy / distance) * repulsion;
+        
+        const force1 = forces.get(node1.id)!;
+        const force2 = forces.get(node2.id)!;
+        
+        forces.set(node1.id, [force1[0] - fx, force1[1] - fy]);
+        forces.set(node2.id, [force2[0] + fx, force2[1] + fy]);
+      }
+    }
+    
+    // 计算吸引力（连接的节点）
+    connections.forEach(conn => {
+      const pos1 = positions.get(conn.source);
+      const pos2 = positions.get(conn.target);
+      
+      if (!pos1 || !pos2) return;
+      
+      const dx = pos2[0] - pos1[0];
+      const dy = pos2[1] - pos1[1];
+      const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+      
+      const attraction = distance * 0.01;
+      const fx = (dx / distance) * attraction;
+      const fy = (dy / distance) * attraction;
+      
+      const force1 = forces.get(conn.source)!;
+      const force2 = forces.get(conn.target)!;
+      
+      forces.set(conn.source, [force1[0] + fx, force1[1] + fy]);
+      forces.set(conn.target, [force2[0] - fx, force2[1] - fy]);
+    });
+    
+    // 应用力
+    nodes.forEach(node => {
+      const pos = positions.get(node.id)!;
+      const force = forces.get(node.id)!;
+      
+      positions.set(node.id, [
+        pos[0] + force[0] * 0.1,
+        pos[1] + force[1] * 0.1
+      ]);
+    });
+  }
+  
+  return positions;
+}
+

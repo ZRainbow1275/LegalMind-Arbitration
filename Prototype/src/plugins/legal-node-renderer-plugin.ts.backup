@@ -1,0 +1,347 @@
+/**
+ * 法律节点渲染器插件
+ * 
+ * 这是Plait框架的自定义渲染器插件，用于渲染法律节点
+ * 
+ * 核心功能：
+ * 1. 自定义SVG渲染
+ * 2. 节点形状（矩形、圆形、菱形、六边形）
+ * 3. 渐变背景
+ * 4. 图标和文本
+ * 5. 交互效果（悬停、选中）
+ */
+
+import { PlaitBoard, PlaitElement, Point, RenderElementProps } from '@plait/core';
+import { LegalNode } from './legal-nodes/types';
+
+// ==================== 渲染器注册 ====================
+
+/**
+ * 判断元素是否为法律节点
+ */
+export function isLegalNode(element: PlaitElement): element is LegalNode {
+  return (element as any).type === 'legal-node';
+}
+
+/**
+ * 渲染法律节点
+ */
+export function renderLegalNode(
+  board: PlaitBoard,
+  element: LegalNode,
+  props: RenderElementProps
+): SVGGElement {
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('data-node-id', element.id);
+  g.setAttribute('data-node-type', element.data.type);
+  
+  // 获取节点位置
+  const position = element.points[0];
+  if (!position) return g;
+  
+  const [x, y] = position;
+  
+  // 获取节点样式
+  const style = LEGAL_NODE_STYLES[element.data.type];
+  const nodeStyle = element.data.style || style;
+  
+  // 根据形状渲染
+  switch (nodeStyle.shape) {
+    case 'circle':
+      renderCircleNode(g, x, y, element, nodeStyle);
+      break;
+    case 'diamond':
+      renderDiamondNode(g, x, y, element, nodeStyle);
+      break;
+    case 'hexagon':
+      renderHexagonNode(g, x, y, element, nodeStyle);
+      break;
+    default:
+      renderRectNode(g, x, y, element, nodeStyle);
+  }
+  
+  return g;
+}
+
+// ==================== 形状渲染函数 ====================
+
+/**
+ * 渲染矩形节点
+ */
+function renderRectNode(
+  g: SVGGElement,
+  x: number,
+  y: number,
+  node: LegalNode,
+  style: any
+) {
+  const width = 200;
+  const height = 100;
+  const radius = 12;
+  
+  // 创建渐变定义
+  const gradientId = `gradient-${node.id}`;
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+  gradient.setAttribute('id', gradientId);
+  gradient.setAttribute('x1', '0%');
+  gradient.setAttribute('y1', '0%');
+  gradient.setAttribute('x2', '100%');
+  gradient.setAttribute('y2', '100%');
+  
+  const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop1.setAttribute('offset', '0%');
+  stop1.setAttribute('style', `stop-color:${style.gradient.split(' ')[1]};stop-opacity:1`);
+  
+  const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop2.setAttribute('offset', '100%');
+  stop2.setAttribute('style', `stop-color:${style.gradient.split(' ')[3]};stop-opacity:1`);
+  
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  defs.appendChild(gradient);
+  g.appendChild(defs);
+  
+  // 创建矩形
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x.toString());
+  rect.setAttribute('y', y.toString());
+  rect.setAttribute('width', width.toString());
+  rect.setAttribute('height', height.toString());
+  rect.setAttribute('rx', radius.toString());
+  rect.setAttribute('ry', radius.toString());
+  rect.setAttribute('fill', `url(#${gradientId})`);
+  rect.setAttribute('stroke', style.defaultColor);
+  rect.setAttribute('stroke-width', '2');
+  rect.setAttribute('class', 'legal-node-shape');
+  g.appendChild(rect);
+  
+  // 添加图标
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  icon.setAttribute('x', (x + 16).toString());
+  icon.setAttribute('y', (y + 30).toString());
+  icon.setAttribute('font-size', '20');
+  icon.setAttribute('fill', 'white');
+  icon.textContent = style.icon;
+  g.appendChild(icon);
+  
+  // 添加标题
+  const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  title.setAttribute('x', (x + 45).toString());
+  title.setAttribute('y', (y + 30).toString());
+  title.setAttribute('font-size', '14');
+  title.setAttribute('font-weight', 'bold');
+  title.setAttribute('fill', 'white');
+  title.textContent = truncateText(node.data.title, 15);
+  g.appendChild(title);
+  
+  // 添加内容
+  const content = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  content.setAttribute('x', (x + 16).toString());
+  content.setAttribute('y', (y + 55).toString());
+  content.setAttribute('font-size', '12');
+  content.setAttribute('fill', 'rgba(255, 255, 255, 0.9)');
+  content.textContent = truncateText(node.data.content, 25);
+  g.appendChild(content);
+}
+
+/**
+ * 渲染圆形节点
+ */
+function renderCircleNode(
+  g: SVGGElement,
+  x: number,
+  y: number,
+  node: LegalNode,
+  style: any
+) {
+  const radius = 50;
+  
+  // 创建渐变
+  const gradientId = `gradient-${node.id}`;
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'radialGradient');
+  gradient.setAttribute('id', gradientId);
+  
+  const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop1.setAttribute('offset', '0%');
+  stop1.setAttribute('style', `stop-color:${style.gradient.split(' ')[1]};stop-opacity:1`);
+  
+  const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop2.setAttribute('offset', '100%');
+  stop2.setAttribute('style', `stop-color:${style.gradient.split(' ')[3]};stop-opacity:1`);
+  
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  defs.appendChild(gradient);
+  g.appendChild(defs);
+  
+  // 创建圆形
+  const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  circle.setAttribute('cx', (x + radius).toString());
+  circle.setAttribute('cy', (y + radius).toString());
+  circle.setAttribute('r', radius.toString());
+  circle.setAttribute('fill', `url(#${gradientId})`);
+  circle.setAttribute('stroke', style.defaultColor);
+  circle.setAttribute('stroke-width', '2');
+  circle.setAttribute('class', 'legal-node-shape');
+  g.appendChild(circle);
+  
+  // 添加图标
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  icon.setAttribute('x', (x + radius).toString());
+  icon.setAttribute('y', (y + radius - 10).toString());
+  icon.setAttribute('font-size', '24');
+  icon.setAttribute('fill', 'white');
+  icon.setAttribute('text-anchor', 'middle');
+  icon.textContent = style.icon;
+  g.appendChild(icon);
+  
+  // 添加标题
+  const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  title.setAttribute('x', (x + radius).toString());
+  title.setAttribute('y', (y + radius + 20).toString());
+  title.setAttribute('font-size', '12');
+  title.setAttribute('font-weight', 'bold');
+  title.setAttribute('fill', 'white');
+  title.setAttribute('text-anchor', 'middle');
+  title.textContent = truncateText(node.data.title, 10);
+  g.appendChild(title);
+}
+
+/**
+ * 渲染菱形节点
+ */
+function renderDiamondNode(
+  g: SVGGElement,
+  x: number,
+  y: number,
+  node: LegalNode,
+  style: any
+) {
+  const width = 120;
+  const height = 120;
+  
+  // 创建渐变
+  const gradientId = `gradient-${node.id}`;
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+  gradient.setAttribute('id', gradientId);
+  
+  const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop1.setAttribute('offset', '0%');
+  stop1.setAttribute('style', `stop-color:${style.gradient.split(' ')[1]};stop-opacity:1`);
+  
+  const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop2.setAttribute('offset', '100%');
+  stop2.setAttribute('style', `stop-color:${style.gradient.split(' ')[3]};stop-opacity:1`);
+  
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  defs.appendChild(gradient);
+  g.appendChild(defs);
+  
+  // 创建菱形路径
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const d = `M ${x + width/2} ${y} L ${x + width} ${y + height/2} L ${x + width/2} ${y + height} L ${x} ${y + height/2} Z`;
+  path.setAttribute('d', d);
+  path.setAttribute('fill', `url(#${gradientId})`);
+  path.setAttribute('stroke', style.defaultColor);
+  path.setAttribute('stroke-width', '2');
+  path.setAttribute('class', 'legal-node-shape');
+  g.appendChild(path);
+  
+  // 添加图标和文本
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  icon.setAttribute('x', (x + width/2).toString());
+  icon.setAttribute('y', (y + height/2 - 10).toString());
+  icon.setAttribute('font-size', '20');
+  icon.setAttribute('fill', 'white');
+  icon.setAttribute('text-anchor', 'middle');
+  icon.textContent = style.icon;
+  g.appendChild(icon);
+  
+  const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  title.setAttribute('x', (x + width/2).toString());
+  title.setAttribute('y', (y + height/2 + 15).toString());
+  title.setAttribute('font-size', '12');
+  title.setAttribute('font-weight', 'bold');
+  title.setAttribute('fill', 'white');
+  title.setAttribute('text-anchor', 'middle');
+  title.textContent = truncateText(node.data.title, 10);
+  g.appendChild(title);
+}
+
+/**
+ * 渲染六边形节点
+ */
+function renderHexagonNode(
+  g: SVGGElement,
+  x: number,
+  y: number,
+  node: LegalNode,
+  style: any
+) {
+  const width = 120;
+  const height = 100;
+  
+  // 创建渐变
+  const gradientId = `gradient-${node.id}`;
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+  const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+  gradient.setAttribute('id', gradientId);
+  
+  const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop1.setAttribute('offset', '0%');
+  stop1.setAttribute('style', `stop-color:${style.gradient.split(' ')[1]};stop-opacity:1`);
+  
+  const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+  stop2.setAttribute('offset', '100%');
+  stop2.setAttribute('style', `stop-color:${style.gradient.split(' ')[3]};stop-opacity:1`);
+  
+  gradient.appendChild(stop1);
+  gradient.appendChild(stop2);
+  defs.appendChild(gradient);
+  g.appendChild(defs);
+  
+  // 创建六边形路径
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const d = `M ${x + width*0.25} ${y} L ${x + width*0.75} ${y} L ${x + width} ${y + height/2} L ${x + width*0.75} ${y + height} L ${x + width*0.25} ${y + height} L ${x} ${y + height/2} Z`;
+  path.setAttribute('d', d);
+  path.setAttribute('fill', `url(#${gradientId})`);
+  path.setAttribute('stroke', style.defaultColor);
+  path.setAttribute('stroke-width', '2');
+  path.setAttribute('class', 'legal-node-shape');
+  g.appendChild(path);
+  
+  // 添加图标和文本
+  const icon = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  icon.setAttribute('x', (x + width/2).toString());
+  icon.setAttribute('y', (y + height/2 - 10).toString());
+  icon.setAttribute('font-size', '20');
+  icon.setAttribute('fill', 'white');
+  icon.setAttribute('text-anchor', 'middle');
+  icon.textContent = style.icon;
+  g.appendChild(icon);
+  
+  const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  title.setAttribute('x', (x + width/2).toString());
+  title.setAttribute('y', (y + height/2 + 15).toString());
+  title.setAttribute('font-size', '12');
+  title.setAttribute('font-weight', 'bold');
+  title.setAttribute('fill', 'white');
+  title.setAttribute('text-anchor', 'middle');
+  title.textContent = truncateText(node.data.title, 10);
+  g.appendChild(title);
+}
+
+// ==================== 工具函数 ====================
+
+/**
+ * 截断文本
+ */
+function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength - 3) + '...';
+}
+

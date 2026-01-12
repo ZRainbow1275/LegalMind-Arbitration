@@ -1,0 +1,52 @@
+# ===== OS / Editor =====
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+.idea/
+.vscode/
+*.code-workspace
+
+# ===== Secrets =====
+.env
+.env.*
+!.env.example
+
+# ===== Tooling =====
+.augment/
+
+# ===== Node.js =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+dist/
+build/
+.cache/
+.turbo/
+coverage/
+
+# Vite
+.vite/
+
+# Next.js
+.next/
+out/
+
+# TypeScript
+*.tsbuildinfo
+
+# ===== Large media =====
+# GitHub 单文件 100MB 限制：大型视频建议使用 Git LFS 或外部存储
+resource/*.mp4
+
+# ===== Local-only dirs =====
+# dev/ 目录包含单独的 Next.js 项目与本地环境配置（含 .env），默认不纳入该仓库版本控制
+dev/
+
+# Prototype 内的上游参考仓库（自带 .git），避免作为嵌套仓库/子模块被提交
+Prototype/drawnix-reference/

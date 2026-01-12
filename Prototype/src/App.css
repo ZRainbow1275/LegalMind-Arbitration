@@ -1,0 +1,75 @@
+/* LegalMind 法律工作台 - 全局样式 */
+
+.App {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  background: #f8fafc;
+}
+
+/* LegalMind 品牌色彩变量 */
+:root {
+  --legal-primary: #ff6b35;
+  --legal-primary-50: #fff4f1;
+  --legal-primary-100: #ffe6dc;
+  --legal-primary-500: #ff6b35;
+  --legal-primary-600: #e55a2b;
+  --legal-primary-900: #992a07;
+
+  --legal-gray-50: #f8fafc;
+  --legal-gray-100: #f1f5f9;
+  --legal-gray-200: #e2e8f0;
+  --legal-gray-300: #cbd5e1;
+  --legal-gray-400: #94a3b8;
+  --legal-gray-500: #64748b;
+  --legal-gray-600: #475569;
+  --legal-gray-700: #334155;
+  --legal-gray-800: #1e293b;
+  --legal-gray-900: #0f172a;
+}
+
+/* 工作台专用样式 */
+.legal-workspace {
+  background: var(--legal-gray-50);
+}
+
+.legal-node {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.legal-node:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 107, 53, 0.15);
+}
+
+/* 连接线动画 */
+.legal-connection {
+  stroke-dasharray: 5, 5;
+  animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -10;
+  }
+}
+
+/* 滚动条样式 */
+.legal-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.legal-scrollbar::-webkit-scrollbar-track {
+  background: var(--legal-gray-100);
+  border-radius: 3px;
+}
+
+.legal-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--legal-gray-300);
+  border-radius: 3px;
+}
+
+.legal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--legal-primary);
+}

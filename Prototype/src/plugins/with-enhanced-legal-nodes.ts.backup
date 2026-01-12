@@ -1,0 +1,325 @@
+/**
+ * 增强法律节点Plait插件
+ * 
+ * 功能：
+ * 1. 集成7种法律节点类型
+ * 2. 自定义节点渲染
+ * 3. 节点验证和约束
+ * 4. 连接规则
+ */
+
+import { PlaitBoard, PlaitPlugin, PlaitElement, Point } from '@plait/core';
+import { LegalNode, LegalNodeTypes } from './legal-nodes/types';
+import { LegalNodeEngine } from './legal-nodes/engines/legal-node-engine';
+
+// ==================== 插件实现 ====================
+
+export const withEnhancedLegalNodes: PlaitPlugin = (board: PlaitBoard) => {
+  const { apply, insertNode, deleteNode } = board;
+  
+  // 扩展apply方法，添加节点验证
+  board.apply = (operation: any) => {
+    if (operation.type === 'insert_node') {
+      const node = operation.node as LegalNode;
+      if (node.data && node.data.type) {
+        const validation = validateLegalNode(node);
+        if (!validation.valid) {
+          console.warn('节点验证失败:', validation.errors);
+          // 可以选择阻止插入或修复节点
+        }
+      }
+    }
+    
+    apply(operation);
+  };
+  
+  // 扩展insertNode方法
+  board.insertNode = (node: PlaitElement, at?: Point) => {
+    if ((node as LegalNode).data && (node as LegalNode).data.type) {
+      const legalNode = node as LegalNode;
+      
+      // 确保节点有正确的样式
+      if (!legalNode.data.style) {
+        const style = LEGAL_NODE_STYLES[legalNode.data.type];
+        legalNode.data.style = {
+          gradient: style.gradient,
+          icon: style.icon,
+          shape: style.shape,
+          color: style.defaultColor
+        };
+      }
+    }
+    
+    insertNode(node, at);
+  };
+  
+  return board;
+};
+
+// ==================== 节点创建辅助函数 ====================
+
+/**
+ * 在画布上创建法律节点
+ */
+export function createLegalNodeOnBoard(
+  board: PlaitBoard,
+  type: LegalNodeType,
+  title: string,
+  content: string,
+  position: Point,
+  metadata?: any
+): LegalNode {
+  const node = createLegalNode(type, title, content, position, metadata);
+  board.insertNode(node);
+  return node;
+}
+
+/**
+ * 批量创建节点
+ */
+export function createMultipleLegalNodes(
+  board: PlaitBoard,
+  nodes: Array<{
+    type: LegalNodeType;
+    title: string;
+    content: string;
+    position: Point;
+    metadata?: any;
+  }>
+): LegalNode[] {
+  const createdNodes: LegalNode[] = [];
+  
+  nodes.forEach(nodeData => {
+    const node = createLegalNodeOnBoard(
+      board,
+      nodeData.type,
+      nodeData.title,
+      nodeData.content,
+      nodeData.position,
+      nodeData.metadata
+    );
+    createdNodes.push(node);
+  });
+  
+  return createdNodes;
+}
+
+// ==================== 连接验证 ====================
+
+/**
+ * 验证两个节点是否可以连接
+ */
+export function canConnect(
+  board: PlaitBoard,
+  sourceId: string,
+  targetId: string
+): { valid: boolean; reason?: string } {
+  const sourceNode = PlaitBoard.findNode(board, sourceId) as LegalNode;
+  const targetNode = PlaitBoard.findNode(board, targetId) as LegalNode;
+  
+  if (!sourceNode || !targetNode) {
+    return { valid: false, reason: '节点不存在' };
+  }
+  
+  if (!sourceNode.data || !targetNode.data) {
+    return { valid: false, reason: '节点数据不完整' };
+  }
+  
+  return validateConnection(sourceNode, targetNode);
+}
+
+// ==================== 节点查询 ====================
+
+/**
+ * 获取所有法律节点
+ */
+export function getAllLegalNodesFromBoard(board: PlaitBoard): LegalNode[] {
+  const nodes: LegalNode[] = [];
+  
+  const traverse = (elements: PlaitElement[]) => {
+    elements.forEach(element => {
+      if ((element as any).data && (element as any).data.type) {
+        nodes.push(element as LegalNode);
+      }
+      if ('children' in element && Array.isArray(element.children)) {
+        traverse(element.children);
+      }
+    });
+  };
+  
+  traverse(board.children);
+  return nodes;
+}
+
+/**
+ * 按类型过滤节点
+ */
+export function filterNodesByTypeOnBoard(
+  board: PlaitBoard,
+  type: LegalNodeType
+): LegalNode[] {
+  const allNodes = getAllLegalNodesFromBoard(board);
+  return allNodes.filter(node => node.data.type === type);
+}
+
+/**
+ * 搜索节点
+ */
+export function searchNodesOnBoard(
+  board: PlaitBoard,
+  query: string
+): LegalNode[] {
+  const allNodes = getAllLegalNodesFromBoard(board);
+  const lowerQuery = query.toLowerCase();
+  
+  return allNodes.filter(node => 
+    node.data.title.toLowerCase().includes(lowerQuery) ||
+    node.data.content.toLowerCase().includes(lowerQuery)
+  );
+}
+
+// ==================== 节点操作 ====================
+
+/**
+ * 更新节点数据
+ */
+export function updateLegalNodeOnBoard(
+  board: PlaitBoard,
+  nodeId: string,
+  updates: Partial<LegalNode['data']>
+): void {
+  const node = PlaitBoard.findNode(board, nodeId) as LegalNode;
+  if (!node) return;
+  
+  // 更新节点数据
+  node.data = {
+    ...node.data,
+    ...updates,
+    metadata: {
+      ...node.data.metadata,
+      ...updates.metadata
+    },
+    style: {
+      ...node.data.style,
+      ...updates.style
+    }
+  };
+  
+  // 触发重新渲染
+  board.onChange();
+}
+
+/**
+ * 删除节点
+ */
+export function deleteLegalNodeFromBoard(
+  board: PlaitBoard,
+  nodeId: string
+): void {
+  const node = PlaitBoard.findNode(board, nodeId);
+  if (node) {
+    board.deleteNode(node);
+  }
+}
+
+/**
+ * 克隆节点
+ */
+export function cloneLegalNodeOnBoard(
+  board: PlaitBoard,
+  nodeId: string,
+  newPosition: Point
+): LegalNode | null {
+  const node = PlaitBoard.findNode(board, nodeId) as LegalNode;
+  if (!node || !node.data) return null;
+  
+  const clonedNode = createLegalNode(
+    node.data.type,
+    node.data.title + ' (副本)',
+    node.data.content,
+    newPosition,
+    node.data.metadata
+  );
+  
+  board.insertNode(clonedNode);
+  return clonedNode;
+}
+
+// ==================== 节点选择 ====================
+
+/**
+ * 选择节点
+ */
+export function selectNode(board: PlaitBoard, nodeId: string): void {
+  const node = PlaitBoard.findNode(board, nodeId);
+  if (node) {
+    PlaitBoard.select(board, node);
+  }
+}
+
+/**
+ * 取消选择
+ */
+export function deselectAll(board: PlaitBoard): void {
+  PlaitBoard.deselect(board);
+}
+
+/**
+ * 获取选中的节点
+ */
+export function getSelectedNodes(board: PlaitBoard): LegalNode[] {
+  const selection = board.selection;
+  if (!selection) return [];
+  
+  const selectedNodes: LegalNode[] = [];
+  
+  // 遍历选中的元素
+  selection.forEach((range: any) => {
+    const node = PlaitBoard.findNode(board, range.anchor.path[0]);
+    if (node && (node as any).data && (node as any).data.type) {
+      selectedNodes.push(node as LegalNode);
+    }
+  });
+  
+  return selectedNodes;
+}
+
+// ==================== 节点统计 ====================
+
+/**
+ * 获取节点统计信息
+ */
+export function getNodeStatistics(board: PlaitBoard): {
+  total: number;
+  byType: Record<LegalNodeType, number>;
+} {
+  const allNodes = getAllLegalNodesFromBoard(board);
+  
+  const byType: Record<LegalNodeType, number> = {
+    case: 0,
+    party: 0,
+    evidence: 0,
+    claim: 0,
+    law: 0,
+    timeline: 0,
+    person: 0
+  };
+  
+  allNodes.forEach(node => {
+    byType[node.data.type]++;
+  });
+  
+  return {
+    total: allNodes.length,
+    byType
+  };
+}
+
+// ==================== 导出 ====================
+
+export {
+  LegalNode,
+  LegalNodeType,
+  LEGAL_NODE_STYLES
+} from '../lib/plait-legal-plugin';
+

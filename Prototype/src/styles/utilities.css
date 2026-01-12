@@ -1,0 +1,76 @@
+/* Utility Classes */
+
+@layer utilities {
+  /* 文字渐变效果 */
+  .text-gradient {
+    background: linear-gradient(135deg, #FF6B35 0%, #E55A2B 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+  }
+
+  .text-gradient-secondary {
+    background: linear-gradient(135deg, #17A2B8 0%, #FF6B35 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* 阴影效果 */
+  .shadow-brand {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.15);
+  }
+
+  .shadow-brand-lg {
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+  }
+
+  .shadow-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .shadow-card-hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  /* 边框渐变 */
+  .border-gradient {
+    border: 2px solid transparent;
+    background: linear-gradient(#FFFFFF, #FFFFFF) padding-box,
+                linear-gradient(135deg, #FF6B35, #E55A2B) border-box;
+    border-radius: 0.75rem;
+  }
+
+  /* 背景渐变 */
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, #FF6B35, #E55A2B);
+  }
+
+  .bg-gradient-secondary {
+    background: linear-gradient(135deg, #FFF4F1, #FFE6DC);
+  }
+
+  .bg-gradient-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%);
+  }
+
+  /* 悬停效果 */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .hover-glow {
+    transition: all 0.3s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+  }
+}
+
