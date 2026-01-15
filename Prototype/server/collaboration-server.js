@@ -16,6 +16,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 // 创建Express应用
 const app = express();
@@ -38,6 +39,41 @@ const io = new Server(server, {
 // 存储画布房间和用户信息
 const canvasRooms = new Map(); // canvasId -> { users: Map<userId, user>, operations: [] }
 
+// JWT 鉴权中间件：所有连接必须携带有效 token
+io.use((socket, next) => {
+  const token = socket.handshake?.auth?.token;
+  if (!token) {
+    return next(new Error('认证失败: 缺少 token'));
+  }
+
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    return next(new Error('服务器配置错误: 缺少 JWT_SECRET'));
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret, {
+      issuer: 'legalmind-arbitration',
+      audience: 'legalmind-users',
+    });
+
+    if (!decoded || typeof decoded !== 'object') {
+      return next(new Error('认证失败: Token 无效'));
+    }
+
+    const userId = decoded.userId;
+    const email = decoded.email;
+    if (typeof userId !== 'string' || typeof email !== 'string') {
+      return next(new Error('认证失败: Token 无效'));
+    }
+
+    socket.user = { id: userId, email };
+    return next();
+  } catch (e) {
+    return next(new Error('认证失败: Token 无效'));
+  }
+});
+
 // 生成用户颜色
 const USER_COLORS = [
   '#FF6B35', // 橙色
@@ -57,18 +93,27 @@ function getUserColor(userId) {
 
 // Socket.io连接处理
 io.on('connection', (socket) => {
-  console.log(`[Collaboration] 用户连接: ${socket.id}`);
+  console.log(`[Collaboration] 用户连接: ${socket.id} (${socket.user?.id || 'unknown'})`);
 
   // 用户加入画布
-  socket.on('join-canvas', (data) => {
-    const { canvasId, user } = data;
-    
-    console.log(`[Collaboration] 用户 ${user.name} 加入画布 ${canvasId}`);
+  socket.on('join-canvas', (data = {}) => {
+    const { canvasId, user: clientUser = {} } = data || {};
+    const authUser = socket.user;
+
+    if (!canvasId || !authUser?.id) {
+      socket.emit('join-error', { message: '加入画布失败: 无效的 canvasId 或未认证' });
+      return;
+    }
+
+    const displayName =
+      typeof clientUser.name === 'string' && clientUser.name.trim() ? clientUser.name.trim() : authUser.email;
+
+    console.log(`[Collaboration] 用户 ${displayName}(${authUser.id}) 加入画布 ${canvasId}`);
 
     // 加入房间
     socket.join(canvasId);
     socket.canvasId = canvasId;
-    socket.userId = user.id;
+    socket.userId = authUser.id;
 
     // 初始化房间（如果不存在）
     if (!canvasRooms.has(canvasId)) {
@@ -83,12 +128,15 @@ io.on('connection', (socket) => {
 
     // 添加用户到房间
     const userWithColor = {
-      ...user,
-      color: getUserColor(user.id),
+      ...clientUser,
+      id: authUser.id,
+      email: authUser.email,
+      name: displayName,
+      color: getUserColor(authUser.id),
       socketId: socket.id,
       joinedAt: new Date().toISOString(),
     };
-    room.users.set(user.id, userWithColor);
+    room.users.set(authUser.id, userWithColor);
 
     // 通知其他用户有新用户加入
     socket.to(canvasId).emit('user-joined', {
@@ -318,4 +366,3 @@ process.on('SIGTERM', () => {
     process.exit(0);
   });
 });
-
