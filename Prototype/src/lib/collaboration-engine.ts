@@ -141,7 +141,9 @@ export const useCollaborationStore = create<CollaborationStore>((set, get) => ({
       // 1. 实现WebSocket服务器（Node.js + Socket.io）
       // 2. 或使用第三方服务（如Ably、Pusher）
       // 3. 或集成到LegalMind主项目的后端
-      const ws = new WebSocket(`ws://localhost:8080/canvas/${canvasId}`);
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsHost = process.env.NEXT_PUBLIC_WS_HOST || window.location.host;
+      const ws = new WebSocket(`${wsProtocol}//${wsHost}/canvas/${canvasId}`);
 
       ws.onopen = () => {
         console.log('[Collaboration] WebSocket连接已建立');
@@ -439,4 +441,3 @@ export const useCollaborationStore = create<CollaborationStore>((set, get) => ({
     }
   },
 }));
-
