@@ -46,6 +46,33 @@ services:
     volumes:
       - legalmind_minio_data:/data
 
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: legalmind-livekit
+    restart: unless-stopped
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    environment:
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET}
+    command:
+      - sh
+      - -c
+      - |
+        set -eu
+        cat > /etc/livekit.yaml <<EOF
+        port: 7880
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: true
+        keys:
+          ${LIVEKIT_API_KEY}: ${LIVEKIT_API_SECRET}
+        EOF
+        livekit-server --config /etc/livekit.yaml
+
 volumes:
   legalmind_postgres_data:
   legalmind_redis_data:

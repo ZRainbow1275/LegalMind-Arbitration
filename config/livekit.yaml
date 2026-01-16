@@ -1,0 +1,24 @@
+# LiveKit Server 配置（模板）
+#
+# 说明：
+# - 严禁在仓库中写入真实密钥（LIVEKIT_API_SECRET 等）。
+# - 根目录 docker-compose.yml 会在容器启动时根据环境变量生成运行时配置并启动服务。
+# - 本文件仅用于说明字段结构，便于运维审阅与生产部署对齐。
+#
+# 参考（以 LiveKit 官方文档为准）：
+# - https://docs.livekit.io/home/self-hosting/
+port: 7880
+
+rtc:
+  # WebRTC 传输端口（需要映射 UDP 端口）
+  tcp_port: 7881
+  udp_port: 7882
+  use_external_ip: true
+
+redis:
+  address: redis:6379
+  # 若 redis 启用 requirepass，请在 docker-compose.yml 中注入 REDIS_PASSWORD
+  # password: "<REDIS_PASSWORD>"
+
+# keys:
+#   "<LIVEKIT_API_KEY>": "<LIVEKIT_API_SECRET>"
