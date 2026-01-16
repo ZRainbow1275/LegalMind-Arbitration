@@ -71,6 +71,7 @@
 
 - `dev/` 无 remote，无法自动 `git push`/创建 PR；需要人工配置 `git remote add origin ...` 后再推送。
 - 根仓库忽略 `dev/`：根仓库 PR 合并不会交付 `dev/` 的修复（需明确交付策略）。
+- 根仓库已推送分支：`fix/audit-remediation-20260116`（可直接在 GitHub 发起 PR：`https://github.com/ZRainbow1275/LegalMind-Arbitration/pull/new/fix/audit-remediation-20260116`；本机未安装 `gh`，无法自动创建 PR）。
 - 构建期副作用：`dev pnpm build` 日志出现 Redis 连接提示，说明部分模块在构建/预渲染阶段触发外部连接；建议后续将外部连接延后到运行期。
 - 依赖升级提示：
   - Prisma CLI 提示 `6.19.2 -> 7.2.0`（本轮未升级，避免引入大版本迁移风险）
