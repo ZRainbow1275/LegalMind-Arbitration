@@ -1,7 +1,7 @@
 # 修复执行报告（LegalMind-Arbitration）
 
 开始时间：2026-01-16 05:57:20  
-完成时间：2026-01-16 22:22:34
+完成时间：2026-01-16 22:26:08
 
 ## 仓库结构与交付风险
 
@@ -10,7 +10,7 @@
   - 影响：根仓库 PR/合并 **不会包含** `dev/` 的修复提交；需要对 `dev/` 单独交付（配置 remote 或将其纳入主仓库管理策略）。
 
   - 当前状态：`dev/` 未配置 remote（`git remote -v` 无输出），无法自动推送与创建 PR。
-  - 根仓库分支状态：本地 `fix/audit-remediation-20260116` 相对 `origin/fix/audit-remediation-20260116` **领先 6 个提交**（需再次 `git push` 才能同步远端）。
+  - 根仓库分支状态：已推送至 `origin/fix/audit-remediation-20260116`（可创建/更新 PR：`https://github.com/ZRainbow1275/LegalMind-Arbitration/pull/new/fix/audit-remediation-20260116`）。
 
 ## 修复内容（按 Phase）
 
@@ -104,7 +104,7 @@
 ## 遗留问题 / 风险提示
 
 - 交付风险：根仓库 `.gitignore` 忽略 `dev/`，且 `dev/` 为独立仓库（无 remote），因此根仓库 PR 不会包含工作台后端修复。
-- 根仓库远端同步：本地 `fix/audit-remediation-20260116` 领先远端 6 个提交，需 `git push origin fix/audit-remediation-20260116` 后再创建/更新 PR。
+- 根仓库远端同步：已推送至 `origin/fix/audit-remediation-20260116`。
 - PR 自动化：未安装 `gh`，无法在本机自动 `gh pr create`。
 - 构建期副作用：`dev pnpm build` 日志出现 Redis 连接提示，说明部分模块在构建/预渲染阶段触发外部连接；建议将外部连接延后到运行期并做环境隔离。
 - 依赖安全：Next.js 15.4.6 存在安全公告提示（需按官方 CVE 指引升级到修复版本）；Prisma CLI 提示可升级（本轮未动以避免引入大版本迁移风险）。
