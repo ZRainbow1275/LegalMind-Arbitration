@@ -96,10 +96,10 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const updateAppState = (newAppState: Partial<LegalMindState>) => {
-    setAppState({
-      ...appState,
-      ...newAppState
-    });
+    setAppState(prev => ({
+      ...prev,
+      ...newAppState,
+    }));
   };
 
   const handleAfterInit = (boardInstance: PlaitBoard) => {
