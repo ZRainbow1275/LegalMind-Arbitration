@@ -152,13 +152,54 @@ export const InfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    const newScale = Math.max(0.1, Math.min(3, viewport.scale * delta));
+    const newScale = Math.max(0.1, Math.min(3, viewport.scale * delta));        
 
     setViewport(prev => ({
       ...prev,
       scale: newScale
     }));
   }, [viewport.scale]);
+
+  const handleKeyNavigation = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    const panStep = 40;
+
+    switch (e.key) {
+      case 'ArrowLeft':
+        e.preventDefault();
+        setViewport((prev) => ({ ...prev, x: prev.x - panStep }));
+        break;
+      case 'ArrowRight':
+        e.preventDefault();
+        setViewport((prev) => ({ ...prev, x: prev.x + panStep }));
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setViewport((prev) => ({ ...prev, y: prev.y - panStep }));
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        setViewport((prev) => ({ ...prev, y: prev.y + panStep }));
+        break;
+      case '+':
+      case '=':
+        e.preventDefault();
+        setViewport((prev) => ({ ...prev, scale: Math.min(3, prev.scale * 1.2) }));
+        break;
+      case '-':
+        e.preventDefault();
+        setViewport((prev) => ({ ...prev, scale: Math.max(0.1, prev.scale * 0.8) }));
+        break;
+      case '0':
+        e.preventDefault();
+        setViewport({ x: 0, y: 0, scale: 1 });
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setSelectedNodes([]);
+        onNodeSelect([]);
+        break;
+    }
+  }, [onNodeSelect]);
 
   // 双击编辑
   const handleNodeDoubleClick = useCallback((node: CanvasNode) => {
@@ -283,6 +324,9 @@ export const InfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
     <div
       ref={canvasRef}
       className="relative w-full h-full overflow-hidden bg-gray-50"
+      role="application"
+      aria-label="案件协作画布"
+      tabIndex={0}
       style={{
         backgroundImage: `
           radial-gradient(circle, #d1d5db 1px, transparent 1px)
@@ -290,6 +334,7 @@ export const InfiniteCanvas: React.FC<InfiniteCanvasProps> = ({
         backgroundSize: `${20 * viewport.scale}px ${20 * viewport.scale}px`,
         backgroundPosition: `${viewport.x}px ${viewport.y}px`
       }}
+      onKeyDown={handleKeyNavigation}
       onMouseDown={handleCanvasMouseDown}
       onMouseMove={handleCanvasMouseMove}
       onMouseUp={handleCanvasMouseUp}

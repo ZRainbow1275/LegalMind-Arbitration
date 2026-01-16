@@ -272,7 +272,8 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
             fontSize: '20px',
             fontWeight: '600'
           }}>
-            🏛️ LegalMind 法律工作台
+            <span aria-hidden="true">🏛️</span>{' '}
+            LegalMind 法律工作台
           </h1>
 
           {/* 工具按钮 */}
@@ -286,6 +287,8 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
                 updateAppState({ selectedTool: 'case' });
                 createNode('case');
               }}
+              aria-label="创建案件节点"
+              aria-pressed={appState.selectedTool === 'case'}
               style={{
                 padding: '8px 16px',
                 backgroundColor: appState.selectedTool === 'case' ? '#FF6B35' : 'white',
@@ -296,13 +299,16 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
                 fontSize: '14px'
               }}
             >
-              📋 案件
+              <span aria-hidden="true">📋</span>{' '}
+              <span>案件</span>
             </button>
             <button
               onClick={() => {
                 updateAppState({ selectedTool: 'person' });
                 createNode('person');
               }}
+              aria-label="创建人物节点"
+              aria-pressed={appState.selectedTool === 'person'}
               style={{
                 padding: '8px 16px',
                 backgroundColor: appState.selectedTool === 'person' ? '#FF6B35' : 'white',
@@ -313,13 +319,16 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
                 fontSize: '14px'
               }}
             >
-              👥 人物
+              <span aria-hidden="true">👥</span>{' '}
+              <span>人物</span>
             </button>
             <button
               onClick={() => {
                 updateAppState({ selectedTool: 'document' });
                 createNode('document');
               }}
+              aria-label="创建文档节点"
+              aria-pressed={appState.selectedTool === 'document'}
               style={{
                 padding: '8px 16px',
                 backgroundColor: appState.selectedTool === 'document' ? '#FF6B35' : 'white',
@@ -330,10 +339,13 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
                 fontSize: '14px'
               }}
             >
-              📄 文档
+              <span aria-hidden="true">📄</span>{' '}
+              <span>文档</span>
             </button>
             <button
-              onClick={() => updateAppState({ isAIMode: !appState.isAIMode })}
+              onClick={() => updateAppState({ isAIMode: !appState.isAIMode })}  
+              aria-label="切换AI助手面板"
+              aria-pressed={appState.isAIMode}
               style={{
                 padding: '8px 16px',
                 backgroundColor: appState.isAIMode ? '#FF6B35' : 'white',
@@ -344,7 +356,8 @@ export const LegalMindWorkspace: React.FC<LegalMindWorkspaceProps> = ({
                 fontSize: '14px'
               }}
             >
-              🤖 AI助手
+              <span aria-hidden="true">🤖</span>{' '}
+              <span>AI助手</span>
             </button>
           </div>
         </div>
