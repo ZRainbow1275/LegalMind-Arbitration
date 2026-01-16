@@ -7,7 +7,75 @@
 /**
  * 用户角色
  */
-export type UserRole = 'admin' | 'arbitrator' | 'applicant' | 'respondent' | 'observer';
+export type PlatformRoleKey =
+  | 'END_USER'
+  | 'LAWYER'
+  | 'ARBITRATOR'
+  | 'MEDIATOR'
+  | 'COURT'
+  | 'NOTARY'
+  | 'ADMIN'
+  | 'OPS_ADMIN'
+  | 'AUDITOR_READONLY'
+  | 'APPLICANT'
+  | 'RESPONDENT';
+
+export type LegacyUserRole =
+  | 'admin'
+  | 'arbitrator'
+  | 'mediator'
+  | 'lawyer'
+  | 'ops'
+  | 'auditor'
+  | 'court'
+  | 'notary'
+  | 'end_user'
+  | 'applicant'
+  | 'respondent'
+  | 'observer';
+
+export type UserRole = PlatformRoleKey | LegacyUserRole;
+
+function normalizeRole(role: UserRole): PlatformRoleKey {
+  switch (role) {
+    case 'ADMIN':
+    case 'OPS_ADMIN':
+    case 'AUDITOR_READONLY':
+    case 'ARBITRATOR':
+    case 'MEDIATOR':
+    case 'LAWYER':
+    case 'END_USER':
+    case 'COURT':
+    case 'NOTARY':
+    case 'APPLICANT':
+    case 'RESPONDENT':
+      return role;
+
+    case 'admin':
+      return 'ADMIN';
+    case 'ops':
+      return 'OPS_ADMIN';
+    case 'auditor':
+    case 'observer':
+      return 'AUDITOR_READONLY';
+    case 'arbitrator':
+      return 'ARBITRATOR';
+    case 'mediator':
+      return 'MEDIATOR';
+    case 'lawyer':
+      return 'LAWYER';
+    case 'end_user':
+      return 'END_USER';
+    case 'court':
+      return 'COURT';
+    case 'notary':
+      return 'NOTARY';
+    case 'applicant':
+      return 'APPLICANT';
+    case 'respondent':
+      return 'RESPONDENT';
+  }
+}
 
 /**
  * 权限类型
@@ -29,8 +97,8 @@ export type Permission =
 /**
  * 角色权限映射
  */
-const rolePermissions: Record<UserRole, Permission[]> = {
-  admin: [
+const rolePermissions: Record<PlatformRoleKey, Permission[]> = {
+  ADMIN: [
     'view-canvas',
     'edit-canvas',
     'add-node',
@@ -44,7 +112,18 @@ const rolePermissions: Record<UserRole, Permission[]> = {
     'export-canvas',
     'manage-permissions',
   ],
-  arbitrator: [
+  OPS_ADMIN: [
+    'view-canvas',
+    'view-document',
+    'export-canvas',
+    'manage-permissions',
+  ],
+  AUDITOR_READONLY: [
+    'view-canvas',
+    'view-document',
+    'export-canvas',
+  ],
+  ARBITRATOR: [
     'view-canvas',
     'edit-canvas',
     'add-node',
@@ -56,7 +135,19 @@ const rolePermissions: Record<UserRole, Permission[]> = {
     'upload-document',
     'export-canvas',
   ],
-  applicant: [
+  MEDIATOR: [
+    'view-canvas',
+    'edit-canvas',
+    'add-node',
+    'delete-node',
+    'edit-node',
+    'add-connection',
+    'delete-connection',
+    'view-document',
+    'upload-document',
+    'export-canvas',
+  ],
+  LAWYER: [
     'view-canvas',
     'edit-canvas',
     'add-node',
@@ -66,7 +157,7 @@ const rolePermissions: Record<UserRole, Permission[]> = {
     'upload-document',
     'export-canvas',
   ],
-  respondent: [
+  END_USER: [
     'view-canvas',
     'edit-canvas',
     'add-node',
@@ -76,7 +167,32 @@ const rolePermissions: Record<UserRole, Permission[]> = {
     'upload-document',
     'export-canvas',
   ],
-  observer: [
+  APPLICANT: [
+    'view-canvas',
+    'edit-canvas',
+    'add-node',
+    'edit-node',
+    'add-connection',
+    'view-document',
+    'upload-document',
+    'export-canvas',
+  ],
+  RESPONDENT: [
+    'view-canvas',
+    'edit-canvas',
+    'add-node',
+    'edit-node',
+    'add-connection',
+    'view-document',
+    'upload-document',
+    'export-canvas',
+  ],
+  COURT: [
+    'view-canvas',
+    'view-document',
+    'export-canvas',
+  ],
+  NOTARY: [
     'view-canvas',
     'view-document',
     'export-canvas',
@@ -102,8 +218,10 @@ export class PermissionControl {
    * 设置当前用户
    */
   setCurrentUser(user: User): void {
-    this.currentUser = user;
-    console.log(`[PermissionControl] 当前用户: ${user.id}, 角色: ${user.role}`);
+    this.currentUser = { ...user, role: normalizeRole(user.role) };
+    console.log(
+      `[PermissionControl] 当前用户: ${user.id}, 角色: ${this.currentUser.role}`
+    );
   }
 
   /**
@@ -122,7 +240,7 @@ export class PermissionControl {
       return false;
     }
 
-    const permissions = rolePermissions[this.currentUser.role];
+    const permissions = rolePermissions[normalizeRole(this.currentUser.role)];
     const hasPermission = permissions.includes(permission);
 
     if (!hasPermission) {
@@ -154,7 +272,7 @@ export class PermissionControl {
       return [];
     }
 
-    return rolePermissions[this.currentUser.role];
+    return rolePermissions[normalizeRole(this.currentUser.role)];
   }
 
   /**
@@ -245,7 +363,7 @@ export class PermissionControl {
    * 获取角色的所有权限
    */
   getRolePermissions(role: UserRole): Permission[] {
-    return rolePermissions[role];
+    return rolePermissions[normalizeRole(role)];
   }
 
   /**
@@ -260,4 +378,3 @@ export class PermissionControl {
  * 全局权限控制实例
  */
 export const permissionControl = new PermissionControl();
-
