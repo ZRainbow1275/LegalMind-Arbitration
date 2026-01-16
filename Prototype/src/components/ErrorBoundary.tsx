@@ -110,7 +110,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, State> {
 
   render() {
     const { hasError, error, errorInfo, errorCount } = this.state;
-    const { children, fallback, showDetails = process.env.NODE_ENV === 'development' } = this.props;
+    const { children, fallback } = this.props;
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const showDetails = isDevelopment && (this.props.showDetails ?? true);
 
     if (hasError && error) {
       // 如果提供了自定义fallback函数，使用它
