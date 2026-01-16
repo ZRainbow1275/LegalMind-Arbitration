@@ -190,7 +190,9 @@ describe('useAdvancedVirtualization', () => {
     });
   });
 
-  describe('性能对比', () => {
+  const describePerf = process.env.RUN_PERF_TESTS === '1' ? describe : describe.skip;
+
+  describePerf('性能对比', () => {
     it('应该比旧版本更快（100个节点）', () => {
       const nodes = generateTestNodes(100);
 
@@ -296,4 +298,3 @@ describe('useAdvancedVirtualization', () => {
     });
   });
 });
-

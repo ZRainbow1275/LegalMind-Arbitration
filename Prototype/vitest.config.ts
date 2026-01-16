@@ -22,23 +22,31 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       exclude: [
-        'node_modules/',
-        'src/test/',
+        '**/node_modules/**',
+        'src/test/**',
         '**/*.d.ts',
         '**/*.config.*',
-        '**/mockData',
-        '**/types'
+        '**/mockData/**',
+        '**/types/**',
+        'server/**'
       ]
     },
     
     // 设置文件
     setupFiles: ['./src/test/setup.ts'],
     
-    // 包含的测试文件
-    include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    
+    // 包含的测试文件（仅运行 Prototype 自身 src 下测试，避免误扫参考工程/子项目）
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+
     // 排除的文件
-    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache']
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.idea/**',
+      '**/.git/**',
+      '**/.cache/**',
+      'server/**'
+    ]
   },
   resolve: {
     alias: {
@@ -46,4 +54,3 @@ export default defineConfig({
     }
   }
 });
-
