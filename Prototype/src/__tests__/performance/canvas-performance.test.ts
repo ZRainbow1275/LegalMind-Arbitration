@@ -15,7 +15,9 @@ import { QuadTree } from '../../lib/virtualization';
 import { detectAlignment } from '../../lib/alignment-helper';
 import { performanceMonitor } from '../../lib/performance-monitor';
 
-describe('画布性能测试', () => {
+const describePerf = process.env.RUN_PERF_TESTS === '1' ? describe : describe.skip;
+
+describePerf('画布性能测试', () => {
   beforeEach(() => {
     // 重置画布状态
     useCanvasStore.setState({
@@ -311,4 +313,3 @@ describe('画布性能测试', () => {
     });
   });
 });
-

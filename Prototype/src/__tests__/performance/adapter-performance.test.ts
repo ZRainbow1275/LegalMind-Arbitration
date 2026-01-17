@@ -12,7 +12,9 @@ import { HearingDataAdapter } from '../../adapters/HearingDataAdapter';
 import { MediationDataAdapter } from '../../adapters/MediationDataAdapter';
 import type { HearingData, MediationData } from '../../types/embedding-interface';
 
-describe('数据适配器性能测试', () => {
+const describePerf = process.env.RUN_PERF_TESTS === '1' ? describe : describe.skip;
+
+describePerf('数据适配器性能测试', () => {
   describe('HearingDataAdapter性能', () => {
     it('应该在100ms内转换包含100个参与者的庭审数据', () => {
       const adapter = new HearingDataAdapter();

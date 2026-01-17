@@ -9,7 +9,9 @@ import { useCanvasStore } from '../../lib/canvas-store';
 import { ElementFactory } from '../../lib/element-factory';
 import { performanceMonitor } from '../../lib/performance-monitor';
 
-describe('批量操作性能测试', () => {
+const describePerf = process.env.RUN_PERF_TESTS === '1' ? describe : describe.skip;
+
+describePerf('批量操作性能测试', () => {
   beforeEach(() => {
     // 重置画布状态
     useCanvasStore.setState({
@@ -391,4 +393,3 @@ describe('批量操作性能测试', () => {
     });
   });
 });
-

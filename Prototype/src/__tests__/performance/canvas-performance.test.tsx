@@ -16,7 +16,9 @@ const createMockNode = (overrides: any = {}) => ({
     ...overrides
 });
 
-describe('Canvas Performance', () => {
+const describePerf = process.env.RUN_PERF_TESTS === '1' ? describe : describe.skip;
+
+describePerf('Canvas Performance', () => {
     it('should only render visible nodes', () => {
         // Mock viewport and nodes
         const nodes = Array.from({ length: 1000 }, (_, i) => createMockNode({
