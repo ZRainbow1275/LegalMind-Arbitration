@@ -1,6 +1,6 @@
 # 需求-实现对照矩阵（工作台 dev + 仲裁系统 Prototype）
 
-> 生成时间：2026-01-18  
+> 生成时间：2026-01-18 05:12:49  
 > 目标：把「文档/提示词中声称要有的能力」与「当前代码中真实存在的实现」做成可追溯矩阵，明确缺口、风险与优先级（以代码为准，不以“文档口径”直接认定完成度）。
 
 ---
@@ -62,7 +62,7 @@
 | FR-2.1.2 | 智能表单验证 | Partial | Missing | 后端：`dev/src/lib/validation.ts`（Zod）；前端申请流程未端到端接入 |
 | FR-2.1.3 | 文档上传和管理 | UI(Mock)+Backend(未接入/Partial) | UI(依赖 /api，未提供后端) | `dev/src/app/api/documents/route.ts`；`Prototype/src/lib/document-sync.ts`（调用 `/api/cases/:id/documents`） |
 | FR-2.1.4 | 自动费用计算 | Partial（后端已有计算器+支付前校验，UI 未接入） | Missing | `dev/src/lib/arbitration-fee.ts`；`dev/src/app/api/external/payment/route.ts`（计算并写入 `arbitrationFee`，并校验支付金额） |
-| FR-2.2.1 | 案件审核流程 | Missing/Partial | Missing | 后端部分字段存在（`CaseStatus`），但缺少受理/审核工作流与 UI 接入 |
+| FR-2.2.1 | 案件审核流程 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/submit/route.ts`；`dev/src/app/api/cases/[id]/review/route.ts` |
 | FR-2.2.2 | 自动分配案件编号 | Partial | N/A | `dev/src/app/api/cases/route.ts`（生成 `LMYYYY-xxxxxx`）与需求样式不一致 |
 | FR-2.2.3 | 电子送达通知 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/service/route.ts`（创建送达任务+入队）；`dev/src/app/api/service/[id]/proof/route.ts`（回执/证明）；`dev/src/lib/queue.ts`（投递队列） |
 | FR-2.2.4 | 费用支付确认 | Backend(未接入)/Partial（需配置支付渠道） | Missing | `dev/src/app/api/external/payment/route.ts`（下单+金额校验）；`dev/src/app/api/external/payment/webhook/route.ts`（验签+回写订单/案件缴费状态） |
@@ -75,13 +75,13 @@
 
 | ID | 需求 | 工作台 dev 状态 | 仲裁系统 Prototype 状态 | 证据（示例，不穷举） |
 |---|---|---|---|---|
-| FR-3.1.1 | 仲裁员资质认证 | Missing/Partial | Missing | UI 有仲裁员库页面（多为 mock），无后端认证闭环 |
+| FR-3.1.1 | 仲裁员资质认证 | Backend(未接入) | Missing | `dev/src/app/api/arbitrators/profile/route.ts`；`dev/src/app/api/arbitrators/profile/submit/route.ts`；`dev/src/app/api/arbitrators/profiles/[id]/review/route.ts` |
 | FR-3.1.2 | 专业领域标签 | UI(Mock)/Partial | Partial | dev 仲裁员页有筛选项；Prototype 节点标签能力存在 |
-| FR-3.1.3 | 评分和评价系统 | Missing | Missing | 未见可验收数据模型/接口 |
-| FR-3.1.4 | 可用性管理 | Missing/Partial | Missing | 未见排班/冲突/可用性计算的后端实现 |
+| FR-3.1.3 | 评分和评价系统 | Backend(未接入) | Missing | `dev/src/app/api/arbitrators/[id]/reviews/route.ts`；`dev/src/app/api/arbitrators/reviews/[reviewId]/moderate/route.ts` |
+| FR-3.1.4 | 可用性管理 | Backend(未接入) | Missing | `dev/src/app/api/arbitrators/availability/route.ts`；`dev/src/app/api/arbitrators/availability/[slotId]/route.ts` |
 | FR-3.2.1 | 智能推荐算法 | Missing/Partial | Partial(Mock AI) | dev 多为“占位推荐”；Prototype：`Prototype/src/services/AIService.ts`（MockAIService） |
 | FR-3.2.2 | 交互式选择界面 | UI(Mock)/Partial | Partial | 需求在问题单中明确；现状多为原型弹窗/未闭环 |
-| FR-3.2.3 | 回避申请处理 | UI(Mock)/Partial | Missing | dev 有回避/冲突提示原型（问题单提及），缺后端流程 |
+| FR-3.2.3 | 回避申请处理 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/recusals/route.ts`；`dev/src/app/api/cases/[id]/recusals/[recusalId]/route.ts` |
 | FR-3.2.4 | 仲裁庭组建确认 | Partial（合意/任命已落库，可审计；仍缺前端验收闭环） | Missing | `dev/src/app/api/cases/[id]/neutrals/invitations/route.ts`；`dev/src/app/api/neutrals/invitations/[id]/respond/route.ts`；`dev/src/app/api/cases/[id]/neutrals/[userId]/consents/route.ts`；`dev/src/app/api/cases/[id]/neutrals/[userId]/appoint/route.ts` |
 
 ### 2.4 证据交换
@@ -94,7 +94,7 @@
 | FR-4.1.4 | 权限管理 | Partial | UI(Local) | dev：JWT + PermissionCheckers；Prototype：`Prototype/src/lib/permission-manager.ts`（前端本地权限） |
 | FR-4.2.1 | 证据清单管理 | UI(Mock)/Partial | Partial | dev：mock 案件/证据；Prototype：文档节点与证据链可视化 |
 | FR-4.2.2 | 证据关联案件 | Partial | Partial | dev：`caseId` 关联；Prototype：`DocumentSync` 依赖 `/api/cases/:id/documents` |
-| FR-4.2.3 | 证据真实性验证 | Missing/Partial | Missing | dev 文档上传里有“notary/verify”占位；无真实校验 |
+| FR-4.2.3 | 证据真实性验证 | Backend(未接入) | Missing | `dev/src/app/api/documents/[id]/verify/route.ts`；`dev/src/workers/notarization-worker.ts` |
 | FR-4.2.4 | 证据交换时间线 | UI(Mock)/Partial | Partial | Prototype 时间线/连接线能力具备；业务事件源缺失 |
 
 ### 2.5 在线庭审
@@ -122,8 +122,8 @@
 | FR-6.1.2 | 模板管理 | Backend(Partial) | Partial | dev：`/api/documents/templates` + `documentTemplate` 模型；Prototype：模板相关组件存在 |
 | FR-6.1.3 | 协同编辑 | Missing/Partial | Partial | Prototype 有协作 server，但未与“文书编辑”形成可验收协同 |
 | FR-6.1.4 | 版本控制 | Partial | Partial | 字段/接口存在；缺端到端版本回溯 |
-| FR-6.2.1 | 电子签名 | Missing | Missing | 未见签章服务接入与合规链路 |
-| FR-6.2.2 | 电子印章 | Missing | Missing | 同上 |
+| FR-6.2.1 | 电子签名 | Backend(未接入) | Missing | `dev/src/app/api/documents/[id]/signature-requests/route.ts`；`dev/src/app/api/documents/[id]/signature-requests/[requestId]/sign/route.ts`；`dev/src/lib/document-signing.ts` |
+| FR-6.2.2 | 电子印章 | Backend(未接入) | Missing | `dev/src/app/api/seals/route.ts`；`dev/src/app/api/documents/[id]/seals/apply/route.ts` |
 | FR-6.2.3 | 自动送达 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/service/route.ts`（送达任务创建+入队）；`dev/src/app/api/service/[id]/proof/route.ts`（送达证明） |
 | FR-6.2.4 | 归档管理 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/archive/route.ts`；`dev/src/app/api/cases/[id]/archive/download/route.ts`（归档包生成/下载） |
 
@@ -154,7 +154,7 @@
 | FR-8.1.4 | 时间轴图 | UI(Mock)/Partial | Partial | Prototype：`TimelineVisualization.tsx` |
 | FR-8.2.1 | 多用户实时协作 | UI(Mock)/Partial | Partial(协作 server + 前端) | `Prototype/server/collaboration-server.js`；`Prototype/src/components/collaboration/*` |
 | FR-8.2.2 | 评论和批注 | UI(Mock)/Partial | Partial | 协作 server 支持 comment；前端有 Chat/Note 组件 |
-| FR-8.2.3 | 任务分配 | Missing/Partial | Missing/Partial | 未见可验收任务系统（仅 UI/文档口径） |
+| FR-8.2.3 | 任务分配 | Backend(未接入) | Missing/Partial | `dev/src/app/api/cases/[id]/tasks/route.ts`；`dev/src/app/api/cases/[id]/tasks/[taskId]/assign/route.ts`；`dev/src/app/api/cases/[id]/tasks/[taskId]/comments/route.ts` |
 | FR-8.2.4 | 进度跟踪 | UI(Mock) | Partial | dev：mock 进度；Prototype：可视化但缺业务事件源 |
 
 ---
@@ -165,7 +165,7 @@
 |---|---|---|---|---|
 | 性能 | API < 500ms、1000+并发 | Missing/未验证 | Missing/未验证 | 代码中未见可重复压测与指标基线；dev 有缓存/限流框架但未形成验收 |
 | 视频 | 1080p 通话、录制 | Partial/未验证 | Missing/未验证 | dev 有设备检测与部分 WebRTC 配置占位 |
-| 上传 | 100MB+ 文件上传 | Missing/Partial | Missing | dev `documents` 上传限制为 50MB；Prototype 未提供后端 |
+| 上传 | 100MB+ 文件上传 | Backend(未接入) | Missing | `dev/src/app/api/documents/multipart/initiate/route.ts`；`dev/src/app/api/documents/multipart/[sessionId]/part-url/route.ts`；`dev/src/app/api/documents/multipart/[sessionId]/complete/route.ts` |
 | 安全 | 等保三级、AES-256-GCM、TLS1.3、审计日志 | Partial/文档口径多 | Partial/文档口径多 | dev 为 JWT（Header Bearer）+ Zod；多项仍为占位；Prototype 有 XSS 工具但无身份体系 |
 | 可用性 | 99.9%、备份、灾备 | Missing | Missing | 未见生产级部署与演练脚本落地 |
 | 兼容性 | 浏览器/移动端 | Partial/未验证 | Partial/未验证 | 需以真实设备与自动化用例验证 |

@@ -4,6 +4,7 @@
 完成时间：2026-01-16 22:26:08
 追加修复时间：2026-01-18 00:12:42
 再次追加修复时间：2026-01-18 01:06:20
+再次追加修复时间：2026-01-18 05:12:49
 
 ## 仓库结构与交付风险
 
@@ -100,6 +101,11 @@
 - `fix(sms): enable SMS delivery for notifications and service [AUDIT-REPORT]`（`ef93325`）
 - `fix(log): eliminate remaining console in API routes [AUDIT-HIGH-2]`（`167c98b`）
 
+根仓库（追加：仲裁员/回避后端补齐）：
+- `fix(audit): add recusal and review audit events [AUDIT-REPORT]`（`5f39612`）
+- `fix(arbitrators): implement profiles, availability, reviews APIs [AUDIT-REPORT]`（`1c94158`）
+- `fix(recusals): implement recusal request workflow APIs [AUDIT-REPORT]`（`cb01f57`）
+
 根仓库（文档对齐）：
 - `docs/TRACEABILITY_MATRIX.md`：API 对照表中 `POST /api/hearings/:id/start`、`/end`、`/api/ai/analyze`、`/api/ai/generate`、`/api/external/*` 已改为 ✅（证据指向 dev 对应 route）
 - `docs/TRACEABILITY_MATRIX.md`、`docs/GAP_ANALYSIS.md`：修正“支付/送达/归档/Prototype 依赖接口”状态，消除早期“后端缺失/未实现”的误判（以代码为准）
@@ -121,6 +127,10 @@
 - `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
 追加验证（2026-01-18 01:06:20，全量复验）：
+- `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS       
+- `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
+
+追加验证（2026-01-18 05:12:49，仲裁员/回避后端补齐）：
 - `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS
 - `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
