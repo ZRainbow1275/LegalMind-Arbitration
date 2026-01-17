@@ -2,6 +2,7 @@
 
 开始时间：2026-01-16 05:57:20  
 完成时间：2026-01-16 22:26:08
+追加修复时间：2026-01-18 00:12:42
 
 ## 仓库结构与交付风险
 
@@ -84,6 +85,24 @@
 - `fix(ui): hide ErrorBoundary details in prod [AUDIT-MEDIUM-5]`（`596848f`）   
 - `fix(test): scope vitest and gate perf comparisons [AUDIT-REPORT]`（`65e1b7c`）
 
+### Phase 4（补充：后端闭环与文档对齐）
+
+`dev/` 仓库：
+- `fix(notary): implement notarization worker [AUDIT-MEDIUM-7]`（`e60bcf0`）
+- `fix(auth): add TOTP MFA flow and enforcement [AUDIT-REPORT]`（`a2c720b`）
+- `fix(identity): encrypt verification payload at rest [AUDIT-REPORT]`（`353834e`）
+- `fix(auth): add email verification endpoints [AUDIT-REPORT]`（`d1d0de2`）
+- `fix(sso): complete wechat/alipay SSO flows [AUDIT-REPORT]`（`68248b3`）
+- `fix(auth): set MFA recoveryCodes DbNull [AUDIT-REPORT]`（`9241970`）
+- `fix(documents): add AI generate endpoint and template engine [AUDIT-REPORT]`（`32144ce`）
+- `fix(auth): add phone verification via SMS [AUDIT-REPORT]`（`af0377d`）
+- `fix(api): redirect mock-download to real documents endpoint [AUDIT-REPORT]`（`092ed2f`）
+- `fix(sms): enable SMS delivery for notifications and service [AUDIT-REPORT]`（`ef93325`）
+- `fix(log): eliminate remaining console in API routes [AUDIT-HIGH-2]`（`167c98b`）
+
+根仓库（文档对齐）：
+- `docs/TRACEABILITY_MATRIX.md`：API 对照表中 `POST /api/hearings/:id/start`、`/end`、`/api/ai/analyze`、`/api/ai/generate`、`/api/external/*` 已改为 ✅（证据指向 dev 对应 route）
+
 ## 验证结果（必须项）
 
 `dev/`：
@@ -95,6 +114,10 @@
 `Prototype/`：
 - `pnpm build`：PASS
 - `pnpm test -- --run`：PASS（性能对比测试默认跳过；如需启用：`RUN_PERF_TESTS=1 pnpm test -- --run`）
+
+追加验证（2026-01-18 00:12:42，覆盖 Phase 4 变更）：
+- `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS
+- `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
 ## 审计项核对（误报/过期项）
 
@@ -108,7 +131,7 @@
 - PR 自动化：未安装 `gh`，无法在本机自动 `gh pr create`。
 - 构建期副作用：`dev pnpm build` 日志出现 Redis 连接提示，说明部分模块在构建/预渲染阶段触发外部连接；建议将外部连接延后到运行期并做环境隔离。
 - 依赖安全：Next.js 15.4.6 存在安全公告提示（需按官方 CVE 指引升级到修复版本）；Prisma CLI 提示可升级（本轮未动以避免引入大版本迁移风险）。
-- 功能缺口（阻断 E2E 验收）：支付/送达/通知中心、外部系统真实对接、Prototype 依赖的 `/api/cases/:id/*` 后端、以及登录/注册从 mock 切换到真实 API 等仍未闭环（证据见 `docs/TRACEABILITY_MATRIX.md`、`docs/GAP_ANALYSIS.md`）。
+- E2E 仍未完全闭环：已补齐支付/送达/通知中心的后端 API + 队列/Worker，但前端接入、生产配置（SMTP/SMS/Webhook/对象存储/密钥）与外部系统真实对接仍需完成（证据见 `docs/TRACEABILITY_MATRIX.md`、`docs/GAP_ANALYSIS.md`）。
 
 > 下方为旧记录（可忽略）：
 

@@ -41,17 +41,17 @@
 |---|---|---|---|---|
 | FR-1.1.1 | 支持邮箱/手机号注册 | UI(Mock)+Backend(未接入) | N/A | `dev/src/app/(public)/register/page.tsx`（未调用 API）；`dev/src/app/api/auth/register/route.ts` |
 | FR-1.1.2 | 支持个人和企业用户 | UI(Mock)+Backend(未接入) | N/A | `dev/src/app/(public)/register/page.tsx`（企业勾选）；`dev/prisma/schema.prisma`（`UserType`/`ProfileType`） |
-| FR-1.1.3 | 邮箱/手机号验证 | Missing/Partial | N/A | `dev/src/app/(public)/forgot-password/page.tsx`（模拟发送）；未发现真正的验证链路 API |
+| FR-1.1.3 | 邮箱/手机号验证 | Partial（Email/Phone 后端已实现，UI 未接入） | N/A | Email：`dev/src/app/api/auth/verify-email/route.ts`；Phone：`dev/src/app/api/auth/verify-phone/route.ts`、`dev/src/app/api/auth/verify-phone/confirm/route.ts`；投递：`dev/src/lib/email.ts`、`dev/src/lib/sms.ts` |
 | FR-1.1.4 | 密码强度要求 | Partial | N/A | `dev/src/lib/validation.ts`（`passwordSchema`）；注册 UI 未接入后端校验 |
-| FR-1.2.1 | 个人认证：身份证 OCR + 人脸识别 | UI(Mock)/Partial | N/A | 需求存在；未发现对应 `/api/auth/verify-identity`；庭审里有相机组件 `dev/src/components/hearing/identity-verification-modal.tsx` |
-| FR-1.2.2 | 企业认证：营业执照 OCR + 法人验证 | Missing/Partial | N/A | 需求存在；未发现可验收的后端链路 |
+| FR-1.2.1 | 个人认证：身份证 OCR + 人脸识别 | UI(Mock)/Partial | N/A | `dev/src/app/api/auth/verify-identity/route.ts`（提交并落库为 PENDING）；`dev/src/app/api/documents/ocr/route.ts`（OCR）；`dev/src/components/hearing/identity-verification-modal.tsx` |
+| FR-1.2.2 | 企业认证：营业执照 OCR + 法人验证 | Partial | N/A | `dev/src/app/api/auth/verify-identity/route.ts`（business_license 分支 + PENDING）；外部工商/法人核验仍需对接第三方 |
 | FR-1.2.3 | 认证状态管理 | Partial | N/A | `dev/prisma/schema.prisma`（`VerificationStatus` 等）；UI 侧仍多为原型 |
-| FR-1.2.4 | 认证信息加密存储 | Missing/Partial | N/A | 文档宣称 AES-256-GCM；代码侧未见端到端落地（仅有字段/占位） |
-| FR-1.3.1 | TOTP（基于时间的一次性密码） | Missing | N/A | `dev/src/lib/security/session-manager.ts` 的 `MFAManager` 为短信式 6 位码（非 TOTP） |
-| FR-1.3.2 | 管理员强制启用 | Missing/Partial | N/A | 仅见配置/日志枚举；未见强制策略落地到登录流程 |
-| FR-1.3.3 | 普通用户可选启用 | Missing/Partial | N/A | 同上 |
+| FR-1.2.4 | 认证信息加密存储 | Partial | N/A | `dev/src/app/api/auth/verify-identity/route.ts`（落库 masked，并将原值加密写入 `verificationDocuments.encrypted`）；`dev/src/lib/security/encryption.ts` |
+| FR-1.3.1 | TOTP（基于时间的一次性密码） | Partial（后端已实现，UI 未接入） | N/A | `dev/src/app/api/auth/mfa/totp/setup/route.ts`、`dev/src/app/api/auth/mfa/totp/confirm/route.ts`；`dev/src/lib/security/totp.ts`；`dev/prisma/schema.prisma`（`UserMfa`） |
+| FR-1.3.2 | 管理员强制启用 | Partial（后端已实现，UI 未接入） | N/A | `dev/src/app/api/auth/login/route.ts`（`ADMIN/OPS_ADMIN` 未启用 MFA 则拒绝登录）；`dev/src/app/api/auth/mfa/totp/*` |
+| FR-1.3.3 | 普通用户可选启用 | Partial（后端已实现，UI 未接入） | N/A | `dev/src/app/api/auth/mfa/totp/*` + `/api/auth/login` 的 `mfaCode` 验证 |
 | FR-1.4.1 | 支持微信登录 | Partial(企业微信) | N/A | `dev/src/lib/sso.ts`（`wechat_work`）；不等同“微信登录” |
-| FR-1.4.2 | 支持支付宝登录 | Missing | N/A | 未发现 Alipay SSO 配置与回调处理 |
+| FR-1.4.2 | 支持支付宝登录 | Partial（后端已实现，需配置 env 并接入 UI） | N/A | `dev/src/lib/sso.ts`（alipay provider）；`dev/src/app/api/auth/sso/[provider]/callback/route.ts`；`dev/src/app/api/external/sso/login/route.ts` |
 | FR-1.4.3 | 支持钉钉登录 | Partial | N/A | `dev/src/lib/sso.ts`（`dingtalk`）+ `/api/auth/sso/*`（需环境变量） |
 
 ### 2.2 案件管理
@@ -197,27 +197,27 @@
 |---|---|---|
 | POST `/api/auth/register` | ✅ | `dev/src/app/api/auth/register/route.ts` |
 | POST `/api/auth/login` | ✅ | `dev/src/app/api/auth/login/route.ts` |
-| POST `/api/auth/logout` | ❌ | 未发现 |
+| POST `/api/auth/logout` | ✅ | `dev/src/app/api/auth/logout/route.ts` |
 | GET `/api/auth/me` | ✅ | `dev/src/app/api/auth/me/route.ts` |
-| POST `/api/auth/verify-identity` | ❌ | 未发现 |
-| GET `/api/users` | ❌ | 未发现 |
-| GET `/api/users/:id` | ❌ | 未发现 |
-| PUT `/api/users/:id` | ❌ | 未发现 |
+| POST `/api/auth/verify-identity` | ✅ | `dev/src/app/api/auth/verify-identity/route.ts` |
+| GET `/api/users` | ✅ | `dev/src/app/api/users/route.ts` |
+| GET `/api/users/:id` | ✅ | `dev/src/app/api/users/[id]/route.ts` |
+| PUT `/api/users/:id` | ✅ | `dev/src/app/api/users/[id]/route.ts` |
 | POST `/api/cases` | ✅ | `dev/src/app/api/cases/route.ts` |
 | GET `/api/cases` | ✅ | `dev/src/app/api/cases/route.ts` |
 | GET `/api/cases/:id` | ✅ | `dev/src/app/api/cases/[id]/route.ts` |
 | PUT `/api/cases/:id` | ✅ | `dev/src/app/api/cases/[id]/route.ts` |
-| DELETE `/api/cases/:id` | 需进一步核对 | `route.ts` 可能未实现 DELETE（需审阅文件后半段） |
-| POST `/api/documents/upload` | ❌（命名差异） | dev 采用 POST `/api/documents`：`dev/src/app/api/documents/route.ts` |
-| GET `/api/documents/:id` | ❌ | 未发现 `/api/documents/[id]` |
-| POST `/api/documents/ocr` | ❌ | 未发现 |
+| DELETE `/api/cases/:id` | ✅ | `dev/src/app/api/cases/[id]/route.ts` |
+| POST `/api/documents/upload` | ✅ | `dev/src/app/api/documents/upload/route.ts`（同时保留 POST `/api/documents`） |
+| GET `/api/documents/:id` | ✅ | `dev/src/app/api/documents/[id]/route.ts` |
+| POST `/api/documents/ocr` | ✅ | `dev/src/app/api/documents/ocr/route.ts` |
 | POST `/api/hearings` | ✅ | `dev/src/app/api/hearings/route.ts` |
 | GET `/api/hearings/:id` | ✅ | `dev/src/app/api/hearings/[id]/route.ts` |
-| POST `/api/hearings/:id/start` | ❌ | 未发现 |
-| POST `/api/hearings/:id/end` | ❌ | 未发现 |
-| POST `/api/ai/analyze` | ❌ | dev 当前为 `/api/ai/assistant` |
-| POST `/api/ai/generate` | ❌ | dev 当前为 `/api/documents/generate`（部分覆盖） |
-| POST `/api/external/*` | ❌（命名差异） | dev 为 `/api/integrations/external-systems` |
+| POST `/api/hearings/:id/start` | ✅ | `dev/src/app/api/hearings/[id]/start/route.ts` |
+| POST `/api/hearings/:id/end` | ✅ | `dev/src/app/api/hearings/[id]/end/route.ts` |
+| POST `/api/ai/analyze` | ✅ | `dev/src/app/api/ai/analyze/route.ts`（并保留 `/api/ai/assistant`） |
+| POST `/api/ai/generate` | ✅ | `dev/src/app/api/ai/generate/route.ts`（并落库 `GeneratedDocument`；下载/预览：`/api/documents/generated/:id/*`） |
+| POST `/api/external/*` | ✅ | `dev/src/app/api/external/sso/login/route.ts`、`dev/src/app/api/external/payment/route.ts`（系统集成另见 `/api/integrations/external-systems`） |
 
 ---
 
@@ -227,5 +227,4 @@
 |---|---|---|
 | Prisma Schema 是否存在 | ✅ | `dev/prisma/schema.prisma` |
 | 关键实体（User/Case/Document 等） | ✅（模型/枚举齐全） | `dev/prisma/schema.prisma` |
-| 关键实体是否被业务代码使用 | Partial | hearing/mediation 相关 API 多写入 `arbitrationCase.metadata`，并未严格使用独立表（需后续重构以满足审计/查询/一致性） |
-
+| 关键实体是否被业务代码使用 | ✅（核心已落库） | hearing/mediation/payment/service/archive 等已使用独立模型落库；仍需持续对齐查询/报表/审计口径 |
