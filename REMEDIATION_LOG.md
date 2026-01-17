@@ -3,6 +3,7 @@
 开始时间：2026-01-16 05:57:20  
 完成时间：2026-01-16 22:26:08
 追加修复时间：2026-01-18 00:12:42
+再次追加修复时间：2026-01-18 01:06:20
 
 ## 仓库结构与交付风险
 
@@ -101,6 +102,7 @@
 
 根仓库（文档对齐）：
 - `docs/TRACEABILITY_MATRIX.md`：API 对照表中 `POST /api/hearings/:id/start`、`/end`、`/api/ai/analyze`、`/api/ai/generate`、`/api/external/*` 已改为 ✅（证据指向 dev 对应 route）
+- `docs/TRACEABILITY_MATRIX.md`、`docs/GAP_ANALYSIS.md`：修正“支付/送达/归档/Prototype 依赖接口”状态，消除早期“后端缺失/未实现”的误判（以代码为准）
 
 ## 验证结果（必须项）
 
@@ -115,6 +117,10 @@
 - `pnpm test -- --run`：PASS（性能对比测试默认跳过；如需启用：`RUN_PERF_TESTS=1 pnpm test -- --run`）
 
 追加验证（2026-01-18 00:12:42，覆盖 Phase 4 变更）：
+- `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS
+- `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
+
+追加验证（2026-01-18 01:06:20，全量复验）：
 - `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS
 - `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
