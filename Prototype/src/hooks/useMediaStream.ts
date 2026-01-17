@@ -119,7 +119,6 @@ export const useMediaStream = () => {
             stopLocalStream();
             stopScreenShare();
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stopLocalStream, stopScreenShare]);
 
     return {
