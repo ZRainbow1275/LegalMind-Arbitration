@@ -7,8 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -17,90 +17,90 @@ datasource db {
 // ============================================================================
 
 enum UserType {
-  INDIVIDUAL  // 个人用户
-  ENTERPRISE  // 企业用户
+  INDIVIDUAL // 个人用户
+  ENTERPRISE // 企业用户
 }
 
 enum UserStatus {
-  ACTIVE      // 活跃
-  INACTIVE    // 非活跃
-  SUSPENDED   // 暂停
+  ACTIVE // 活跃
+  INACTIVE // 非活跃
+  SUSPENDED // 暂停
 }
 
 enum ProfileType {
-  INDIVIDUAL  // 个人档案
-  ENTERPRISE  // 企业档案
+  INDIVIDUAL // 个人档案
+  ENTERPRISE // 企业档案
 }
 
 enum VerificationStatus {
-  PENDING     // 待验证
-  VERIFIED    // 已验证
-  REJECTED    // 已拒绝
+  PENDING // 待验证
+  VERIFIED // 已验证
+  REJECTED // 已拒绝
 }
 
 enum Role {
   // 平台身份（Platform Identity）
-  END_USER         // 普通用户（个人/企业）
-  LAWYER           // 律师
-  ARBITRATOR       // 仲裁员
-  MEDIATOR         // 调解员
-  COURT            // 法院（机构/接口账号）
-  NOTARY           // 公证机构（机构/接口账号）
-  ADMIN            // 业务管理员（仲裁机构/平台管理员）
-  OPS_ADMIN        // 运维管理员（仅管配置/日志/权限，不参与案件事实）
+  END_USER // 普通用户（个人/企业）
+  LAWYER // 律师
+  ARBITRATOR // 仲裁员
+  MEDIATOR // 调解员
+  COURT // 法院（机构/接口账号）
+  NOTARY // 公证机构（机构/接口账号）
+  ADMIN // 业务管理员（仲裁机构/平台管理员）
+  OPS_ADMIN // 运维管理员（仅管配置/日志/权限，不参与案件事实）
   AUDITOR_READONLY // 审计只读（可选）
 
   // 历史/兼容（逐步迁移为案件身份）
-  APPLICANT   // 申请人
-  RESPONDENT  // 被申请人
+  APPLICANT // 申请人
+  RESPONDENT // 被申请人
 }
 
 enum CaseStatus {
-  DRAFT       // 草稿
-  SUBMITTED   // 已提交
-  ACCEPTED    // 已受理
+  DRAFT // 草稿
+  SUBMITTED // 已提交
+  ACCEPTED // 已受理
   IN_PROGRESS // 进行中
-  MEDIATION   // 调解中
-  HEARING     // 庭审中
+  MEDIATION // 调解中
+  HEARING // 庭审中
   DELIBERATION // 合议中
-  COMPLETED   // 已完成
-  CLOSED      // 已关闭
-  CANCELLED   // 已取消
+  COMPLETED // 已完成
+  CLOSED // 已关闭
+  CANCELLED // 已取消
 }
 
 enum Priority {
-  LOW         // 低优先级
-  MEDIUM      // 中优先级
-  HIGH        // 高优先级
-  URGENT      // 紧急
+  LOW // 低优先级
+  MEDIUM // 中优先级
+  HIGH // 高优先级
+  URGENT // 紧急
 }
 
 enum ParticipantType {
   // 当事与代理
-  APPLICANT   // 申请人
-  RESPONDENT  // 被申请人
-  AGENT       // 代理人（含律师/授权代理）
+  APPLICANT // 申请人
+  RESPONDENT // 被申请人
+  AGENT // 代理人（含律师/授权代理）
 
   // 中立者与程序参与
-  ARBITRATOR            // 仲裁员
-  PRESIDING_ARBITRATOR  // 首席仲裁员（可选）
-  MEDIATOR              // 调解员
-  CLERK                 // 书记员（可选）
-  WITNESS               // 证人（可选）
-  OBSERVER              // 观察员（只读，可选）
+  ARBITRATOR // 仲裁员
+  PRESIDING_ARBITRATOR // 首席仲裁员（可选）
+  MEDIATOR // 调解员
+  CLERK // 书记员（可选）
+  WITNESS // 证人（可选）
+  OBSERVER // 观察员（只读，可选）
 
   // 机构参与（接口型参与）
-  COURT                 // 法院
-  NOTARY                // 公证机构
+  COURT // 法院
+  NOTARY // 公证机构
 }
 
 enum DocumentType {
   APPLICATION // 申请书
-  EVIDENCE    // 证据
-  RESPONSE    // 答辩书
-  DECISION    // 裁决书
-  AGREEMENT   // 协议
-  OTHER       // 其他
+  EVIDENCE // 证据
+  RESPONSE // 答辩书
+  DECISION // 裁决书
+  AGREEMENT // 协议
+  OTHER // 其他
 }
 
 enum PaymentMethod {
@@ -148,60 +148,60 @@ enum ArchiveStatus {
 }
 
 enum HearingStatus {
-  SCHEDULED   // 已安排
-  PREPARING   // 准备中
+  SCHEDULED // 已安排
+  PREPARING // 准备中
   IN_PROGRESS // 进行中
-  PAUSED      // 暂停
-  COMPLETED   // 已完成
-  CANCELLED   // 已取消
+  PAUSED // 暂停
+  COMPLETED // 已完成
+  CANCELLED // 已取消
 }
 
 enum HearingType {
-  INITIAL     // 首次庭审
-  EVIDENCE    // 举证质证
-  DEBATE      // 辩论
-  FINAL       // 最终庭审
+  INITIAL // 首次庭审
+  EVIDENCE // 举证质证
+  DEBATE // 辩论
+  FINAL // 最终庭审
 }
 
 enum MediationStatus {
-  PENDING_APPROVAL    // 待批准
-  APPROVED           // 已批准
-  IN_PROGRESS        // 进行中
-  AGREEMENT_DRAFT    // 协议草案
-  AGREEMENT_SIGNED   // 协议已签署
+  PENDING_APPROVAL // 待批准
+  APPROVED // 已批准
+  IN_PROGRESS // 进行中
+  AGREEMENT_DRAFT // 协议草案
+  AGREEMENT_SIGNED // 协议已签署
   JUDICIAL_CONFIRMATION_PENDING // 司法确认中
   JUDICIAL_CONFIRMED // 司法确认完成
-  COMPLETED          // 已完成
-  FAILED             // 调解失败
+  COMPLETED // 已完成
+  FAILED // 调解失败
 }
 
 enum NotificationType {
-  CASE_UPDATE        // 案件更新
-  HEARING_REMINDER   // 庭审提醒
-  DOCUMENT_UPLOADED  // 文档上传
-  MEDIATION_REQUEST  // 调解申请
+  CASE_UPDATE // 案件更新
+  HEARING_REMINDER // 庭审提醒
+  DOCUMENT_UPLOADED // 文档上传
+  MEDIATION_REQUEST // 调解申请
   SYSTEM_ANNOUNCEMENT // 系统公告
-  AI_SUGGESTION      // AI建议
+  AI_SUGGESTION // AI建议
 }
 
 enum NotificationStatus {
-  PENDING    // 待发送
-  DELIVERED  // 已送达
-  READ       // 已读
-  ARCHIVED   // 已归档
+  PENDING // 待发送
+  DELIVERED // 已送达
+  READ // 已读
+  ARCHIVED // 已归档
 }
 
 enum ProcessStage {
-  CASE_FILING        // 立案
-  CASE_ACCEPTANCE    // 受理
+  CASE_FILING // 立案
+  CASE_ACCEPTANCE // 受理
   ARBITRATOR_APPOINTMENT // 仲裁员指定
-  EVIDENCE_EXCHANGE  // 证据交换
+  EVIDENCE_EXCHANGE // 证据交换
   HEARING_PREPARATION // 庭审准备
-  HEARING_CONDUCT    // 庭审进行
-  DELIBERATION       // 合议
-  AWARD_DRAFTING     // 裁决书起草
-  AWARD_ISSUANCE     // 裁决书发出
-  CASE_CLOSURE       // 案件结案
+  HEARING_CONDUCT // 庭审进行
+  DELIBERATION // 合议
+  AWARD_DRAFTING // 裁决书起草
+  AWARD_ISSUANCE // 裁决书发出
+  CASE_CLOSURE // 案件结案
 }
 
 // ============================================================================
@@ -250,57 +250,203 @@ enum AppointmentStatus {
 }
 
 // ============================================================================
+// 后端补齐（审计后续）：案件受理/仲裁员/回避/任务/证据/签章/录制/大文件上传
+// ============================================================================
+
+enum CaseReviewStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  NEED_MORE_INFO
+  WITHDRAWN
+}
+
+enum ArbitratorProfileStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum ArbitratorAvailabilityStatus {
+  AVAILABLE
+  BLOCKED
+  BOOKED
+}
+
+enum ArbitratorReviewStatus {
+  PENDING_MODERATION
+  PUBLISHED
+  HIDDEN
+}
+
+enum RecusalRequestStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  WITHDRAWN
+}
+
+enum CaseTaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  CANCELED
+}
+
+enum EvidenceVerificationMethod {
+  HASH
+  NOTARY
+}
+
+enum EvidenceVerificationStatus {
+  PENDING
+  PROCESSING
+  VERIFIED
+  FAILED
+  NOT_SUPPORTED
+  SERVICE_NOT_CONFIGURED
+}
+
+enum DocumentSignatureRequestStatus {
+  DRAFT
+  REQUESTED
+  COMPLETED
+  CANCELED
+}
+
+enum DocumentSignatureStatus {
+  PENDING
+  SIGNED
+  DECLINED
+  EXPIRED
+  CANCELED
+}
+
+enum SealStatus {
+  ACTIVE
+  INACTIVE
+  REVOKED
+}
+
+enum SealUsageStatus {
+  APPLIED
+  REVOKED
+}
+
+enum HearingRecordingStatus {
+  REQUESTED
+  RUNNING
+  COMPLETED
+  FAILED
+  STOPPED
+}
+
+enum HearingTranscriptStatus {
+  REQUESTED
+  PROCESSING
+  COMPLETED
+  FAILED
+  NOT_SUPPORTED
+  SERVICE_NOT_CONFIGURED
+}
+
+enum MultipartUploadStatus {
+  INITIATED
+  UPLOADING
+  COMPLETED
+  ABORTED
+  FAILED
+}
+
+// ============================================================================
 // 用户相关模型
 // ============================================================================
 
 model User {
-  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email           String    @unique @db.VarChar(255)
-  phone           String?   @unique @db.VarChar(20)
-  passwordHash    String    @map("password_hash") @db.VarChar(255)
-  userType        UserType  @map("user_type")
-  status          UserStatus @default(ACTIVE)
-  emailVerified   Boolean   @default(false) @map("email_verified")
-  phoneVerified   Boolean   @default(false) @map("phone_verified")
-  lastLoginAt     DateTime? @map("last_login_at") @db.Timestamptz
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String     @unique @db.VarChar(255)
+  phone         String?    @unique @db.VarChar(20)
+  passwordHash  String     @map("password_hash") @db.VarChar(255)
+  userType      UserType   @map("user_type")
+  status        UserStatus @default(ACTIVE)
+  emailVerified Boolean    @default(false) @map("email_verified")
+  phoneVerified Boolean    @default(false) @map("phone_verified")
+  lastLoginAt   DateTime?  @map("last_login_at") @db.Timestamptz
+  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime   @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  profile         UserProfile?
-  roles           UserRole[]
+  profile            UserProfile?
+  roles              UserRole[]
   externalIdentities ExternalIdentity[]
-  applicantCases  ArbitrationCase[] @relation("ApplicantCases")
-  respondentCases ArbitrationCase[] @relation("RespondentCases")
-  caseParticipants CaseParticipant[]
-  uploadedDocuments CaseDocument[]
-  assignedRoles   UserRole[] @relation("AssignedBy")
-  mfa             UserMfa?
+  applicantCases     ArbitrationCase[]  @relation("ApplicantCases")
+  respondentCases    ArbitrationCase[]  @relation("RespondentCases")
+  caseParticipants   CaseParticipant[]
+  uploadedDocuments  CaseDocument[]
+  assignedRoles      UserRole[]         @relation("AssignedBy")
+  mfa                UserMfa?
 
   // 新增关联关系
-  createdHearings Hearing[] @relation("HearingCreator")
-  hearingParticipations HearingParticipant[] @relation("HearingParticipantUser")
-  mediationApplications Mediation[] @relation("MediationApplicant")
-  mediationAssignments Mediation[] @relation("MediationMediator")
-  createdAgreements MediationAgreement[] @relation("AgreementCreator")
-  notifications   Notification[] @relation("UserNotifications")
-  createdTemplates DocumentTemplate[] @relation("TemplateCreator")
-  generatedDocuments GeneratedDocument[] @relation("DocumentGenerator")
-  batchOperations BatchOperation[] @relation("BatchOperationCreator")
-  paymentOrders   PaymentOrder[] @relation("PaymentOrderPayer")
-  serviceRequests ServiceOfProcess[] @relation("ServiceRequestedBy")
-  archivePackagesCreated ArchivePackage[] @relation("ArchivePackageCreator")
-  auditLogs       AuditLog[]
+  createdHearings        Hearing[]            @relation("HearingCreator")
+  hearingParticipations  HearingParticipant[] @relation("HearingParticipantUser")
+  mediationApplications  Mediation[]          @relation("MediationApplicant")
+  mediationAssignments   Mediation[]          @relation("MediationMediator")
+  createdAgreements      MediationAgreement[] @relation("AgreementCreator")
+  notifications          Notification[]       @relation("UserNotifications")
+  createdTemplates       DocumentTemplate[]   @relation("TemplateCreator")
+  generatedDocuments     GeneratedDocument[]  @relation("DocumentGenerator")
+  batchOperations        BatchOperation[]     @relation("BatchOperationCreator")
+  paymentOrders          PaymentOrder[]       @relation("PaymentOrderPayer")
+  serviceRequests        ServiceOfProcess[]   @relation("ServiceRequestedBy")
+  archivePackagesCreated ArchivePackage[]     @relation("ArchivePackageCreator")
+  auditLogs              AuditLog[]
+
+  // 后端补齐：仲裁员/任务/回避/受理/签章/证据/录制/大文件上传
+  arbitratorProfile           ArbitratorProfile?
+  verifiedArbitratorProfiles  ArbitratorProfile[]          @relation("ArbitratorProfileVerifier")
+  arbitratorAvailabilitySlots ArbitratorAvailabilitySlot[] @relation("ArbitratorAvailabilityUser")
+  arbitratorReviewsReceived   ArbitratorReview[]           @relation("ArbitratorReviewTarget")
+  arbitratorReviewsGiven      ArbitratorReview[]           @relation("ArbitratorReviewAuthor")
+
+  caseReviewsSubmitted CaseReview[] @relation("CaseReviewSubmitter")
+  caseReviewsDecided   CaseReview[] @relation("CaseReviewDecider")
+
+  recusalRequestsCreated  RecusalRequest[] @relation("RecusalRequestCreator")
+  recusalRequestsTargeted RecusalRequest[] @relation("RecusalRequestTarget")
+  recusalRequestsDecided  RecusalRequest[] @relation("RecusalRequestDecider")
+
+  caseTasksCreated       CaseTask[]       @relation("CaseTaskCreator")
+  taskAssignments        TaskAssignment[] @relation("TaskAssignmentUser")
+  taskAssignmentsCreated TaskAssignment[] @relation("TaskAssignmentAssigner")
+  taskComments           TaskComment[]    @relation("TaskCommentAuthor")
+
+  signatureRequestsCreated DocumentSignatureRequest[] @relation("DocumentSignatureRequestCreator")
+  documentSignatures       DocumentSignature[]        @relation("DocumentSignatureSigner")
+  sealsOwned               Seal[]                     @relation("SealOwner")
+  sealUsages               SealUsage[]                @relation("SealUsageActor")
+
+  evidenceVerificationsRequested EvidenceVerification[] @relation("EvidenceVerificationRequester")
+
+  hearingRecordingsRequested  HearingRecording[]  @relation("HearingRecordingRequester")
+  hearingRecordingsStopped    HearingRecording[]  @relation("HearingRecordingStopper")
+  hearingTranscriptsRequested HearingTranscript[] @relation("HearingTranscriptRequester")
+
+  multipartUploads MultipartUploadSession[] @relation("MultipartUploadUser")
 
   // 邀请/披露/合意/任命（M2）与业务事件
-  neutralInvitationsReceived NeutralInvitation[] @relation("NeutralInvitationInvitedUser")
-  neutralInvitationsSent     NeutralInvitation[] @relation("NeutralInvitationInvitedByUser")
+  neutralInvitationsReceived NeutralInvitation[]  @relation("NeutralInvitationInvitedUser")
+  neutralInvitationsSent     NeutralInvitation[]  @relation("NeutralInvitationInvitedByUser")
   conflictDisclosures        ConflictDisclosure[] @relation("ConflictDisclosureCreator")
-  neutralResponses           NeutralResponse[] @relation("NeutralResponseActor")
-  partyConsentTargets        PartyConsent[] @relation("PartyConsentTargetUser")
+  neutralResponses           NeutralResponse[]    @relation("NeutralResponseActor")
+  partyConsentTargets        PartyConsent[]       @relation("PartyConsentTargetUser")
   neutralAppointments        NeutralAppointment[] @relation("NeutralAppointmentTargetUser")
   createdNeutralAppointments NeutralAppointment[] @relation("NeutralAppointmentCreator")
-  caseEvents                 CaseEvent[] @relation("CaseEventActor")
+  caseEvents                 CaseEvent[]          @relation("CaseEventActor")
 
   @@index([email])
   @@index([phone])
@@ -310,91 +456,91 @@ model User {
 }
 
 model UserProfile {
-  id                    String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId                String              @unique @map("user_id") @db.Uuid
-  profileType           ProfileType         @map("profile_type")
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String      @unique @map("user_id") @db.Uuid
+  profileType ProfileType @map("profile_type")
 
   // 个人用户字段
-  realName              String?             @map("real_name") @db.VarChar(100)
-  idNumber              String?             @map("id_number") @db.VarChar(18)
-  idCardFrontUrl        String?             @map("id_card_front_url")
-  idCardBackUrl         String?             @map("id_card_back_url")
-  faceVerificationData  String?             @map("face_verification_data")
+  realName             String? @map("real_name") @db.VarChar(100)
+  idNumber             String? @map("id_number") @db.VarChar(18)
+  idCardFrontUrl       String? @map("id_card_front_url")
+  idCardBackUrl        String? @map("id_card_back_url")
+  faceVerificationData String? @map("face_verification_data")
 
   // 企业用户字段
-  companyName           String?             @map("company_name") @db.VarChar(200)
-  businessLicense       String?             @map("business_license") @db.VarChar(50)
-  legalRepresentative   String?             @map("legal_representative") @db.VarChar(100)
-  legalRepIdNumber      String?             @map("legal_rep_id_number") @db.VarChar(18)
-  companyAddress        String?             @map("company_address")
+  companyName         String? @map("company_name") @db.VarChar(200)
+  businessLicense     String? @map("business_license") @db.VarChar(50)
+  legalRepresentative String? @map("legal_representative") @db.VarChar(100)
+  legalRepIdNumber    String? @map("legal_rep_id_number") @db.VarChar(18)
+  companyAddress      String? @map("company_address")
 
   // 通用字段
-  verificationStatus    VerificationStatus  @default(PENDING) @map("verification_status")
-  verificationDocuments Json?               @map("verification_documents")
-  verifiedAt            DateTime?           @map("verified_at") @db.Timestamptz
-  createdAt             DateTime            @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt             DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+  verificationStatus    VerificationStatus @default(PENDING) @map("verification_status")
+  verificationDocuments Json?              @map("verification_documents")
+  verifiedAt            DateTime?          @map("verified_at") @db.Timestamptz
+  createdAt             DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt             DateTime           @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  user                  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([verificationStatus])
   @@map("user_profiles")
 }
 
 model UserRole {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId      String    @map("user_id") @db.Uuid
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
   role        Role
-  permissions Json?     // 权限列表
-  isActive    Boolean   @default(true) @map("is_active")
-  assignedAt  DateTime  @default(now()) @map("assigned_at") @db.Timestamptz     
-  assignedBy  String?   @map("assigned_by") @db.Uuid
+  permissions Json? // 权限列表
+  isActive    Boolean  @default(true) @map("is_active")
+  assignedAt  DateTime @default(now()) @map("assigned_at") @db.Timestamptz
+  assignedBy  String?  @map("assigned_by") @db.Uuid
 
   // 关联关系
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  assignedByUser User?  @relation("AssignedBy", fields: [assignedBy], references: [id])
+  user           User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignedByUser User? @relation("AssignedBy", fields: [assignedBy], references: [id])
 
+  @@unique([userId, role])
   @@index([userId])
   @@index([role])
-  @@unique([userId, role])
   @@map("user_roles")
 }
 
 // 多因素认证（TOTP）配置
 model UserMfa {
-  userId         String   @id @map("user_id") @db.Uuid
-  totpSecretEnc  String   @map("totp_secret_enc") @db.Text
-  enabled        Boolean  @default(false)
-  verifiedAt     DateTime? @map("verified_at") @db.Timestamptz
-  recoveryCodes  Json?    @map("recovery_codes")
-  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  userId        String    @id @map("user_id") @db.Uuid
+  totpSecretEnc String    @map("totp_secret_enc") @db.Text
+  enabled       Boolean   @default(false)
+  verifiedAt    DateTime? @map("verified_at") @db.Timestamptz
+  recoveryCodes Json?     @map("recovery_codes")
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_mfa")
 }
 
 // 外部身份（OIDC 等）与本地用户映射
 model ExternalIdentity {
-  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId        String    @map("user_id") @db.Uuid
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String @map("user_id") @db.Uuid
 
-  providerType  String    @map("provider_type") @db.VarChar(50) // 例如: OIDC
-  issuer        String    @db.VarChar(500)
-  subject       String    @db.VarChar(255)
+  providerType String @map("provider_type") @db.VarChar(50) // 例如: OIDC
+  issuer       String @db.VarChar(500)
+  subject      String @db.VarChar(255)
 
-  email         String?   @db.VarChar(255)
-  emailVerified Boolean?  @map("email_verified")
-  rawClaims     Json?     @map("raw_claims")
+  email         String?  @db.VarChar(255)
+  emailVerified Boolean? @map("email_verified")
+  rawClaims     Json?    @map("raw_claims")
 
-  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz
-  lastLoginAt   DateTime? @map("last_login_at") @db.Timestamptz
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  lastLoginAt DateTime? @map("last_login_at") @db.Timestamptz
 
   // 关联关系
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([issuer, subject])
   @@index([userId])
@@ -403,66 +549,157 @@ model ExternalIdentity {
 }
 
 // ============================================================================
+// ============================================================================
+// 仲裁员管理（资质/评价/可用性）
+// ============================================================================
+
+model ArbitratorProfile {
+  id     String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String                  @unique @map("user_id") @db.Uuid
+  status ArbitratorProfileStatus @default(DRAFT)
+
+  title           String?  @db.VarChar(200)
+  bio             String?  @db.Text
+  experienceYears Int      @default(0) @map("experience_years")
+  location        String?  @db.VarChar(100)
+  languages       Json?    @map("languages")
+  specialties     Json?    @map("specialties")
+  hourlyRate      Decimal? @map("hourly_rate") @db.Decimal(10, 2)
+
+  verificationDocuments Json?     @map("verification_documents")
+  verifiedAt            DateTime? @map("verified_at") @db.Timestamptz
+  verifiedByUserId      String?   @map("verified_by_user_id") @db.Uuid
+
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user           User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verifiedByUser User? @relation("ArbitratorProfileVerifier", fields: [verifiedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status])
+  @@index([verifiedAt])
+  @@index([verifiedByUserId])
+  @@map("arbitrator_profiles")
+}
+
+model ArbitratorReview {
+  id               String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  arbitratorUserId String  @map("arbitrator_user_id") @db.Uuid
+  caseId           String? @map("case_id") @db.Uuid
+  authorUserId     String  @map("author_user_id") @db.Uuid
+
+  rating   Int
+  content  String?                @db.Text
+  status   ArbitratorReviewStatus @default(PENDING_MODERATION)
+  metadata Json?
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  arbitrator User             @relation("ArbitratorReviewTarget", fields: [arbitratorUserId], references: [id], onDelete: Cascade)
+  case       ArbitrationCase? @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  author     User             @relation("ArbitratorReviewAuthor", fields: [authorUserId], references: [id], onDelete: Cascade)
+
+  @@unique([caseId, authorUserId, arbitratorUserId])
+  @@index([arbitratorUserId])
+  @@index([caseId])
+  @@index([authorUserId])
+  @@index([status])
+  @@map("arbitrator_reviews")
+}
+
+model ArbitratorAvailabilitySlot {
+  id               String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  arbitratorUserId String                       @map("arbitrator_user_id") @db.Uuid
+  status           ArbitratorAvailabilityStatus @default(AVAILABLE)
+  startAt          DateTime                     @map("start_at") @db.Timestamptz
+  endAt            DateTime                     @map("end_at") @db.Timestamptz
+  timezone         String                       @default("Asia/Shanghai") @db.VarChar(50)
+  note             String?                      @db.VarChar(200)
+  metadata         Json?
+  createdAt        DateTime                     @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime                     @updatedAt @map("updated_at") @db.Timestamptz
+
+  arbitrator User @relation("ArbitratorAvailabilityUser", fields: [arbitratorUserId], references: [id], onDelete: Cascade)
+
+  @@index([arbitratorUserId])
+  @@index([status])
+  @@index([startAt])
+  @@index([endAt])
+  @@map("arbitrator_availability_slots")
+}
+
 // 案件相关模型
 // ============================================================================
 
 model ArbitrationCase {
-  id                      String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseNumber              String              @unique @map("case_number") @db.VarChar(50)
-  title                   String              @db.VarChar(500)
-  description             String?
-  caseType                String              @map("case_type") @db.VarChar(100)
-  disputeAmount           Decimal?            @map("dispute_amount") @db.Decimal(15,2)
-  currency                String              @default("CNY") @db.VarChar(3)
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseNumber    String   @unique @map("case_number") @db.VarChar(50)
+  title         String   @db.VarChar(500)
+  description   String?
+  caseType      String   @map("case_type") @db.VarChar(100)
+  disputeAmount Decimal? @map("dispute_amount") @db.Decimal(15, 2)
+  currency      String   @default("CNY") @db.VarChar(3)
 
   // 当事人信息
-  applicantId             String              @map("applicant_id") @db.Uuid
-  respondentId            String?             @map("respondent_id") @db.Uuid
-  respondentInfo          Json?               @map("respondent_info") // 被申请人详细信息（可能未注册）
+  applicantId    String  @map("applicant_id") @db.Uuid
+  respondentId   String? @map("respondent_id") @db.Uuid
+  respondentInfo Json?   @map("respondent_info") // 被申请人详细信息（可能未注册）
 
   // 案件状态
-  status                  CaseStatus          @default(DRAFT)
-  priority                Priority            @default(MEDIUM)
+  status   CaseStatus @default(DRAFT)
+  priority Priority   @default(MEDIUM)
 
   // 重要文档
-  arbitrationAgreementUrl String?             @map("arbitration_agreement_url")
-  applicationFormUrl      String?             @map("application_form_url")
+  arbitrationAgreementUrl String? @map("arbitration_agreement_url")
+  applicationFormUrl      String? @map("application_form_url")
 
   // 时间信息
-  submittedAt             DateTime?           @map("submitted_at") @db.Timestamptz
-  acceptedAt              DateTime?           @map("accepted_at") @db.Timestamptz
-  deadline                DateTime?           @db.Timestamptz
-  completedAt             DateTime?           @map("completed_at") @db.Timestamptz
+  submittedAt DateTime? @map("submitted_at") @db.Timestamptz
+  acceptedAt  DateTime? @map("accepted_at") @db.Timestamptz
+  deadline    DateTime? @db.Timestamptz
+  completedAt DateTime? @map("completed_at") @db.Timestamptz
 
   // 费用信息
-  arbitrationFee          Decimal?            @map("arbitration_fee") @db.Decimal(10,2)
-  feePaid                 Boolean             @default(false) @map("fee_paid")
-  feePaidAt               DateTime?           @map("fee_paid_at") @db.Timestamptz
+  arbitrationFee Decimal?  @map("arbitration_fee") @db.Decimal(10, 2)
+  feePaid        Boolean   @default(false) @map("fee_paid")
+  feePaidAt      DateTime? @map("fee_paid_at") @db.Timestamptz
 
   // 元数据
-  metadata                Json?
-  createdAt               DateTime            @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt               DateTime            @updatedAt @map("updated_at") @db.Timestamptz
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  applicant               User                @relation("ApplicantCases", fields: [applicantId], references: [id])
-  respondent              User?               @relation("RespondentCases", fields: [respondentId], references: [id])
-  participants            CaseParticipant[]
-  documents               CaseDocument[]
-  neutralInvitations      NeutralInvitation[]
-  partyConsents           PartyConsent[]
-  neutralAppointments     NeutralAppointment[]
-  caseEvents              CaseEvent[]
+  applicant           User                 @relation("ApplicantCases", fields: [applicantId], references: [id])
+  respondent          User?                @relation("RespondentCases", fields: [respondentId], references: [id])
+  participants        CaseParticipant[]
+  documents           CaseDocument[]
+  neutralInvitations  NeutralInvitation[]
+  partyConsents       PartyConsent[]
+  neutralAppointments NeutralAppointment[]
+  caseEvents          CaseEvent[]
 
   // 新增关联关系
-  hearings                Hearing[]
-  mediations              Mediation[]
-  generatedDocuments      GeneratedDocument[]
-  paymentOrders           PaymentOrder[]
-  serviceOfProcess        ServiceOfProcess[]
-  archivePackages         ArchivePackage[]
-  arbitrationProcess      ArbitrationProcess?
-  canvas                  CaseCanvas?
+  hearings           Hearing[]
+  mediations         Mediation[]
+  generatedDocuments GeneratedDocument[]
+  paymentOrders      PaymentOrder[]
+  serviceOfProcess   ServiceOfProcess[]
+  archivePackages    ArchivePackage[]
+  arbitrationProcess ArbitrationProcess?
+  canvas             CaseCanvas?
+
+  // 后端补齐：受理/回避/任务/签章/印章/大文件上传
+  review            CaseReview?
+  recusalRequests   RecusalRequest[]
+  tasks             CaseTask[]
+  signatureRequests DocumentSignatureRequest[]
+  sealUsages        SealUsage[]
+  multipartUploads  MultipartUploadSession[]
+  arbitratorReviews ArbitratorReview[]
 
   @@index([caseNumber])
   @@index([applicantId])
@@ -474,69 +711,130 @@ model ArbitrationCase {
 }
 
 // ============================================================================
+// 案件受理/审核（工作流留痕）
+// ============================================================================
+
+model CaseReview {
+  id     String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId String           @unique @map("case_id") @db.Uuid
+  status CaseReviewStatus @default(SUBMITTED)
+
+  submittedByUserId String    @map("submitted_by_user_id") @db.Uuid
+  submittedAt       DateTime  @default(now()) @map("submitted_at") @db.Timestamptz
+  decidedByUserId   String?   @map("decided_by_user_id") @db.Uuid
+  decidedAt         DateTime? @map("decided_at") @db.Timestamptz
+  decisionReason    String?   @map("decision_reason") @db.Text
+  metadata          Json?
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  case            ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  submittedByUser User            @relation("CaseReviewSubmitter", fields: [submittedByUserId], references: [id])
+  decidedByUser   User?           @relation("CaseReviewDecider", fields: [decidedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([submittedByUserId])
+  @@index([decidedByUserId])
+  @@index([submittedAt])
+  @@map("case_reviews")
+}
+
+// ============================================================================
+// 回避申请（全流程留痕）
+// ============================================================================
+
+model RecusalRequest {
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId            String               @map("case_id") @db.Uuid
+  requestedByUserId String               @map("requested_by_user_id") @db.Uuid
+  targetUserId      String               @map("target_user_id") @db.Uuid
+  status            RecusalRequestStatus @default(SUBMITTED)
+  reason            String               @db.Text
+  decisionReason    String?              @map("decision_reason") @db.Text
+  decidedByUserId   String?              @map("decided_by_user_id") @db.Uuid
+  decidedAt         DateTime?            @map("decided_at") @db.Timestamptz
+  metadata          Json?
+  createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime             @updatedAt @map("updated_at") @db.Timestamptz
+
+  case            ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  requestedByUser User            @relation("RecusalRequestCreator", fields: [requestedByUserId], references: [id])
+  targetUser      User            @relation("RecusalRequestTarget", fields: [targetUserId], references: [id])
+  decidedByUser   User?           @relation("RecusalRequestDecider", fields: [decidedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([caseId])
+  @@index([requestedByUserId])
+  @@index([targetUserId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("recusal_requests")
+}
+
+// ============================================================================
 // 支付/对账（合规硬链路）
 // ============================================================================
 
 model PaymentOrder {
-  id                    String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId                String             @map("case_id") @db.Uuid
-  payerUserId           String             @map("payer_user_id") @db.Uuid
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId      String @map("case_id") @db.Uuid
+  payerUserId String @map("payer_user_id") @db.Uuid
 
-  amount                Decimal            @db.Decimal(10, 2)
-  currency              String             @default("CNY") @db.VarChar(3)
-  paymentMethod         PaymentMethod      @map("payment_method")
-  status                PaymentOrderStatus @default(PENDING)
+  amount        Decimal            @db.Decimal(10, 2)
+  currency      String             @default("CNY") @db.VarChar(3)
+  paymentMethod PaymentMethod      @map("payment_method")
+  status        PaymentOrderStatus @default(PENDING)
 
-  provider              String?            @db.VarChar(50)
-  providerOrderId       String?            @map("provider_order_id") @db.VarChar(200)
-  providerTransactionId String?            @map("provider_transaction_id") @db.VarChar(200)
-  idempotencyKey        String?            @map("idempotency_key") @db.VarChar(200)
+  provider              String? @db.VarChar(50)
+  providerOrderId       String? @map("provider_order_id") @db.VarChar(200)
+  providerTransactionId String? @map("provider_transaction_id") @db.VarChar(200)
+  idempotencyKey        String? @map("idempotency_key") @db.VarChar(200)
 
-  description           String?            @db.VarChar(500)
-  failureReason         String?            @map("failure_reason") @db.VarChar(500)
-  metadata              Json?              @map("metadata")
+  description   String? @db.VarChar(500)
+  failureReason String? @map("failure_reason") @db.VarChar(500)
+  metadata      Json?   @map("metadata")
 
-  createdAt             DateTime           @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt             DateTime           @updatedAt @map("updated_at") @db.Timestamptz
-  paidAt                DateTime?          @map("paid_at") @db.Timestamptz
-  canceledAt            DateTime?          @map("canceled_at") @db.Timestamptz
-  refundedAt            DateTime?          @map("refunded_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  paidAt     DateTime? @map("paid_at") @db.Timestamptz
+  canceledAt DateTime? @map("canceled_at") @db.Timestamptz
+  refundedAt DateTime? @map("refunded_at") @db.Timestamptz
 
   // 关联关系
-  case                  ArbitrationCase    @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  payer                 User               @relation("PaymentOrderPayer", fields: [payerUserId], references: [id])
-  events                PaymentEvent[]
+  case   ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  payer  User            @relation("PaymentOrderPayer", fields: [payerUserId], references: [id])
+  events PaymentEvent[]
 
+  @@unique([provider, providerOrderId])
+  @@unique([idempotencyKey])
   @@index([caseId])
   @@index([payerUserId])
   @@index([status])
   @@index([createdAt])
-  @@unique([provider, providerOrderId])
-  @@unique([idempotencyKey])
   @@map("payment_orders")
 }
 
 model PaymentEvent {
-  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  orderId           String?       @map("order_id") @db.Uuid
+  id      String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId String? @map("order_id") @db.Uuid
 
-  provider          String        @db.VarChar(50)
-  providerEventId   String?       @map("provider_event_id") @db.VarChar(200)
-  eventType         String        @map("event_type") @db.VarChar(100)
-  signatureVerified Boolean       @default(false) @map("signature_verified")
+  provider          String  @db.VarChar(50)
+  providerEventId   String? @map("provider_event_id") @db.VarChar(200)
+  eventType         String  @map("event_type") @db.VarChar(100)
+  signatureVerified Boolean @default(false) @map("signature_verified")
 
-  payload           Json          @map("payload")
-  error             String?       @db.VarChar(500)
-  receivedAt        DateTime      @default(now()) @map("received_at") @db.Timestamptz
+  payload    Json     @map("payload")
+  error      String?  @db.VarChar(500)
+  receivedAt DateTime @default(now()) @map("received_at") @db.Timestamptz
 
   // 关联关系
-  order             PaymentOrder? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  order PaymentOrder? @relation(fields: [orderId], references: [id], onDelete: SetNull)
 
+  @@unique([provider, providerEventId])
   @@index([orderId])
   @@index([provider])
   @@index([eventType])
   @@index([receivedAt])
-  @@unique([provider, providerEventId])
   @@map("payment_events")
 }
 
@@ -545,36 +843,36 @@ model PaymentEvent {
 // ============================================================================
 
 model ServiceOfProcess {
-  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId          String        @map("case_id") @db.Uuid
-  documentId      String?       @map("document_id") @db.Uuid
-  channel         ServiceChannel
-  status          ServiceStatus  @default(PENDING)
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId     String         @map("case_id") @db.Uuid
+  documentId String?        @map("document_id") @db.Uuid
+  channel    ServiceChannel
+  status     ServiceStatus  @default(PENDING)
 
-  recipientName   String?       @map("recipient_name") @db.VarChar(200)
-  recipientEmail  String?       @map("recipient_email") @db.VarChar(255)
-  recipientPhone  String?       @map("recipient_phone") @db.VarChar(20)
+  recipientName  String? @map("recipient_name") @db.VarChar(200)
+  recipientEmail String? @map("recipient_email") @db.VarChar(255)
+  recipientPhone String? @map("recipient_phone") @db.VarChar(20)
 
-  subject         String        @db.VarChar(200)
-  message         String?       @db.Text
-  legalBasis      String?       @map("legal_basis") @db.VarChar(200)
+  subject    String  @db.VarChar(200)
+  message    String? @db.Text
+  legalBasis String? @map("legal_basis") @db.VarChar(200)
 
-  requestedByUserId String?     @map("requested_by_user_id") @db.Uuid
-  traceId         String?       @map("trace_id") @db.VarChar(64)
+  requestedByUserId String? @map("requested_by_user_id") @db.Uuid
+  traceId           String? @map("trace_id") @db.VarChar(64)
 
-  deliveredAt     DateTime?     @map("delivered_at") @db.Timestamptz
-  effectiveAt     DateTime?     @map("effective_at") @db.Timestamptz
+  deliveredAt DateTime? @map("delivered_at") @db.Timestamptz
+  effectiveAt DateTime? @map("effective_at") @db.Timestamptz
 
-  lastError       String?       @map("last_error") @db.Text
-  proofHash       String?       @map("proof_hash") @db.VarChar(64)
-  proofGeneratedAt DateTime?    @map("proof_generated_at") @db.Timestamptz
+  lastError        String?   @map("last_error") @db.Text
+  proofHash        String?   @map("proof_hash") @db.VarChar(64)
+  proofGeneratedAt DateTime? @map("proof_generated_at") @db.Timestamptz
 
-  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  case            ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  document        CaseDocument?  @relation(fields: [documentId], references: [id], onDelete: SetNull)
-  requestedByUser User?          @relation("ServiceRequestedBy", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  case            ArbitrationCase  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  document        CaseDocument?    @relation(fields: [documentId], references: [id], onDelete: SetNull)
+  requestedByUser User?            @relation("ServiceRequestedBy", fields: [requestedByUserId], references: [id], onDelete: SetNull)
   attempts        ServiceAttempt[]
 
   @@index([caseId])
@@ -586,24 +884,24 @@ model ServiceOfProcess {
 }
 
 model ServiceAttempt {
-  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  serviceId        String             @map("service_id") @db.Uuid
-  attemptNumber    Int                @map("attempt_number")
-  channel          ServiceChannel
-  status           ServiceAttemptStatus @default(PENDING)
+  id            String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceId     String               @map("service_id") @db.Uuid
+  attemptNumber Int                  @map("attempt_number")
+  channel       ServiceChannel
+  status        ServiceAttemptStatus @default(PENDING)
 
-  provider         String?            @db.VarChar(50)
-  providerMessageId String?           @map("provider_message_id") @db.VarChar(200)
-  metadata         Json?              @map("metadata")
+  provider          String? @db.VarChar(50)
+  providerMessageId String? @map("provider_message_id") @db.VarChar(200)
+  metadata          Json?   @map("metadata")
 
-  startedAt        DateTime           @default(now()) @map("started_at") @db.Timestamptz
-  finishedAt       DateTime?          @map("finished_at") @db.Timestamptz
-  errorCode        String?            @map("error_code") @db.VarChar(100)
-  errorMessage     String?            @map("error_message") @db.Text
+  startedAt    DateTime  @default(now()) @map("started_at") @db.Timestamptz
+  finishedAt   DateTime? @map("finished_at") @db.Timestamptz
+  errorCode    String?   @map("error_code") @db.VarChar(100)
+  errorMessage String?   @map("error_message") @db.Text
 
-  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  service          ServiceOfProcess   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  service ServiceOfProcess @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
   @@unique([serviceId, attemptNumber])
   @@index([serviceId])
@@ -617,32 +915,32 @@ model ServiceAttempt {
 // ============================================================================
 
 model ArchivePackage {
-  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId          String        @map("case_id") @db.Uuid
-  status          ArchiveStatus @default(PENDING)
+  id     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId String        @map("case_id") @db.Uuid
+  status ArchiveStatus @default(PENDING)
 
-  createdByUserId String?       @map("created_by_user_id") @db.Uuid
-  traceId         String?       @map("trace_id") @db.VarChar(64)
+  createdByUserId String? @map("created_by_user_id") @db.Uuid
+  traceId         String? @map("trace_id") @db.VarChar(64)
 
-  bucket          String?       @db.VarChar(255)
-  objectKey       String?       @map("object_key") @db.Text
-  fileName        String?       @map("file_name") @db.VarChar(255)
-  contentType     String?       @map("content_type") @db.VarChar(100)
-  size            BigInt?       @map("size")
-  sha256          String?       @db.VarChar(64)
+  bucket      String? @db.VarChar(255)
+  objectKey   String? @map("object_key") @db.Text
+  fileName    String? @map("file_name") @db.VarChar(255)
+  contentType String? @map("content_type") @db.VarChar(100)
+  size        BigInt? @map("size")
+  sha256      String? @db.VarChar(64)
 
-  manifest        Json?         @map("manifest")
-  manifestHash    String?       @map("manifest_hash") @db.VarChar(64)
+  manifest     Json?   @map("manifest")
+  manifestHash String? @map("manifest_hash") @db.VarChar(64)
 
-  error           String?       @db.Text
-  completedAt     DateTime?     @map("completed_at") @db.Timestamptz
-  failedAt        DateTime?     @map("failed_at") @db.Timestamptz
+  error       String?   @db.Text
+  completedAt DateTime? @map("completed_at") @db.Timestamptz
+  failedAt    DateTime? @map("failed_at") @db.Timestamptz
 
-  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  case            ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  createdByUser   User?          @relation("ArchivePackageCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  case          ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdByUser User?           @relation("ArchivePackageCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
 
   @@index([caseId])
   @@index([status])
@@ -651,64 +949,69 @@ model ArchivePackage {
 }
 
 model CaseParticipant {
-  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId            String            @map("case_id") @db.Uuid
-  userId            String?           @map("user_id") @db.Uuid
-  participantType   ParticipantType   @map("participant_type")
-  roleDescription   String?           @map("role_description") @db.VarChar(200)
-  contactInfo       Json?             @map("contact_info")
-  isActive          Boolean           @default(true) @map("is_active")
-  joinedAt          DateTime          @default(now()) @map("joined_at") @db.Timestamptz
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId          String          @map("case_id") @db.Uuid
+  userId          String?         @map("user_id") @db.Uuid
+  participantType ParticipantType @map("participant_type")
+  roleDescription String?         @map("role_description") @db.VarChar(200)
+  contactInfo     Json?           @map("contact_info")
+  isActive        Boolean         @default(true) @map("is_active")
+  joinedAt        DateTime        @default(now()) @map("joined_at") @db.Timestamptz
 
   // 关联关系
-  case              ArbitrationCase   @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  user              User?             @relation(fields: [userId], references: [id])
+  case ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  user User?           @relation(fields: [userId], references: [id])
 
+  @@unique([caseId, userId, participantType])
   @@index([caseId])
   @@index([userId])
   @@index([participantType])
-  @@unique([caseId, userId, participantType])
   @@map("case_participants")
 }
 
 model CaseDocument {
-  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId            String            @map("case_id") @db.Uuid
-  uploadedBy        String            @map("uploaded_by") @db.Uuid
+  id         String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId     String @map("case_id") @db.Uuid
+  uploadedBy String @map("uploaded_by") @db.Uuid
 
   // 文件信息
-  fileName          String            @map("file_name") @db.VarChar(255)
-  originalName      String            @map("original_name") @db.VarChar(255)
-  filePath          String            @map("file_path")
-  fileSize          BigInt            @map("file_size")
-  fileType          String            @map("file_type") @db.VarChar(100)
-  mimeType          String?           @map("mime_type") @db.VarChar(100)
-  fileHash          String?           @map("file_hash") @db.VarChar(64) // SHA-256哈希值
+  fileName     String  @map("file_name") @db.VarChar(255)
+  originalName String  @map("original_name") @db.VarChar(255)
+  filePath     String  @map("file_path")
+  fileSize     BigInt  @map("file_size")
+  fileType     String  @map("file_type") @db.VarChar(100)
+  mimeType     String? @map("mime_type") @db.VarChar(100)
+  fileHash     String? @map("file_hash") @db.VarChar(64) // SHA-256哈希值
 
   // 文档分类
-  documentType      DocumentType      @map("document_type")
-  category          String?           @db.VarChar(100)
-  description       String?
+  documentType DocumentType @map("document_type")
+  category     String?      @db.VarChar(100)
+  description  String?
 
   // 访问控制
-  isPublic          Boolean           @default(false) @map("is_public")
-  accessLevel       String            @default("case_participants") @map("access_level") @db.VarChar(50)
+  isPublic    Boolean @default(false) @map("is_public")
+  accessLevel String  @default("case_participants") @map("access_level") @db.VarChar(50)
 
   // 版本控制
-  version           Int               @default(1)
-  parentDocumentId  String?           @map("parent_document_id") @db.Uuid
+  version          Int     @default(1)
+  parentDocumentId String? @map("parent_document_id") @db.Uuid
 
   // 元数据
-  metadata          Json?
-  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamptz
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  case              ArbitrationCase   @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  uploadedByUser    User              @relation(fields: [uploadedBy], references: [id])
-  parentDocument    CaseDocument?     @relation("DocumentVersions", fields: [parentDocumentId], references: [id])
-  childDocuments    CaseDocument[]    @relation("DocumentVersions")
-  serviceOfProcess  ServiceOfProcess[]
+  case             ArbitrationCase    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  uploadedByUser   User               @relation(fields: [uploadedBy], references: [id])
+  parentDocument   CaseDocument?      @relation("DocumentVersions", fields: [parentDocumentId], references: [id])
+  childDocuments   CaseDocument[]     @relation("DocumentVersions")
+  serviceOfProcess ServiceOfProcess[]
+
+  // 后端补齐：证据真实性/签章/印章
+  evidenceVerification EvidenceVerification?
+  signatureRequests    DocumentSignatureRequest[]
+  sealUsages           SealUsage[]
 
   @@index([caseId])
   @@index([uploadedBy])
@@ -719,33 +1022,236 @@ model CaseDocument {
 }
 
 // ============================================================================
+// 证据真实性验证（D5A 证据链）
+// ============================================================================
+
+model EvidenceVerification {
+  id                String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  documentId        String                     @unique @map("document_id") @db.Uuid
+  method            EvidenceVerificationMethod
+  status            EvidenceVerificationStatus @default(PENDING)
+  requestedByUserId String?                    @map("requested_by_user_id") @db.Uuid
+  traceId           String?                    @map("trace_id") @db.VarChar(64)
+
+  checkedAt  DateTime? @map("checked_at") @db.Timestamptz
+  verifiedAt DateTime? @map("verified_at") @db.Timestamptz
+  error      String?   @db.Text
+  details    Json?
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  document        CaseDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  requestedByUser User?        @relation("EvidenceVerificationRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([method])
+  @@index([requestedByUserId])
+  @@index([createdAt])
+  @@map("evidence_verifications")
+}
+
+// ============================================================================
+// 电子签名/电子印章（可审计、可验签）
+// ============================================================================
+
+model DocumentSignatureRequest {
+  id                String                         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId            String                         @map("case_id") @db.Uuid
+  documentId        String                         @map("document_id") @db.Uuid
+  status            DocumentSignatureRequestStatus @default(DRAFT)
+  provider          String?                        @db.VarChar(50)
+  requestedByUserId String                         @map("requested_by_user_id") @db.Uuid
+  requestedAt       DateTime                       @default(now()) @map("requested_at") @db.Timestamptz
+  completedAt       DateTime?                      @map("completed_at") @db.Timestamptz
+  metadata          Json?
+  createdAt         DateTime                       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt         DateTime                       @updatedAt @map("updated_at") @db.Timestamptz
+
+  case            ArbitrationCase     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  document        CaseDocument        @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  requestedByUser User                @relation("DocumentSignatureRequestCreator", fields: [requestedByUserId], references: [id])
+  signatures      DocumentSignature[]
+  sealUsages      SealUsage[]
+
+  @@index([caseId])
+  @@index([documentId])
+  @@index([status])
+  @@index([requestedByUserId])
+  @@map("document_signature_requests")
+}
+
+model DocumentSignature {
+  id           String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  requestId    String                  @map("request_id") @db.Uuid
+  signerUserId String                  @map("signer_user_id") @db.Uuid
+  status       DocumentSignatureStatus @default(PENDING)
+  signedAt     DateTime?               @map("signed_at") @db.Timestamptz
+
+  signatureAlg   String? @map("signature_alg") @db.VarChar(50)
+  signatureValue String? @map("signature_value") @db.Text
+  publicKeyPem   String? @map("public_key_pem") @db.Text
+  certificatePem String? @map("certificate_pem") @db.Text
+
+  documentHash  String?  @map("document_hash") @db.VarChar(64)
+  signatureHash String?  @map("signature_hash") @db.VarChar(64)
+  metadata      Json?
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  request DocumentSignatureRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  signer  User                     @relation("DocumentSignatureSigner", fields: [signerUserId], references: [id])
+
+  @@unique([requestId, signerUserId])
+  @@index([requestId])
+  @@index([signerUserId])
+  @@index([status])
+  @@map("document_signatures")
+}
+
+model Seal {
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerUserId String     @map("owner_user_id") @db.Uuid
+  name        String     @db.VarChar(200)
+  status      SealStatus @default(ACTIVE)
+  imageBucket String?    @map("image_bucket") @db.VarChar(255)
+  imageKey    String?    @map("image_key") @db.Text
+  imageSha256 String?    @map("image_sha256") @db.VarChar(64)
+  metadata    Json?
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+
+  owner  User        @relation("SealOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  usages SealUsage[]
+
+  @@index([ownerUserId])
+  @@index([status])
+  @@map("seals")
+}
+
+model SealUsage {
+  id                 String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sealId             String          @map("seal_id") @db.Uuid
+  caseId             String          @map("case_id") @db.Uuid
+  documentId         String          @map("document_id") @db.Uuid
+  signatureRequestId String?         @map("signature_request_id") @db.Uuid
+  usedByUserId       String?         @map("used_by_user_id") @db.Uuid
+  status             SealUsageStatus @default(APPLIED)
+  usedAt             DateTime        @default(now()) @map("used_at") @db.Timestamptz
+  revokedAt          DateTime?       @map("revoked_at") @db.Timestamptz
+  metadata           Json?
+
+  seal             Seal                      @relation(fields: [sealId], references: [id], onDelete: Cascade)
+  case             ArbitrationCase           @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  document         CaseDocument              @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  signatureRequest DocumentSignatureRequest? @relation(fields: [signatureRequestId], references: [id], onDelete: SetNull)
+  usedByUser       User?                     @relation("SealUsageActor", fields: [usedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([sealId])
+  @@index([caseId])
+  @@index([documentId])
+  @@index([signatureRequestId])
+  @@index([usedByUserId])
+  @@index([status])
+  @@map("seal_usages")
+}
+
+// ============================================================================
+// 任务分配/进度跟踪
+// ============================================================================
+
+model CaseTask {
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId          String         @map("case_id") @db.Uuid
+  title           String         @db.VarChar(200)
+  description     String?        @db.Text
+  status          CaseTaskStatus @default(TODO)
+  priority        Priority       @default(MEDIUM)
+  dueAt           DateTime?      @map("due_at") @db.Timestamptz
+  completedAt     DateTime?      @map("completed_at") @db.Timestamptz
+  createdByUserId String         @map("created_by_user_id") @db.Uuid
+  metadata        Json?
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz
+
+  case          ArbitrationCase  @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdByUser User             @relation("CaseTaskCreator", fields: [createdByUserId], references: [id])
+  assignments   TaskAssignment[]
+  comments      TaskComment[]
+
+  @@index([caseId])
+  @@index([status])
+  @@index([priority])
+  @@index([dueAt])
+  @@index([createdByUserId])
+  @@map("case_tasks")
+}
+
+model TaskAssignment {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  taskId           String    @map("task_id") @db.Uuid
+  userId           String    @map("user_id") @db.Uuid
+  assignedByUserId String?   @map("assigned_by_user_id") @db.Uuid
+  assignedAt       DateTime  @default(now()) @map("assigned_at") @db.Timestamptz
+  unassignedAt     DateTime? @map("unassigned_at") @db.Timestamptz
+  metadata         Json?
+
+  task           CaseTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user           User     @relation("TaskAssignmentUser", fields: [userId], references: [id], onDelete: Cascade)
+  assignedByUser User?    @relation("TaskAssignmentAssigner", fields: [assignedByUserId], references: [id], onDelete: SetNull)
+
+  @@unique([taskId, userId])
+  @@index([taskId])
+  @@index([userId])
+  @@index([assignedAt])
+  @@map("task_assignments")
+}
+
+model TaskComment {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  taskId       String   @map("task_id") @db.Uuid
+  authorUserId String   @map("author_user_id") @db.Uuid
+  content      String   @db.Text
+  metadata     Json?
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  task   CaseTask @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author User     @relation("TaskCommentAuthor", fields: [authorUserId], references: [id])
+
+  @@index([taskId])
+  @@index([authorUserId])
+  @@index([createdAt])
+  @@map("task_comments")
+}
+
+// ============================================================================
 // 邀请/披露/合意/任命（M2）与业务事件（CaseEvent）
 // ============================================================================
 
 model NeutralInvitation {
-  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId          String           @map("case_id") @db.Uuid
-  neutralType     NeutralType      @map("neutral_type")
-  invitedUserId   String           @map("invited_user_id") @db.Uuid
-  invitedByUserId String           @map("invited_by_user_id") @db.Uuid
+  id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId          String      @map("case_id") @db.Uuid
+  neutralType     NeutralType @map("neutral_type")
+  invitedUserId   String      @map("invited_user_id") @db.Uuid
+  invitedByUserId String      @map("invited_by_user_id") @db.Uuid
 
-  status          InvitationStatus @default(DRAFT)
-  expiresAt       DateTime?        @map("expires_at") @db.Timestamptz
-  sentAt          DateTime?        @map("sent_at") @db.Timestamptz
-  respondedAt     DateTime?        @map("responded_at") @db.Timestamptz
+  status      InvitationStatus @default(DRAFT)
+  expiresAt   DateTime?        @map("expires_at") @db.Timestamptz
+  sentAt      DateTime?        @map("sent_at") @db.Timestamptz
+  respondedAt DateTime?        @map("responded_at") @db.Timestamptz
 
-  requirements    Json?            @map("requirements")
-  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  requirements Json?    @map("requirements")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  case            ArbitrationCase  @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  invitedUser     User             @relation("NeutralInvitationInvitedUser", fields: [invitedUserId], references: [id])
-  invitedByUser   User             @relation("NeutralInvitationInvitedByUser", fields: [invitedByUserId], references: [id])
-  disclosures     ConflictDisclosure[]
-  responses       NeutralResponse[]
-  consents        PartyConsent[]
-  appointments    NeutralAppointment[]
+  case          ArbitrationCase      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  invitedUser   User                 @relation("NeutralInvitationInvitedUser", fields: [invitedUserId], references: [id])
+  invitedByUser User                 @relation("NeutralInvitationInvitedByUser", fields: [invitedByUserId], references: [id])
+  disclosures   ConflictDisclosure[]
+  responses     NeutralResponse[]
+  consents      PartyConsent[]
+  appointments  NeutralAppointment[]
 
   @@index([caseId])
   @@index([invitedUserId])
@@ -757,20 +1263,20 @@ model NeutralInvitation {
 }
 
 model ConflictDisclosure {
-  id             String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  invitationId   String           @map("invitation_id") @db.Uuid
-  createdBy      String           @map("created_by") @db.Uuid
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  invitationId String @map("invitation_id") @db.Uuid
+  createdBy    String @map("created_by") @db.Uuid
 
-  disclosureText String           @map("disclosure_text") @db.Text
-  attachments    Json?            @map("attachments")
-  signedAt       DateTime?        @map("signed_at") @db.Timestamptz
-  signatureRef   String?          @map("signature_ref") @db.Text
+  disclosureText String    @map("disclosure_text") @db.Text
+  attachments    Json?     @map("attachments")
+  signedAt       DateTime? @map("signed_at") @db.Timestamptz
+  signatureRef   String?   @map("signature_ref") @db.Text
 
-  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  invitation     NeutralInvitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
-  creator        User              @relation("ConflictDisclosureCreator", fields: [createdBy], references: [id])
+  invitation NeutralInvitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
+  creator    User              @relation("ConflictDisclosureCreator", fields: [createdBy], references: [id])
 
   @@index([invitationId])
   @@index([createdBy])
@@ -779,16 +1285,16 @@ model ConflictDisclosure {
 }
 
 model NeutralResponse {
-  id           String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  invitationId String              @map("invitation_id") @db.Uuid
-  actorUserId  String              @map("actor_user_id") @db.Uuid
+  id           String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  invitationId String                @map("invitation_id") @db.Uuid
+  actorUserId  String                @map("actor_user_id") @db.Uuid
   action       NeutralResponseAction
-  reason       String?             @db.Text
-  respondedAt  DateTime            @default(now()) @map("responded_at") @db.Timestamptz
-  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamptz
+  reason       String?               @db.Text
+  respondedAt  DateTime              @default(now()) @map("responded_at") @db.Timestamptz
+  createdAt    DateTime              @default(now()) @map("created_at") @db.Timestamptz
 
-  invitation   NeutralInvitation   @relation(fields: [invitationId], references: [id], onDelete: Cascade)
-  actor        User                @relation("NeutralResponseActor", fields: [actorUserId], references: [id])
+  invitation NeutralInvitation @relation(fields: [invitationId], references: [id], onDelete: Cascade)
+  actor      User              @relation("NeutralResponseActor", fields: [actorUserId], references: [id])
 
   @@index([invitationId])
   @@index([actorUserId])
@@ -797,30 +1303,30 @@ model NeutralResponse {
 }
 
 model PartyConsent {
-  id                    String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId                String            @map("case_id") @db.Uuid
-  invitationId          String?           @map("invitation_id") @db.Uuid
-  targetType            NeutralType       @map("target_type")
-  targetUserId          String            @map("target_user_id") @db.Uuid
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId       String      @map("case_id") @db.Uuid
+  invitationId String?     @map("invitation_id") @db.Uuid
+  targetType   NeutralType @map("target_type")
+  targetUserId String      @map("target_user_id") @db.Uuid
 
-  status                PartyConsentStatus @default(PENDING)
+  status PartyConsentStatus @default(PENDING)
 
   applicantDecision     PartyConsentDecision @default(PENDING) @map("applicant_decision")
-  applicantDecisionAt   DateTime?          @map("applicant_decision_at") @db.Timestamptz
-  applicantSignatureRef String?            @map("applicant_signature_ref") @db.Text
-  applicantReason       String?            @map("applicant_reason") @db.Text
+  applicantDecisionAt   DateTime?            @map("applicant_decision_at") @db.Timestamptz
+  applicantSignatureRef String?              @map("applicant_signature_ref") @db.Text
+  applicantReason       String?              @map("applicant_reason") @db.Text
 
   respondentDecision     PartyConsentDecision @default(PENDING) @map("respondent_decision")
-  respondentDecisionAt   DateTime?          @map("respondent_decision_at") @db.Timestamptz
-  respondentSignatureRef String?            @map("respondent_signature_ref") @db.Text
-  respondentReason       String?            @map("respondent_reason") @db.Text
+  respondentDecisionAt   DateTime?            @map("respondent_decision_at") @db.Timestamptz
+  respondentSignatureRef String?              @map("respondent_signature_ref") @db.Text
+  respondentReason       String?              @map("respondent_reason") @db.Text
 
-  createdAt             DateTime           @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt             DateTime           @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  case                  ArbitrationCase    @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  invitation            NeutralInvitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
-  targetUser            User               @relation("PartyConsentTargetUser", fields: [targetUserId], references: [id])
+  case       ArbitrationCase    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  invitation NeutralInvitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
+  targetUser User               @relation("PartyConsentTargetUser", fields: [targetUserId], references: [id])
 
   @@unique([caseId, targetType, targetUserId])
   @@index([caseId])
@@ -832,25 +1338,25 @@ model PartyConsent {
 }
 
 model NeutralAppointment {
-  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId          String            @map("case_id") @db.Uuid
-  invitationId    String?           @map("invitation_id") @db.Uuid
-  targetType      NeutralType       @map("target_type")
-  targetUserId    String            @map("target_user_id") @db.Uuid
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId       String      @map("case_id") @db.Uuid
+  invitationId String?     @map("invitation_id") @db.Uuid
+  targetType   NeutralType @map("target_type")
+  targetUserId String      @map("target_user_id") @db.Uuid
 
   status          AppointmentStatus @default(PENDING)
   effectiveAt     DateTime?         @map("effective_at") @db.Timestamptz
   terminatedAt    DateTime?         @map("terminated_at") @db.Timestamptz
   terminateReason String?           @map("terminate_reason") @db.Text
 
-  createdByUserId String?           @map("created_by_user_id") @db.Uuid
-  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamptz
+  createdByUserId String?  @map("created_by_user_id") @db.Uuid
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  case            ArbitrationCase   @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  invitation      NeutralInvitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
-  targetUser      User              @relation("NeutralAppointmentTargetUser", fields: [targetUserId], references: [id])
-  createdByUser   User?             @relation("NeutralAppointmentCreator", fields: [createdByUserId], references: [id])
+  case          ArbitrationCase    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  invitation    NeutralInvitation? @relation(fields: [invitationId], references: [id], onDelete: SetNull)
+  targetUser    User               @relation("NeutralAppointmentTargetUser", fields: [targetUserId], references: [id])
+  createdByUser User?              @relation("NeutralAppointmentCreator", fields: [createdByUserId], references: [id])
 
   @@index([caseId])
   @@index([invitationId])
@@ -862,18 +1368,18 @@ model NeutralAppointment {
 }
 
 model CaseEvent {
-  id          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  sequence    BigInt          @default(autoincrement()) @map("sequence")
-  caseId      String          @map("case_id") @db.Uuid
-  eventType   String          @map("event_type") @db.VarChar(100)
-  actorUserId String?         @map("actor_user_id") @db.Uuid
-  traceId     String?         @map("trace_id") @db.VarChar(64)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sequence    BigInt   @default(autoincrement()) @map("sequence")
+  caseId      String   @map("case_id") @db.Uuid
+  eventType   String   @map("event_type") @db.VarChar(100)
+  actorUserId String?  @map("actor_user_id") @db.Uuid
+  traceId     String?  @map("trace_id") @db.VarChar(64)
   payload     Json
-  hash        String?         @db.VarChar(64)
-  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz
+  hash        String?  @db.VarChar(64)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  case        ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  actor       User?           @relation("CaseEventActor", fields: [actorUserId], references: [id])
+  case  ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  actor User?           @relation("CaseEventActor", fields: [actorUserId], references: [id])
 
   @@index([caseId, sequence])
   @@index([eventType])
@@ -902,24 +1408,26 @@ model Hearing {
   actualDuration    Int?          @map("actual_duration") // 分钟
 
   // 技术配置
-  webrtcConfig      Json?         @map("webrtc_config")
-  recordingEnabled  Boolean       @default(true) @map("recording_enabled")
-  recordingUrl      String?       @map("recording_url") @db.VarChar(500)
-  transcriptUrl     String?       @map("transcript_url") @db.VarChar(500)
+  webrtcConfig     Json?   @map("webrtc_config")
+  recordingEnabled Boolean @default(true) @map("recording_enabled")
+  recordingUrl     String? @map("recording_url") @db.VarChar(500)
+  transcriptUrl    String? @map("transcript_url") @db.VarChar(500)
 
   // AI功能
-  aiFeatures        Json?         @map("ai_features")
-  aiAnalysis        Json?         @map("ai_analysis")
+  aiFeatures Json? @map("ai_features")
+  aiAnalysis Json? @map("ai_analysis")
 
   // 审计字段
-  createdBy         String        @map("created_by") @db.Uuid
-  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz
+  createdBy String   @map("created_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  case              ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  creator           User          @relation("HearingCreator", fields: [createdBy], references: [id])
-  participants      HearingParticipant[]
+  case         ArbitrationCase      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  creator      User                 @relation("HearingCreator", fields: [createdBy], references: [id])
+  participants HearingParticipant[]
+  recordings   HearingRecording[]
+  transcripts  HearingTranscript[]
 
   @@index([caseId])
   @@index([status])
@@ -930,32 +1438,32 @@ model Hearing {
 }
 
 model HearingParticipant {
-  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  hearingId         String    @map("hearing_id") @db.Uuid
-  userId            String?   @map("user_id") @db.Uuid
-  role              ParticipantType
-  name              String    @db.VarChar(100)
-  email             String?   @db.VarChar(255)
-  phone             String?   @db.VarChar(20)
-  isRequired        Boolean   @default(true) @map("is_required")
+  id         String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  hearingId  String          @map("hearing_id") @db.Uuid
+  userId     String?         @map("user_id") @db.Uuid
+  role       ParticipantType
+  name       String          @db.VarChar(100)
+  email      String?         @db.VarChar(255)
+  phone      String?         @db.VarChar(20)
+  isRequired Boolean         @default(true) @map("is_required")
 
   // 参与状态
-  connectionStatus  String    @default("not_connected") @map("connection_status") @db.VarChar(50)
-  joinedAt          DateTime? @map("joined_at") @db.Timestamptz
-  leftAt            DateTime? @map("left_at") @db.Timestamptz
-  audioEnabled      Boolean   @default(true) @map("audio_enabled")
-  videoEnabled      Boolean   @default(true) @map("video_enabled")
+  connectionStatus String    @default("not_connected") @map("connection_status") @db.VarChar(50)
+  joinedAt         DateTime? @map("joined_at") @db.Timestamptz
+  leftAt           DateTime? @map("left_at") @db.Timestamptz
+  audioEnabled     Boolean   @default(true) @map("audio_enabled")
+  videoEnabled     Boolean   @default(true) @map("video_enabled")
 
   // 技术信息
-  deviceInfo        Json?     @map("device_info")
-  networkQuality    String?   @map("network_quality") @db.VarChar(20)
+  deviceInfo     Json?   @map("device_info")
+  networkQuality String? @map("network_quality") @db.VarChar(20)
 
-  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  hearing           Hearing   @relation(fields: [hearingId], references: [id], onDelete: Cascade)
-  user              User?     @relation("HearingParticipantUser", fields: [userId], references: [id])
+  hearing Hearing @relation(fields: [hearingId], references: [id], onDelete: Cascade)
+  user    User?   @relation("HearingParticipantUser", fields: [userId], references: [id])
 
   @@index([hearingId])
   @@index([userId])
@@ -964,36 +1472,108 @@ model HearingParticipant {
 }
 
 // ============================================================================
+// 庭审录制/转写（Provider 抽象 + 证据链）
+// ============================================================================
+
+model HearingRecording {
+  id               String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  hearingId        String                 @map("hearing_id") @db.Uuid
+  provider         String                 @db.VarChar(50)
+  providerEgressId String?                @map("provider_egress_id") @db.VarChar(200)
+  status           HearingRecordingStatus @default(REQUESTED)
+
+  requestedByUserId String?   @map("requested_by_user_id") @db.Uuid
+  stoppedByUserId   String?   @map("stopped_by_user_id") @db.Uuid
+  startedAt         DateTime? @map("started_at") @db.Timestamptz
+  endedAt           DateTime? @map("ended_at") @db.Timestamptz
+
+  bucket      String? @db.VarChar(255)
+  objectKey   String? @map("object_key") @db.Text
+  fileName    String? @map("file_name") @db.VarChar(255)
+  contentType String? @map("content_type") @db.VarChar(100)
+  size        BigInt? @map("size")
+  sha256      String? @db.VarChar(64)
+
+  metadata  Json?
+  error     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  hearing         Hearing             @relation(fields: [hearingId], references: [id], onDelete: Cascade)
+  requestedByUser User?               @relation("HearingRecordingRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+  stoppedByUser   User?               @relation("HearingRecordingStopper", fields: [stoppedByUserId], references: [id], onDelete: SetNull)
+  transcripts     HearingTranscript[]
+
+  @@index([hearingId])
+  @@index([provider])
+  @@index([status])
+  @@index([createdAt])
+  @@map("hearing_recordings")
+}
+
+model HearingTranscript {
+  id                String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  hearingId         String                  @map("hearing_id") @db.Uuid
+  recordingId       String?                 @map("recording_id") @db.Uuid
+  provider          String?                 @db.VarChar(50)
+  status            HearingTranscriptStatus @default(REQUESTED)
+  requestedByUserId String?                 @map("requested_by_user_id") @db.Uuid
+
+  language String? @db.VarChar(20)
+  format   String? @db.VarChar(50)
+  text     String? @db.Text
+  segments Json?   @map("segments")
+
+  bucket    String? @db.VarChar(255)
+  objectKey String? @map("object_key") @db.Text
+  sha256    String? @db.VarChar(64)
+
+  metadata  Json?
+  error     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  hearing         Hearing           @relation(fields: [hearingId], references: [id], onDelete: Cascade)
+  recording       HearingRecording? @relation(fields: [recordingId], references: [id], onDelete: SetNull)
+  requestedByUser User?             @relation("HearingTranscriptRequester", fields: [requestedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([hearingId])
+  @@index([recordingId])
+  @@index([status])
+  @@map("hearing_transcripts")
+}
+
+// ============================================================================
 // 调解相关模型
 // ============================================================================
 
 model Mediation {
-  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  mediationNumber   String          @unique @map("mediation_number") @db.VarChar(50)
-  caseId            String          @map("case_id") @db.Uuid
-  applicationType   String          @map("application_type") @db.VarChar(50)
-  reason            String          @db.Text
-  status            MediationStatus @default(PENDING_APPROVAL)
+  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mediationNumber String          @unique @map("mediation_number") @db.VarChar(50)
+  caseId          String          @map("case_id") @db.Uuid
+  applicationType String          @map("application_type") @db.VarChar(50)
+  reason          String          @db.Text
+  status          MediationStatus @default(PENDING_APPROVAL)
 
   // 调解配置
-  proposedMediator  String?         @map("proposed_mediator") @db.Uuid
-  preferredSchedule Json?           @map("preferred_schedule")
-  mediationTerms    Json?           @map("mediation_terms")
-  participantConsent Json?          @map("participant_consent")
+  proposedMediator   String? @map("proposed_mediator") @db.Uuid
+  preferredSchedule  Json?   @map("preferred_schedule")
+  mediationTerms     Json?   @map("mediation_terms")
+  participantConsent Json?   @map("participant_consent")
 
   // AI分析
-  aiAnalysis        Json?           @map("ai_analysis")
+  aiAnalysis Json? @map("ai_analysis")
 
   // 审计字段
-  applicantId       String          @map("applicant_id") @db.Uuid
-  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime        @updatedAt @map("updated_at") @db.Timestamptz
+  applicantId String   @map("applicant_id") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  case              ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  applicant         User            @relation("MediationApplicant", fields: [applicantId], references: [id])
-  mediator          User?           @relation("MediationMediator", fields: [proposedMediator], references: [id])
-  agreement         MediationAgreement?
+  case      ArbitrationCase     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  applicant User                @relation("MediationApplicant", fields: [applicantId], references: [id])
+  mediator  User?               @relation("MediationMediator", fields: [proposedMediator], references: [id])
+  agreement MediationAgreement?
 
   @@index([caseId])
   @@index([status])
@@ -1003,32 +1583,32 @@ model Mediation {
 }
 
 model MediationAgreement {
-  id                  String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  mediationId         String    @unique @map("mediation_id") @db.Uuid
-  agreementNumber     String    @unique @map("agreement_number") @db.VarChar(50)
-  agreementType       String    @map("agreement_type") @db.VarChar(50)
-  status              String    @default("draft") @db.VarChar(50)
+  id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mediationId     String @unique @map("mediation_id") @db.Uuid
+  agreementNumber String @unique @map("agreement_number") @db.VarChar(50)
+  agreementType   String @map("agreement_type") @db.VarChar(50)
+  status          String @default("draft") @db.VarChar(50)
 
   // 协议内容
-  terms               Json      // 协议条款
-  financialTerms      Json?     @map("financial_terms") // 财务条款
-  implementationPlan  Json?     @map("implementation_plan") // 实施计划
+  terms              Json // 协议条款
+  financialTerms     Json? @map("financial_terms") // 财务条款
+  implementationPlan Json? @map("implementation_plan") // 实施计划
 
   // 司法确认
-  judicialConfirmation Json?    @map("judicial_confirmation")
+  judicialConfirmation Json? @map("judicial_confirmation")
 
   // AI分析
-  aiAnalysis          Json?     @map("ai_analysis")
+  aiAnalysis Json? @map("ai_analysis")
 
   // 审计字段
-  createdBy           String    @map("created_by") @db.Uuid
-  createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt           DateTime  @updatedAt @map("updated_at") @db.Timestamptz
-  signedAt            DateTime? @map("signed_at") @db.Timestamptz
+  createdBy String    @map("created_by") @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  signedAt  DateTime? @map("signed_at") @db.Timestamptz
 
   // 关联关系
-  mediation           Mediation @relation(fields: [mediationId], references: [id], onDelete: Cascade)
-  creator             User      @relation("AgreementCreator", fields: [createdBy], references: [id])
+  mediation Mediation @relation(fields: [mediationId], references: [id], onDelete: Cascade)
+  creator   User      @relation("AgreementCreator", fields: [createdBy], references: [id])
 
   @@index([mediationId])
   @@index([status])
@@ -1042,38 +1622,38 @@ model MediationAgreement {
 // ============================================================================
 
 model Notification {
-  id            String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId        String             @map("user_id") @db.Uuid
-  type          NotificationType
-  title         String             @db.VarChar(200)
-  content       String             @db.Text
-  status        NotificationStatus @default(PENDING)
-  priority      Priority           @default(MEDIUM)
+  id       String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId   String             @map("user_id") @db.Uuid
+  type     NotificationType
+  title    String             @db.VarChar(200)
+  content  String             @db.Text
+  status   NotificationStatus @default(PENDING)
+  priority Priority           @default(MEDIUM)
 
   // 投递配置
-  channels      Json               // 投递渠道配置
-  deliveryStatus Json?             @map("delivery_status") // 投递状态
+  channels       Json // 投递渠道配置
+  deliveryStatus Json? @map("delivery_status") // 投递状态
 
   // 关联实体
-  relatedEntity Json?              @map("related_entity")
+  relatedEntity Json? @map("related_entity")
 
   // 调度配置
-  scheduledAt   DateTime?          @map("scheduled_at") @db.Timestamptz
-  expiresAt     DateTime?          @map("expires_at") @db.Timestamptz
+  scheduledAt DateTime? @map("scheduled_at") @db.Timestamptz
+  expiresAt   DateTime? @map("expires_at") @db.Timestamptz
 
   // 状态跟踪
-  readAt        DateTime?          @map("read_at") @db.Timestamptz
-  archivedAt    DateTime?          @map("archived_at") @db.Timestamptz
+  readAt     DateTime? @map("read_at") @db.Timestamptz
+  archivedAt DateTime? @map("archived_at") @db.Timestamptz
 
   // AI分析
-  aiAnalysis    Json?              @map("ai_analysis")
+  aiAnalysis Json? @map("ai_analysis")
 
   // 审计字段
-  createdAt     DateTime           @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt     DateTime           @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  user          User               @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([type])
@@ -1085,35 +1665,73 @@ model Notification {
 }
 
 // ============================================================================
+// 100MB+ 上传：对象存储 multipart 会话（防止只靠 formData 走内存）
+// ============================================================================
+
+model MultipartUploadSession {
+  id     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String  @map("user_id") @db.Uuid
+  caseId String? @map("case_id") @db.Uuid
+
+  uploadId  String @map("upload_id") @db.VarChar(200)
+  bucket    String @db.VarChar(255)
+  objectKey String @map("object_key") @db.Text
+
+  fileName     String @map("file_name") @db.VarChar(255)
+  originalName String @map("original_name") @db.VarChar(255)
+  contentType  String @map("content_type") @db.VarChar(100)
+  fileSize     BigInt @map("file_size")
+
+  status      MultipartUploadStatus @default(INITIATED)
+  parts       Json?                 @map("parts")
+  completedAt DateTime?             @map("completed_at") @db.Timestamptz
+  error       String?               @db.Text
+  metadata    Json?
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User             @relation("MultipartUploadUser", fields: [userId], references: [id], onDelete: Cascade)
+  case ArbitrationCase? @relation(fields: [caseId], references: [id], onDelete: SetNull)
+
+  @@unique([bucket, objectKey, uploadId])
+  @@index([userId])
+  @@index([caseId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("multipart_upload_sessions")
+}
+
+// ============================================================================
 // 文书模板相关模型
 // ============================================================================
 
 model DocumentTemplate {
-  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name            String    @db.VarChar(200)
-  category        String    @db.VarChar(100)
-  description     String?   @db.Text
-  templateType    String    @map("template_type") @db.VarChar(50)
+  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String  @db.VarChar(200)
+  category     String  @db.VarChar(100)
+  description  String? @db.Text
+  templateType String  @map("template_type") @db.VarChar(50)
 
   // 模板内容
-  templateContent String    @map("template_content") @db.Text
-  variables       Json      // 模板变量定义
-  styles          Json?     // 样式配置
+  templateContent String @map("template_content") @db.Text
+  variables       Json // 模板变量定义
+  styles          Json? // 样式配置
 
   // 版本控制
-  version         String    @default("1.0") @db.VarChar(20)
-  isActive        Boolean   @default(true) @map("is_active")
+  version  String  @default("1.0") @db.VarChar(20)
+  isActive Boolean @default(true) @map("is_active")
 
   // 使用统计
-  usageCount      Int       @default(0) @map("usage_count")
+  usageCount Int @default(0) @map("usage_count")
 
   // 审计字段
-  createdBy       String    @map("created_by") @db.Uuid
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  createdBy String   @map("created_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  creator         User      @relation("TemplateCreator", fields: [createdBy], references: [id])
+  creator            User                @relation("TemplateCreator", fields: [createdBy], references: [id])
   generatedDocuments GeneratedDocument[]
 
   @@index([category])
@@ -1124,33 +1742,33 @@ model DocumentTemplate {
 }
 
 model GeneratedDocument {
-  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  templateId      String           @map("template_id") @db.Uuid
-  caseId          String?          @map("case_id") @db.Uuid
-  documentNumber  String           @unique @map("document_number") @db.VarChar(50)
-  title           String           @db.VarChar(200)
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  templateId     String  @map("template_id") @db.Uuid
+  caseId         String? @map("case_id") @db.Uuid
+  documentNumber String  @unique @map("document_number") @db.VarChar(50)
+  title          String  @db.VarChar(200)
 
   // 生成内容
-  generatedContent String          @map("generated_content") @db.Text
-  variables       Json             // 实际使用的变量值
+  generatedContent String @map("generated_content") @db.Text
+  variables        Json // 实际使用的变量值
 
   // 文件信息
-  fileUrl         String?          @map("file_url") @db.VarChar(500)
-  fileFormat      String           @default("pdf") @map("file_format") @db.VarChar(20)
-  fileSize        Int?             @map("file_size")
+  fileUrl    String? @map("file_url") @db.VarChar(500)
+  fileFormat String  @default("pdf") @map("file_format") @db.VarChar(20)
+  fileSize   Int?    @map("file_size")
 
   // 状态
-  status          String           @default("draft") @db.VarChar(50)
+  status String @default("draft") @db.VarChar(50)
 
   // 审计字段
-  generatedBy     String           @map("generated_by") @db.Uuid
-  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  generatedBy String   @map("generated_by") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  template        DocumentTemplate @relation(fields: [templateId], references: [id])
-  case            ArbitrationCase? @relation(fields: [caseId], references: [id])
-  generator       User             @relation("DocumentGenerator", fields: [generatedBy], references: [id])
+  template  DocumentTemplate @relation(fields: [templateId], references: [id])
+  case      ArbitrationCase? @relation(fields: [caseId], references: [id])
+  generator User             @relation("DocumentGenerator", fields: [generatedBy], references: [id])
 
   @@index([templateId])
   @@index([caseId])
@@ -1165,33 +1783,33 @@ model GeneratedDocument {
 // ============================================================================
 
 model ArbitrationProcess {
-  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId          String       @unique @map("case_id") @db.Uuid
-  currentStage    ProcessStage @map("current_stage")
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId       String       @unique @map("case_id") @db.Uuid
+  currentStage ProcessStage @map("current_stage")
 
   // 程序配置
-  stages          Json         // 程序阶段配置
-  stageHistory    Json         @default("[]") @map("stage_history") // 阶段历史
+  stages       Json // 程序阶段配置
+  stageHistory Json @default("[]") @map("stage_history") // 阶段历史
 
   // 时间跟踪
-  startedAt       DateTime     @default(now()) @map("started_at") @db.Timestamptz
-  expectedEndAt   DateTime?    @map("expected_end_at") @db.Timestamptz
-  actualEndAt     DateTime?    @map("actual_end_at") @db.Timestamptz
+  startedAt     DateTime  @default(now()) @map("started_at") @db.Timestamptz
+  expectedEndAt DateTime? @map("expected_end_at") @db.Timestamptz
+  actualEndAt   DateTime? @map("actual_end_at") @db.Timestamptz
 
   // 进度统计
-  completedStages Int          @default(0) @map("completed_stages")
-  totalStages     Int          @map("total_stages")
-  progressPercent Int          @default(0) @map("progress_percent")
+  completedStages Int @default(0) @map("completed_stages")
+  totalStages     Int @map("total_stages")
+  progressPercent Int @default(0) @map("progress_percent")
 
   // AI分析
-  aiAnalysis      Json?        @map("ai_analysis")
+  aiAnalysis Json? @map("ai_analysis")
 
   // 审计字段
-  createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime     @updatedAt @map("updated_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  case            ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  case ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
 
   @@index([caseId])
   @@index([currentStage])
@@ -1204,36 +1822,36 @@ model ArbitrationProcess {
 // ============================================================================
 
 model CaseCanvas {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  caseId          String   @unique @map("case_id") @db.Uuid
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseId String @unique @map("case_id") @db.Uuid
 
-  latestVersion  Int      @default(0) @map("latest_version")
-  latestSnapshot Json?    @map("latest_snapshot")
+  latestVersion  Int   @default(0) @map("latest_version")
+  latestSnapshot Json? @map("latest_snapshot")
 
-  createdBy      String?  @map("created_by") @db.Uuid
-  updatedBy      String?  @map("updated_by") @db.Uuid
-  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  createdBy String?  @map("created_by") @db.Uuid
+  updatedBy String?  @map("updated_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  case           ArbitrationCase @relation(fields: [caseId], references: [id], onDelete: Cascade)
-  versions       CaseCanvasVersion[]
+  case     ArbitrationCase     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  versions CaseCanvasVersion[]
 
   @@index([caseId])
   @@map("case_canvases")
 }
 
 model CaseCanvasVersion {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  canvasId  String   @map("canvas_id") @db.Uuid
-  version   Int
-  snapshot  Json
-  checksum  String   @db.VarChar(64)
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  canvasId String @map("canvas_id") @db.Uuid
+  version  Int
+  snapshot Json
+  checksum String @db.VarChar(64)
 
   createdBy String?  @map("created_by") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   options   Json?
 
-  canvas    CaseCanvas @relation(fields: [canvasId], references: [id], onDelete: Cascade)
+  canvas CaseCanvas @relation(fields: [canvasId], references: [id], onDelete: Cascade)
 
   @@unique([canvasId, version])
   @@index([canvasId])
@@ -1246,37 +1864,37 @@ model CaseCanvasVersion {
 // ============================================================================ 
 
 model BatchOperation {
-  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  operationType   String    @map("operation_type") @db.VarChar(50)
-  operationName   String    @map("operation_name") @db.VarChar(200)
-  status          String    @default("pending") @db.VarChar(50)
+  id            String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  operationType String @map("operation_type") @db.VarChar(50)
+  operationName String @map("operation_name") @db.VarChar(200)
+  status        String @default("pending") @db.VarChar(50)
 
   // 操作配置
-  parameters      Json      // 操作参数
-  sourceFile      String?   @map("source_file") @db.VarChar(500)
+  parameters Json // 操作参数
+  sourceFile String? @map("source_file") @db.VarChar(500)
 
   // 进度跟踪
-  totalItems      Int       @default(0) @map("total_items")
-  processedItems  Int       @default(0) @map("processed_items")
-  successItems    Int       @default(0) @map("success_items")
-  failedItems     Int       @default(0) @map("failed_items")
-  progressPercent Int       @default(0) @map("progress_percent")
+  totalItems      Int @default(0) @map("total_items")
+  processedItems  Int @default(0) @map("processed_items")
+  successItems    Int @default(0) @map("success_items")
+  failedItems     Int @default(0) @map("failed_items")
+  progressPercent Int @default(0) @map("progress_percent")
 
   // 结果
-  results         Json?     // 操作结果
-  errorLog        Json?     @map("error_log") // 错误日志
+  results  Json? // 操作结果
+  errorLog Json? @map("error_log") // 错误日志
 
   // 时间跟踪
-  startedAt       DateTime? @map("started_at") @db.Timestamptz
-  completedAt     DateTime? @map("completed_at") @db.Timestamptz
+  startedAt   DateTime? @map("started_at") @db.Timestamptz
+  completedAt DateTime? @map("completed_at") @db.Timestamptz
 
   // 审计字段
-  createdBy       String    @map("created_by") @db.Uuid
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  createdBy String   @map("created_by") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   // 关联关系
-  creator         User      @relation("BatchOperationCreator", fields: [createdBy], references: [id])
+  creator User @relation("BatchOperationCreator", fields: [createdBy], references: [id])
 
   @@index([operationType])
   @@index([status])
@@ -1290,25 +1908,25 @@ model BatchOperation {
 // ============================================================================
 
 model AuditLog {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  timestamp    DateTime @default(now()) @db.Timestamptz
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  timestamp DateTime @default(now()) @db.Timestamptz
 
-  level        String   @db.VarChar(20)
-  eventType    String   @map("event_type") @db.VarChar(100)
-  result       String   @db.VarChar(20)
+  level     String @db.VarChar(20)
+  eventType String @map("event_type") @db.VarChar(100)
+  result    String @db.VarChar(20)
 
-  userId       String?  @map("user_id") @db.Uuid
-  userName     String?  @map("user_name") @db.VarChar(200)
-  ipAddress    String?  @map("ip_address") @db.VarChar(45)
-  userAgent    String?  @map("user_agent") @db.Text
+  userId    String? @map("user_id") @db.Uuid
+  userName  String? @map("user_name") @db.VarChar(200)
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+  userAgent String? @map("user_agent") @db.Text
 
-  resource     String?  @db.VarChar(200)
-  action       String?  @db.VarChar(200)
+  resource     String? @db.VarChar(200)
+  action       String? @db.VarChar(200)
   details      Json?
-  errorMessage String?  @map("error_message") @db.Text
-  signature    String?  @db.Text
+  errorMessage String? @map("error_message") @db.Text
+  signature    String? @db.Text
 
-  user         User?    @relation(fields: [userId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
 
   @@index([timestamp])
   @@index([eventType])
