@@ -11,6 +11,7 @@ import {
   CanvasSyncStatus,
   CanvasSyncEvent,
 } from '../interfaces/case-canvas-mapping';
+import { apiRequest } from './backend-api';
 
 /**
  * 画布持久化类
@@ -20,6 +21,7 @@ export class CanvasPersistence {
   private saveDebounceDelay = 2000; // 2秒防抖
   private syncStatus: CanvasSyncStatus = CanvasSyncStatus.SYNCED;
   private eventListeners: ((event: CanvasSyncEvent) => void)[] = [];
+  private versionCache = new Map<string, number>();
 
   /**
    * 保存画布状态到后端
@@ -32,19 +34,31 @@ export class CanvasPersistence {
     try {
       this.setSyncStatus(caseId, CanvasSyncStatus.SYNCING);
 
-      const response = await fetch(`/api/cases/${caseId}/canvas`, {
+      const expectedVersion = this.versionCache.get(caseId) ?? 0;
+      const result = await apiRequest<{ version: number; updatedAt: string }>(
+        `/api/cases/${caseId}/canvas`,
+        {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          expectedVersion,
           canvasState: state,
           options,
         }),
-      });
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error(`保存失败: ${response.statusText}`);
+      if (!result.ok) {
+        if (result.error.code === 'RESOURCE_CONFLICT') {
+          await this.loadCanvasState(caseId, { metadataOnly: true }).catch(() => null);
+        }
+        throw new Error(`保存失败: ${result.error.message}`);
+      }
+
+      if (typeof result.data?.version === 'number') {
+        this.versionCache.set(caseId, result.data.version);
       }
 
       this.setSyncStatus(caseId, CanvasSyncStatus.SYNCED);
@@ -88,20 +102,25 @@ export class CanvasPersistence {
         url.searchParams.set('metadataOnly', 'true');
       }
 
-      const response = await fetch(url.toString());
+      const result = await apiRequest<{
+        canvasState: CanvasState | null;
+        metadata?: { latestVersion?: number; updatedAt?: string };
+      }>(url.toString());
 
-      if (response.status === 404) {
-        // 画布不存在，返回null
-        this.setSyncStatus(caseId, CanvasSyncStatus.SYNCED);
-        return null;
+      if (!result.ok) {
+        if (result.status === 404) {
+          this.versionCache.set(caseId, 0);
+          this.setSyncStatus(caseId, CanvasSyncStatus.SYNCED);
+          return null;
+        }
+        throw new Error(`加载失败: ${result.error.message}`);
       }
 
-      if (!response.ok) {
-        throw new Error(`加载失败: ${response.statusText}`);
+      const canvasState = result.data.canvasState ?? null;
+      const latestVersion = result.data.metadata?.latestVersion;
+      if (typeof latestVersion === 'number') {
+        this.versionCache.set(caseId, latestVersion);
       }
-
-      const data = await response.json();
-      const canvasState = data.canvasState as CanvasState;
 
       this.setSyncStatus(caseId, CanvasSyncStatus.SYNCED);
       this.emitEvent({
@@ -165,13 +184,15 @@ export class CanvasPersistence {
    */
   async deleteCanvasState(caseId: string): Promise<void> {
     try {
-      const response = await fetch(`/api/cases/${caseId}/canvas`, {
+      const result = await apiRequest<null>(`/api/cases/${caseId}/canvas`, {
         method: 'DELETE',
       });
 
-      if (!response.ok) {
-        throw new Error(`删除失败: ${response.statusText}`);
+      if (!result.ok) {
+        throw new Error(`删除失败: ${result.error.message}`);
       }
+
+      this.versionCache.set(caseId, 0);
 
       console.log(`[CanvasPersistence] 画布状态已删除: ${caseId}`);
     } catch (error) {
@@ -185,14 +206,22 @@ export class CanvasPersistence {
    */
   async getCanvasVersions(caseId: string): Promise<any[]> {
     try {
-      const response = await fetch(`/api/cases/${caseId}/canvas/versions`);
+      const result = await apiRequest<{
+        caseId: string;
+        latestVersion: number;
+        updatedAt: string;
+        versions: any[];
+      }>(`/api/cases/${caseId}/canvas/versions`);
 
-      if (!response.ok) {
-        throw new Error(`获取版本列表失败: ${response.statusText}`);
+      if (!result.ok) {
+        throw new Error(`获取版本列表失败: ${result.error.message}`);
       }
 
-      const data = await response.json();
-      return data.versions || [];
+      if (typeof result.data.latestVersion === 'number') {
+        this.versionCache.set(caseId, result.data.latestVersion);
+      }
+
+      return Array.isArray(result.data.versions) ? result.data.versions : [];
     } catch (error) {
       console.error('[CanvasPersistence] 获取版本列表失败:', error);
       throw error;
@@ -265,4 +294,3 @@ export class CanvasPersistence {
  * 全局画布持久化实例
  */
 export const canvasPersistence = new CanvasPersistence();
-

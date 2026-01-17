@@ -117,6 +117,13 @@ export default defineConfig({
     host: true,
     open: false,
     cors: true,
+    proxy: {
+      '/api': {
+        target: process.env.VITE_BACKEND_URL || 'http://localhost:3100',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
 
     // HMR配置
     hmr: {

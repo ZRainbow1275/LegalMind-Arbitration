@@ -5,6 +5,7 @@
  */
 
 import { DocumentMetadata } from '../interfaces/legal-elements';
+import { apiRequest } from './backend-api';
 
 
 /**
@@ -19,7 +20,7 @@ export interface CaseDocument {
   fileName: string;
   originalName: string;
   filePath: string;
-  fileSize: bigint | number;
+  fileSize: bigint | number | string;
   fileType: string;
   mimeType?: string;
   fileHash?: string;
@@ -69,18 +70,21 @@ export class DocumentSync {
   /**
    * 从案件加载所有文档
    */
-  async loadDocumentsFromCase(caseId: string): Promise<DocumentNodeData[]> {
+  async loadDocumentsFromCase(caseId: string): Promise<DocumentNodeData[]> {    
     try {
       console.log(`[DocumentSync] 加载案件文档: ${caseId}`);
 
       // 从API获取文档列表
-      const response = await fetch(`/api/cases/${caseId}/documents`);
-      if (!response.ok) {
-        throw new Error(`加载文档失败: ${response.statusText}`);
+      const result = await apiRequest<unknown>(`/api/cases/${caseId}/documents`);
+      if (!result.ok) {
+        throw new Error(`加载文档失败: ${result.error.message}`);
       }
 
-      const data = await response.json();
-      const documents: CaseDocument[] = data.documents || [];
+      const payload = result.data as any;
+      const documentsRaw = Array.isArray(payload)
+        ? payload
+        : (payload?.documents ?? []);
+      const documents: CaseDocument[] = Array.isArray(documentsRaw) ? documentsRaw : [];
 
       // 缓存文档数据
       this.documentCache.set(caseId, documents);
@@ -194,13 +198,21 @@ export class DocumentSync {
     document: CaseDocument,
     index: number
   ): DocumentNodeData {
+    const fileSizeNumber = (() => {
+      if (typeof document.fileSize === 'bigint') return Number(document.fileSize);
+      if (typeof document.fileSize === 'number') return document.fileSize;
+      if (typeof document.fileSize === 'string') {
+        const parsed = Number(document.fileSize);
+        return Number.isFinite(parsed) ? parsed : 0;
+      }
+      return 0;
+    })();
+
     const metadata: DocumentMetadata = {
       documentId: document.id,
       fileName: document.fileName,
       originalName: document.originalName,
-      fileSize: typeof document.fileSize === 'bigint'
-        ? Number(document.fileSize)
-        : document.fileSize,
+      fileSize: fileSizeNumber,
       fileType: document.fileType,
       mimeType: document.mimeType,
       documentType: document.documentType,
@@ -288,4 +300,3 @@ export interface DocumentSyncEvent {
  * 全局文档同步实例
  */
 export const documentSync = new DocumentSync();
-

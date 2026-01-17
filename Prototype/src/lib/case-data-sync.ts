@@ -5,6 +5,7 @@
  */
 
 import { LegalNode } from '../components/workspace/types';
+import { apiRequest } from './backend-api';
 
 /**
  * 节点数据转换器
@@ -127,12 +128,13 @@ export class CaseDataSync {
       console.log(`[CaseDataSync] 同步案件数据到画布: ${caseId}`);
 
       // 从API获取案件数据
-      const response = await fetch(`/api/cases/${caseId}`);
-      if (!response.ok) {
-        throw new Error(`获取案件数据失败: ${response.statusText}`);
+      const result = await apiRequest<any>(`/api/cases/${caseId}`);
+      if (!result.ok) {
+        throw new Error(`获取案件数据失败: ${result.error.message}`);
       }
 
-      const caseData = await response.json();
+      const payload = result.data;
+      const caseData = payload?.case ?? payload;
       const nodes: LegalNode[] = [];
 
       // 创建案件节点
@@ -207,6 +209,30 @@ export class CaseDataSync {
       console.log('[CaseDataSync] 案件数据:', caseData);
       console.log('[CaseDataSync] 当事人数据:', participants);
 
+      const caseNodeMetadata = caseNode.data?.metadata as any;
+      const updatePayload: Record<string, unknown> = {};
+
+      if (typeof caseData?.title === 'string') updatePayload.title = caseData.title;
+      if (typeof caseData?.description === 'string') updatePayload.description = caseData.description;
+      if (typeof caseNodeMetadata?.caseType === 'string') updatePayload.caseType = caseNodeMetadata.caseType;
+      if (typeof caseData?.disputeAmount === 'number' && Number.isFinite(caseData.disputeAmount)) {
+        updatePayload.disputeAmount = caseData.disputeAmount;
+      }
+
+      if (Object.keys(updatePayload).length > 0) {
+        const updateResult = await apiRequest<any>(`/api/cases/${caseId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatePayload),
+        });
+
+        if (!updateResult.ok) {
+          throw new Error(`同步到案件失败: ${updateResult.error.message}`);
+        }
+      }
+
       this.emitEvent({
         type: 'sync-to-case',
         caseId,
@@ -235,6 +261,29 @@ export class CaseDataSync {
       console.log(`[CaseDataSync] 更新案件节点: ${caseId}`, updates);
 
       // 发送到API（模拟）
+      const updatePayload: Record<string, unknown> = {};
+
+      if (typeof updates.title === 'string') updatePayload.title = updates.title;
+      if (typeof updates.description === 'string') updatePayload.description = updates.description;
+      if (typeof updates.caseType === 'string') updatePayload.caseType = updates.caseType;
+      if (typeof updates.disputeAmount === 'number' && Number.isFinite(updates.disputeAmount)) {
+        updatePayload.disputeAmount = updates.disputeAmount;
+      }
+
+      if (Object.keys(updatePayload).length > 0) {
+        const updateResult = await apiRequest<any>(`/api/cases/${caseId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatePayload),
+        });
+
+        if (!updateResult.ok) {
+          throw new Error(`更新案件失败: ${updateResult.error.message}`);
+        }
+      }
+
       this.emitEvent({
         type: 'update',
         caseId,
@@ -302,4 +351,3 @@ export interface CaseSyncEvent {
  * 全局案件数据同步实例
  */
 export const caseDataSync = new CaseDataSync();
-
