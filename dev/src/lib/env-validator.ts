@@ -79,6 +79,11 @@ const envSchema = z.object({
   // 审计日志（必需）
   AUDIT_LOG_SECRET: z.string().min(32, '审计日志密钥长度至少32个字符'),
 
+  // 电子签名/电子印章（可选：未配置则相关接口返回 SERVICE_NOT_CONFIGURED）
+  DOCUMENT_SIGNING_PRIVATE_KEY_PEM: z.string().min(1).optional(),
+  DOCUMENT_SIGNING_PUBLIC_KEY_PEM: z.string().min(1).optional(),
+  DOCUMENT_SIGNING_ALGORITHM: z.string().default('RSA-SHA256'),
+
   // 支付/对账（可选：未配置则支付接口返回 SERVICE_NOT_CONFIGURED）
   PAYMENT_WEBHOOK_SECRET: z.string().min(32).optional(),
 

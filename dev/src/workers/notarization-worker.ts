@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Prisma } from '@/generated/prisma';
+import { EvidenceVerificationMethod, EvidenceVerificationStatus, type Prisma } from '@/generated/prisma';
 import { prisma } from '@/lib/prisma';
 import { appendCaseEvent } from '@/lib/case-events';
 import { getExternalSystemManager } from '@/lib/external-systems';
@@ -15,6 +15,42 @@ function asJsonObject(value: unknown): MutableJsonObject {
 
 function toPrismaJson(value: unknown): Prisma.InputJsonValue {
   return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
+}
+
+async function upsertEvidenceVerification(params: {
+  documentId: string;
+  status: EvidenceVerificationStatus;
+  traceId: string;
+  requestedByUserId?: string;
+  checkedAt?: Date;
+  verifiedAt?: Date | null;
+  error?: string | null;
+  details?: unknown;
+}) {
+  await prisma.evidenceVerification.upsert({
+    where: { documentId: params.documentId },
+    create: {
+      documentId: params.documentId,
+      method: EvidenceVerificationMethod.NOTARY,
+      status: params.status,
+      requestedByUserId: params.requestedByUserId,
+      traceId: params.traceId,
+      checkedAt: params.checkedAt,
+      verifiedAt: params.verifiedAt ?? null,
+      error: params.error ?? null,
+      details: typeof params.details === 'undefined' ? undefined : toPrismaJson(params.details),
+    },
+    update: {
+      method: EvidenceVerificationMethod.NOTARY,
+      status: params.status,
+      requestedByUserId: params.requestedByUserId,
+      traceId: params.traceId,
+      checkedAt: params.checkedAt,
+      verifiedAt: params.verifiedAt ?? null,
+      error: params.error ?? null,
+      details: typeof params.details === 'undefined' ? undefined : toPrismaJson(params.details),
+    },
+  });
 }
 
 export const notaryTaskPayloadSchema = z
@@ -78,6 +114,22 @@ export async function processNotaryTask(payload: NotaryTaskPayload): Promise<Not
       },
     });
 
+    await upsertEvidenceVerification({
+      documentId: payload.documentId,
+      status: EvidenceVerificationStatus.FAILED,
+      traceId: payload.traceId,
+      requestedByUserId: payload.actorUserId,
+      checkedAt: now,
+      verifiedAt: null,
+      error: 'HASH_MISMATCH',
+      details: {
+        method: 'NOTARY',
+        expectedHash: doc.fileHash,
+        receivedHash: payload.fileHash,
+        at: nowIso,
+      },
+    }).catch(() => undefined);
+
     return { ok: true, skipped: true, reason: 'HASH_MISMATCH' };
   }
 
@@ -112,6 +164,17 @@ export async function processNotaryTask(payload: NotaryTaskPayload): Promise<Not
       }),
     },
   });
+
+  await upsertEvidenceVerification({
+    documentId: payload.documentId,
+    status: EvidenceVerificationStatus.PROCESSING,
+    traceId: payload.traceId,
+    requestedByUserId: payload.actorUserId,
+    checkedAt: now,
+    verifiedAt: null,
+    error: null,
+    details: { method: 'NOTARY', status: 'PROCESSING', at: nowIso },
+  }).catch(() => undefined);
 
   const manager = getExternalSystemManager();
   const response = await manager.integrateNotarySystem('apply_notarization', {
@@ -184,6 +247,17 @@ export async function processNotaryTask(payload: NotaryTaskPayload): Promise<Not
       'Notary integration failed'
     );
 
+    await upsertEvidenceVerification({
+      documentId: payload.documentId,
+      status: EvidenceVerificationStatus.FAILED,
+      traceId: payload.traceId,
+      requestedByUserId: payload.actorUserId,
+      checkedAt: now,
+      verifiedAt: null,
+      error: errorCode,
+      details: { method: 'NOTARY', errorCode, error, systemInfo: response.systemInfo ?? null },
+    }).catch(() => undefined);
+
     return { ok: true, failed: true, errorCode, error };
   }
 
@@ -216,6 +290,16 @@ export async function processNotaryTask(payload: NotaryTaskPayload): Promise<Not
     },
   }).catch(() => undefined);
 
+  await upsertEvidenceVerification({
+    documentId: payload.documentId,
+    status: EvidenceVerificationStatus.VERIFIED,
+    traceId: payload.traceId,
+    requestedByUserId: payload.actorUserId,
+    checkedAt: now,
+    verifiedAt: now,
+    error: null,
+    details: { method: 'NOTARY', status: 'SUBMITTED', notary: response.data, systemInfo: response.systemInfo ?? null },
+  }).catch(() => undefined);
+
   return { ok: true, submitted: true };
 }
-
