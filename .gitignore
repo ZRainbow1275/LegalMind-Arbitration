@@ -45,8 +45,7 @@ out/
 resource/*.mp4
 
 # ===== Local-only dirs =====
-# dev/ 目录包含单独的 Next.js 项目与本地环境配置（含 .env），默认不纳入该仓库版本控制
-dev/
+# dev/ 作为工作台 + 后端实现目录纳入版本控制；仍通过全局规则忽略 `.env*`、`node_modules/`、`.next/` 等本地/构建产物
 
 # Prototype 内的上游参考仓库（自带 .git），避免作为嵌套仓库/子模块被提交
 Prototype/drawnix-reference/

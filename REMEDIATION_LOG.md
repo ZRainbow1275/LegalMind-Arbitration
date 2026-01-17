@@ -1,4 +1,4 @@
-# 修复执行报告（LegalMind-Arbitration）
+﻿# 修复执行报告（LegalMind-Arbitration）
 
 开始时间：2026-01-16 05:57:20  
 完成时间：2026-01-16 22:26:08
@@ -7,10 +7,9 @@
 ## 仓库结构与交付风险
 
 - 根仓库：`D:\Desktop\LegalMind-Arbitration`（remote: `origin https://github.com/ZRainbow1275/LegalMind-Arbitration.git`）
-- `dev/`：独立 Git 仓库（`dev/.git`），且根仓库 `.gitignore` 忽略 `dev/`  
-  - 影响：根仓库 PR/合并 **不会包含** `dev/` 的修复提交；需要对 `dev/` 单独交付（配置 remote 或将其纳入主仓库管理策略）。
-
-  - 当前状态：`dev/` 未配置 remote（`git remote -v` 无输出），无法自动推送与创建 PR。
+- `dev/`：工作台（Next.js）+ 后端 API 实现目录，已纳入根仓库版本控制（2026-01-18 已移除 `dev/.git`，并取消 `.gitignore` 对 `dev/` 的忽略）
+  - 影响：根仓库 PR/合并 **会包含** `dev/` 的修复提交；无需单独交付
+  - 历史追溯：原 `dev/` 独立仓库最后 HEAD 为 `167c98b30c50d7351422d019f420fefe5c342183`
   - 根仓库分支状态：已推送至 `origin/fix/audit-remediation-20260116`（可创建/更新 PR：`https://github.com/ZRainbow1275/LegalMind-Arbitration/pull/new/fix/audit-remediation-20260116`）。
 
 ## 修复内容（按 Phase）
@@ -126,7 +125,7 @@
 
 ## 遗留问题 / 风险提示
 
-- 交付风险：根仓库 `.gitignore` 忽略 `dev/`，且 `dev/` 为独立仓库（无 remote），因此根仓库 PR 不会包含工作台后端修复。
+- 交付风险（已解决）：`dev/` 已纳入根仓库版本控制，根仓库 PR 将包含工作台后端修复。
 - 根仓库远端同步：已推送至 `origin/fix/audit-remediation-20260116`。
 - PR 自动化：未安装 `gh`，无法在本机自动 `gh pr create`。
 - 构建期副作用：`dev pnpm build` 日志出现 Redis 连接提示，说明部分模块在构建/预渲染阶段触发外部连接；建议将外部连接延后到运行期并做环境隔离。

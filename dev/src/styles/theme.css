@@ -1,0 +1,278 @@
+/* src/styles/theme.css */
+
+/* 统一的动画系统 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes loading-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 动画类 */
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
+.loading-spinner {
+  animation: loading-spinner 1s linear infinite;
+}
+
+/* 统一的交互效果 */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* 统一的按钮样式 */
+.btn-primary {
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #E55A2B 0%, #E8851A 100%);
+  transform: translateY(-1px);
+}
+
+/* 统一的卡片样式 */
+.card {
+  background: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 统一的阴影系统 */
+.shadow-brand {
+  box-shadow: 0 4px 14px 0 rgba(255, 107, 53, 0.25);
+}
+
+.shadow-brand-lg {
+  box-shadow: 0 10px 25px -5px rgba(255, 107, 53, 0.25), 0 10px 10px -5px rgba(255, 107, 53, 0.1);
+}
+
+.shadow-card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-card-hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 统一的渐变背景 */
+.bg-gradient-brand {
+  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+}
+
+.bg-gradient-card {
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+}
+
+/* 统一的导航项样式 */
+.nav-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 107, 53, 0.1);
+  transform: translateX(4px);
+}
+
+.nav-item-animate {
+  opacity: 0;
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+/* 统一的进度条样式 */
+.progress-bar {
+  background: linear-gradient(90deg, #FF6B35 0%, #F7931E 100%);
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.3);
+}
+
+/* 统一的表单样式 */
+.form-input {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+}
+
+.form-input:focus {
+  border-color: #FF6B35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+  outline: none;
+}
+
+/* 统一的状态颜色 */
+.status-success {
+  background-color: #10B981;
+  color: white;
+}
+
+.status-warning {
+  background-color: #F59E0B;
+  color: white;
+}
+
+.status-error {
+  background-color: #EF4444;
+  color: white;
+}
+
+.status-info {
+  background-color: #3B82F6;
+  color: white;
+}
+
+/* 统一的文本样式 */
+.text-brand {
+  color: #FF6B35;
+}
+
+.text-brand-dark {
+  color: #E55A2B;
+}
+
+/* 响应式工具类 */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none;
+  }
+  
+  .mobile-full {
+    width: 100%;
+  }
+  
+  .mobile-stack {
+    flex-direction: column;
+  }
+}
+
+/* 无障碍支持 */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-scale-in,
+  .hover-lift,
+  .nav-item,
+  .card {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid #000;
+  }
+  
+  .btn-primary {
+    border: 2px solid #000;
+  }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #1F2937;
+    border-color: #374151;
+    color: #F9FAFB;
+  }
+  
+  .bg-gradient-card {
+    background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .hover-lift,
+  .btn-ripple,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-scale-in {
+    animation: none;
+    transition: none;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .card {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+}
