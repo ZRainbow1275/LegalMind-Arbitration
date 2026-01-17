@@ -1,6 +1,6 @@
 # 需求-实现对照矩阵（工作台 dev + 仲裁系统 Prototype）
 
-> 生成时间：2026-01-12  
+> 生成时间：2026-01-18  
 > 目标：把「文档/提示词中声称要有的能力」与「当前代码中真实存在的实现」做成可追溯矩阵，明确缺口、风险与优先级（以代码为准，不以“文档口径”直接认定完成度）。
 
 ---
@@ -8,7 +8,7 @@
 ## 0. 范围与输入来源（Source of Truth）
 
 **范围**
-- 工作台：`dev/`（Next.js 工程；当前未纳入本仓库版本控制）
+- 工作台：`dev/`（Next.js 工程；已纳入本仓库版本控制）
 - 仲裁系统：`Prototype/`（Vite + React 工程；本仓库重点纳入版本控制）
 
 **输入来源（本次审计的文档/提示词）**
@@ -61,11 +61,11 @@
 | FR-2.1.1 | 引导式申请流程 | UI(Mock) | Missing | `dev/src/app/(private)/cases/page.tsx`（主要走 store/mock）；Prototype 未见“申请流程页面” |
 | FR-2.1.2 | 智能表单验证 | Partial | Missing | 后端：`dev/src/lib/validation.ts`（Zod）；前端申请流程未端到端接入 |
 | FR-2.1.3 | 文档上传和管理 | UI(Mock)+Backend(未接入/Partial) | UI(依赖 /api，未提供后端) | `dev/src/app/api/documents/route.ts`；`Prototype/src/lib/document-sync.ts`（调用 `/api/cases/:id/documents`） |
-| FR-2.1.4 | 自动费用计算 | Missing/Partial | Missing | 仅见需求/页面入口（问题单提及仲裁费窗口），未见可验收计算链路 |
+| FR-2.1.4 | 自动费用计算 | Partial（后端已有计算器+支付前校验，UI 未接入） | Missing | `dev/src/lib/arbitration-fee.ts`；`dev/src/app/api/external/payment/route.ts`（计算并写入 `arbitrationFee`，并校验支付金额） |
 | FR-2.2.1 | 案件审核流程 | Missing/Partial | Missing | 后端部分字段存在（`CaseStatus`），但缺少受理/审核工作流与 UI 接入 |
 | FR-2.2.2 | 自动分配案件编号 | Partial | N/A | `dev/src/app/api/cases/route.ts`（生成 `LMYYYY-xxxxxx`）与需求样式不一致 |
-| FR-2.2.3 | 电子送达通知 | Missing | Missing | 未见可验收“送达”链路（通知更多为 mock） |
-| FR-2.2.4 | 费用支付确认 | Missing | Missing | 未见支付/对账/回执闭环 |
+| FR-2.2.3 | 电子送达通知 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/service/route.ts`（创建送达任务+入队）；`dev/src/app/api/service/[id]/proof/route.ts`（回执/证明）；`dev/src/lib/queue.ts`（投递队列） |
+| FR-2.2.4 | 费用支付确认 | Backend(未接入)/Partial（需配置支付渠道） | Missing | `dev/src/app/api/external/payment/route.ts`（下单+金额校验）；`dev/src/app/api/external/payment/webhook/route.ts`（验签+回写订单/案件缴费状态） |
 | FR-2.3.1 | 案件状态实时更新 | UI(Mock) | UI(Mock/Local) | `dev/src/lib/mock-data.ts`（进度）；Prototype 画布状态本地 demo/未连后端 |
 | FR-2.3.2 | 时间轴可视化 | UI(Mock)/Partial | UI(已实现可视化) | `dev/src/lib/mock-data.ts`（阶段）；Prototype：`Prototype/src/components/TimelineVisualization.tsx` |
 | FR-2.3.3 | 关键节点提醒 | UI(Mock)/Partial | Partial | dev：通知多为 mock；Prototype：存在 Toast/状态面板但无业务触发源 |
@@ -82,7 +82,7 @@
 | FR-3.2.1 | 智能推荐算法 | Missing/Partial | Partial(Mock AI) | dev 多为“占位推荐”；Prototype：`Prototype/src/services/AIService.ts`（MockAIService） |
 | FR-3.2.2 | 交互式选择界面 | UI(Mock)/Partial | Partial | 需求在问题单中明确；现状多为原型弹窗/未闭环 |
 | FR-3.2.3 | 回避申请处理 | UI(Mock)/Partial | Missing | dev 有回避/冲突提示原型（问题单提及），缺后端流程 |
-| FR-3.2.4 | 仲裁庭组建确认 | Missing/Partial | Missing | 缺“确认-通知-归档”闭环 |
+| FR-3.2.4 | 仲裁庭组建确认 | Partial（合意/任命已落库，可审计；仍缺前端验收闭环） | Missing | `dev/src/app/api/cases/[id]/neutrals/invitations/route.ts`；`dev/src/app/api/neutrals/invitations/[id]/respond/route.ts`；`dev/src/app/api/cases/[id]/neutrals/[userId]/consents/route.ts`；`dev/src/app/api/cases/[id]/neutrals/[userId]/appoint/route.ts` |
 
 ### 2.4 证据交换
 
@@ -112,7 +112,7 @@
 | FR-5.3.1 | 实时证据展示 | UI(Mock)/Partial | Partial | dev hearing UI 有证据区；Prototype 文档节点/画布展示能力强 |
 | FR-5.3.2 | 标注和批注 | Partial | Partial | Prototype 画布标注/评论（协作 server 支持 comment）；dev 侧多为原型 |
 | FR-5.3.3 | 证据对比 | Missing/Partial | Missing/Partial | 未见可验收对比工具 |
-| FR-5.3.4 | 证据归档 | Missing | Missing | 缺归档策略与存储实现 |
+| FR-5.3.4 | 证据归档 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/archive/route.ts`（归档任务+入队）；`dev/src/app/api/cases/[id]/archive/download/route.ts`（归档包下载/留痕）；归档元数据含 `sha256`/`manifestHash` |
 
 ### 2.6 裁决管理
 
@@ -124,8 +124,8 @@
 | FR-6.1.4 | 版本控制 | Partial | Partial | 字段/接口存在；缺端到端版本回溯 |
 | FR-6.2.1 | 电子签名 | Missing | Missing | 未见签章服务接入与合规链路 |
 | FR-6.2.2 | 电子印章 | Missing | Missing | 同上 |
-| FR-6.2.3 | 自动送达 | Missing | Missing | 同上 |
-| FR-6.2.4 | 归档管理 | Missing | Missing | 同上 |
+| FR-6.2.3 | 自动送达 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/service/route.ts`（送达任务创建+入队）；`dev/src/app/api/service/[id]/proof/route.ts`（送达证明） |
+| FR-6.2.4 | 归档管理 | Backend(未接入) | Missing | `dev/src/app/api/cases/[id]/archive/route.ts`；`dev/src/app/api/cases/[id]/archive/download/route.ts`（归档包生成/下载） |
 
 ### 2.7 AI 智能助手
 

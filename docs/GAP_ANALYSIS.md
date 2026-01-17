@@ -1,6 +1,6 @@
 # 缺口分析（工作台 dev + 仲裁系统 Prototype）
 
-> 基于：`docs/TRACEABILITY_MATRIX.md`（2026-01-12）
+> 基于：`docs/TRACEABILITY_MATRIX.md`（2026-01-18）
 >
 > 目标：把当前“能跑的前端原型/局部 API”与目标系统之间的差距，按**可验收主线**进行排序，明确必须补齐的后端、契约、鉴权、审计与数据模型缺口，并为后续执行计划提供最短落地路径。
 
@@ -8,7 +8,7 @@
 
 ## 1. 结论摘要（TL;DR）
 
-- **当前未形成端到端闭环（E2E）**：工作台 `dev/` 侧虽已有部分 API（Next.js Route + Prisma + Zod），但前端关键入口仍走 `mock/localStorage`；仲裁系统 `Prototype/` 多处依赖 `/api/...`，但本仓库未提供对应后端实现。
+- **当前仍未形成完整端到端闭环（E2E）**：`dev/` 后端 API（Next.js Route + Prisma + Zod + 队列/Worker）已较完整且已纳入本仓库版本控制；但 dev 前端关键入口仍部分走 `mock/localStorage`，Prototype 需依赖运行 dev 作为 `/api` 服务并完成跨系统鉴权/部署。
 - **最大阻断风险**集中在：统一身份与权限（SSO/MFA/RBAC/租户）、真实数据持久化（案件/文档/庭审/调解）、可审计数据模型（避免写入 `metadata`）、以及“支付/送达/通知/留痕”这类合规硬链路。
 - **文档口径与代码现实存在偏差**：以 `docs/TRACEABILITY_MATRIX.md` 的判定为准，避免以“README/规格文档宣称”直接认定完成度。
 
@@ -22,9 +22,9 @@
 
 **现状缺口（摘要）**
 - 登录/注册入口仍为 `UI(Mock)`：如 `dev/src/app/(public)/login/page.tsx`、`dev/src/app/(public)/register/page.tsx` 未系统性调用 `dev/src/app/api/auth/*`。
-- API 缺失：`POST /api/auth/logout`、`POST /api/auth/verify-identity`、用户管理 CRUD（`/api/users*`）等。
-- MFA 仅见“6 位验证码式”管理器，**非 TOTP**（`dev/src/lib/security/session-manager.ts`）。
-- SSO：存在 Google/Azure/企业微信/钉钉入口（依赖 env），但“微信登录”口径与 `wechat_work` 不一致；未见 Alipay。
+- API 已实现但 UI 未系统性接入：`POST /api/auth/logout`、`POST /api/auth/verify-identity`、用户管理 CRUD（`/api/users*`）等。
+- MFA（TOTP）后端流程已补齐（含强制策略/恢复码），但前端入口仍需对齐与验收。
+- SSO：已补齐企业微信/钉钉/支付宝等 provider（依赖 env）；仍需明确“微信登录 vs 企业微信”的产品口径，并完成 UI 接入/回调验收。
 
 **必须补齐（P0）**
 - 统一会话与鉴权：登录态、刷新/登出、跨子系统 SSO 对接（至少明确“基座 → 工作台/仲裁系统”的信任链）。
@@ -35,9 +35,9 @@
 
 **现状缺口（摘要）**
 - 案件申请/引导式流程多为 `UI(Mock)`，未形成端到端写入/回读闭环。
-- 文档链路存在命名差异与未接入：文档参考为 `/api/documents/upload`，而 `dev` 采用 `POST /api/documents`；`Prototype` 走 `/api/cases/:id/documents` 且后端缺失。
-- 庭审/调解 API 有雏形，但大量把结构化数据写入 `arbitrationCase.metadata`（注释亦提示需要扩展 Prisma 模型），不满足生产可审计/可查询。
-- 支付/对账/回执、电子送达、通知与留痕链路未见可验收实现。
+- 文档链路命名差异仍存在：文档参考为 `/api/documents/upload`，dev 同时提供 `POST /api/documents` 与 `POST /api/documents/upload`；Prototype 走 `/api/cases/:id/documents` 已由 dev 提供，但需部署/同源代理后方可对接。
+- 庭审/调解已改为使用独立模型落库（Hearing/Mediation/Agreement/CaseEvent），仍需把 UI/状态机验收做到可重复（避免回退为 metadata 写入）。
+- 支付/对账/回执、电子送达、通知与留痕后端已补齐（订单/回调验签/队列/审计），但仍缺前端接入与生产配置（支付渠道、短信/邮件、对象存储）。
 
 **必须补齐（P0）**
 - 以“案件”为核心的事实源：案件状态机、关键里程碑事件、参与方/代理/仲裁员等实体与权限关系必须落库且可追溯。
@@ -49,8 +49,8 @@
 ### 主线 C：Prototype 画布 → 模板/协作 → 与案件/文档/进度同步
 
 **现状缺口（摘要）**
-- `Prototype/` 的“画布持久化/文档同步”依赖 `/api/...`，但未在本仓库提供对应后端：如 `Prototype/src/lib/canvas-persistence.ts`、`Prototype/src/lib/document-sync.ts`。
-- 协作 server 存在（`Prototype/server/collaboration-server.js`），但未与统一身份体系绑定，缺少持久化与审计。
+- `Prototype/` 的“画布持久化/文档同步”依赖 `/api/...`，目前已由 `dev/` 提供核心接口（`/api/cases/:id/canvas`、`/api/cases/:id/canvas/versions`、`/api/cases/:id/documents`、`/api/cases/:id/events`）；仍需部署/反向代理与鉴权 token 传递策略。
+- 协作 server 已加入 JWT 认证，但仍缺房间/消息持久化与审计（当前主要满足画布协作的基础能力）。
 
 **必须补齐（P0）**
 - 将画布数据定位为“案件工作空间”的一种表现：需要与案件、文档、讨论、任务、进度事件进行一致性绑定（权限 + 审计 + 版本）。
@@ -69,16 +69,16 @@
 - **契约优先（Contract-first）**：对齐 `docs/API_REFERENCE.md` 与实际路由；统一命名/版本化（例如 `/api/v1`）；生成强类型客户端（避免前端随意拼接）。
 - **案件事实源 + 状态机**：审核/受理/组庭/排期/庭审/裁决/送达/归档全链路事件化；消除“关键字段写入 metadata”的做法。
 - **文档全链路与对象存储**：统一上传接口、大小限制（需求含 100MB+）、存储策略（S3/MinIO/OSS）、签章/哈希/版本与审计。
-- **Prototype 后端补齐**：补全 `Prototype` 依赖的 `/api/cases/:id/*`、画布持久化、协作持久化与鉴权。
+- **Prototype 后端补齐**：`dev/` 已实现 `Prototype` 依赖的 `/api/cases/:id/*`（canvas/documents/events 等），仍需通过同源/代理对接与统一鉴权（避免前端直连多个后端）。
 - **审计与合规基础设施**：审计日志、操作留痕、数据加密落地（不要仅停留在文档宣称），并形成可查询报表/导出。
 
 ### P1（关键体验/关键合规：建议紧随 P0）
 
-- **MFA（TOTP）**：替换/补齐现有 6 位码逻辑，支持恢复码、设备管理、管理员强制策略。
-- **SSO 完整化**：明确“微信登录 vs 企业微信”、补齐 Alipay（如确有需求）、以及 provider 的回调安全（state/nonce/PKCE）。
-- **通知中心**：站内信/短信/邮件的统一编排、模板化、重试、回执与消息可见性（与权限联动）。
-- **支付与对账**：计费规则（仲裁费/服务费等）、支付渠道、回调验签、对账与退款。
-- **庭审能力闭环**：设备检测→身份核验→入庭→质证→笔录→签名确认→归档；录制/存证策略与权限。
+- **MFA（TOTP）**：后端已补齐（TOTP+恢复码+强制策略），剩余：UI 接入、运维开关与可重复验收脚本。
+- **SSO 完整化**：后端已补齐企业微信/钉钉/支付宝等 provider（依赖 env），剩余：产品口径对齐、“回调安全（state/nonce/PKCE）”的端到端验收与 UI 接入。
+- **通知中心**：后端已补齐（Notification 模型+投递队列+API），剩余：渠道配置（SMTP/SMS）、模板治理、前端可见性与重试/回执观测。
+- **支付与对账**：后端已补齐（计费规则+下单+webhook 验签+状态回写），剩余：真实支付渠道对接、对账/退款/开票（如需）与风控验收。
+- **庭审能力闭环**：已引入 LiveKit 并补齐 `start/end/token` 等 API，剩余：录制/存证策略、权限主导流程与全链路验收。
 
 ### P2（增值能力：在主线稳定后逐步落地）
 
@@ -92,8 +92,8 @@
 
 ### 4.1 代码组织：`dev/` 与本仓库版本控制关系
 
-- 现状：`dev/` 为独立 Next.js 工程，且包含独立 `.git/` 并被根 `.gitignore` 忽略；这会导致“计划落地”时无法在本仓库追踪工作台代码变更。
-- 决策点：是否将 `dev/` 纳入同一版本控制（子模块/子树/monorepo/workspaces），以及后续 CI/CD 的组织方式。
+- 现状：已将 `dev/` 纳入根仓库版本控制（移除 `dev/.git` 并取消根 `.gitignore` 对 `dev/` 的忽略），后续需要明确 monorepo/workspaces 与 CI/CD 的组织方式。
+- 决策点：聚焦“如何部署/如何对接基座/如何做 CI”，而非“是否纳入版本控制”。
 
 ### 4.2 与基座（`D:\\Desktop\\LawClick_NEW`）的连通方式
 
@@ -110,4 +110,3 @@
   - 契约与测试（单测/集成/E2E）
   - 验收脚本（可重复运行）
   - 风险与回滚策略
-
