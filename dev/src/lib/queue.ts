@@ -28,6 +28,7 @@ import { appendCaseEvent } from '@/lib/case-events';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email';
 import { sendSms } from '@/lib/sms';
+import { sendWebPushToSubscriptions } from '@/lib/web-push';
 import { getAIServiceManager } from '@/lib/ai-services';
 import { buildServiceProof } from '@/lib/service-of-process';
 import { HashUtil } from '@/lib/security/encryption';
@@ -218,12 +219,115 @@ async function processNotificationDelivery(payload: NotificationDeliveryPayload)
     }
 
     if (channel === 'push') {
-      nextDeliveryStatus.push = 'SERVICE_NOT_CONFIGURED';
-      meta.push = {
-        ...asJsonObject(meta.push),
-        updatedAt: nowIso,
-        error: 'SERVICE_NOT_CONFIGURED',
-      };
+      try {
+        const subscriptions = await prisma.webPushSubscription.findMany({
+          where: { userId: notification.userId, isActive: true },
+          select: { id: true, endpoint: true, p256dh: true, auth: true },
+        });
+
+        if (subscriptions.length === 0) {
+          nextDeliveryStatus.push = 'FAILED';
+          meta.push = {
+            ...asJsonObject(meta.push),
+            updatedAt: nowIso,
+            error: 'NO_PUSH_SUBSCRIPTION',
+          };
+          continue;
+        }
+
+        const pushResult = await sendWebPushToSubscriptions({
+          subscriptions,
+          payload: {
+            title: notification.title,
+            body: notification.content,
+            tag: `notification:${notification.id}`,
+            data: {
+              notificationId: notification.id,
+              type: notification.type,
+              priority: notification.priority,
+            },
+          },
+        });
+
+        const pushTimestamp = new Date();
+        if (pushResult.invalidSubscriptionIds.length > 0) {
+          await prisma.webPushSubscription.updateMany({
+            where: { id: { in: pushResult.invalidSubscriptionIds } },
+            data: { isActive: false, disabledAt: pushTimestamp },
+          });
+        }
+
+        if (pushResult.deliveredSubscriptionIds.length > 0) {
+          await prisma.webPushSubscription.updateMany({
+            where: { id: { in: pushResult.deliveredSubscriptionIds } },
+            data: { lastUsedAt: pushTimestamp },
+          });
+        }
+
+        const deliveredCount = pushResult.deliveredSubscriptionIds.length;
+        const failedCount = pushResult.failed.length;
+        const invalidCount = pushResult.invalidSubscriptionIds.length;
+
+        if (deliveredCount > 0) {
+          nextDeliveryStatus.push = 'DELIVERED';
+          meta.push = {
+            ...asJsonObject(meta.push),
+            deliveredAt: nowIso,
+            deliveredCount,
+            invalidCount,
+            failedCount,
+            failed: pushResult.failed,
+          };
+          continue;
+        }
+
+        const shouldRetry = pushResult.failed.some((f) => {
+          if (typeof f.statusCode !== 'number') return true;
+          return f.statusCode >= 500;
+        });
+
+        if (shouldRetry && failedCount > 0) {
+          nextDeliveryStatus.push = 'RETRYING';
+          meta.push = {
+            ...asJsonObject(meta.push),
+            updatedAt: nowIso,
+            error: 'PUSH_DELIVERY_FAILED',
+            deliveredCount,
+            invalidCount,
+            failedCount,
+            failed: pushResult.failed,
+          };
+          retryError = new Error('PUSH_DELIVERY_FAILED');
+          continue;
+        }
+
+        nextDeliveryStatus.push = 'FAILED';
+        meta.push = {
+          ...asJsonObject(meta.push),
+          updatedAt: nowIso,
+          error: invalidCount > 0 ? 'NO_VALID_SUBSCRIPTIONS' : 'PUSH_DELIVERY_FAILED',
+          deliveredCount,
+          invalidCount,
+          failedCount,
+          failed: pushResult.failed,
+        };
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+
+        meta.push = {
+          ...asJsonObject(meta.push),
+          updatedAt: nowIso,
+          error: message,
+        };
+
+        if (message === 'SERVICE_NOT_CONFIGURED') {
+          nextDeliveryStatus.push = 'SERVICE_NOT_CONFIGURED';
+          continue;
+        }
+
+        nextDeliveryStatus.push = 'RETRYING';
+        retryError = error instanceof Error ? error : new Error(message);
+      }
       continue;
     }
 
@@ -755,24 +859,286 @@ async function processServiceDelivery(payload: ServiceDeliveryPayload) {
   let deliveredAt: Date | null = null;
 
   if (service.channel === 'PUSH') {
-    const finishedAt = new Date();
-    await prisma.serviceAttempt.update({
-      where: { id: attempt.id },
-      data: {
-        status: ServiceAttemptStatus.SERVICE_NOT_CONFIGURED,
-        finishedAt,
-        errorCode: 'SERVICE_NOT_CONFIGURED',
-        errorMessage: `Channel ${service.channel} not configured`,
-      },
-    });
+    const recipientUser = service.recipientEmail
+      ? await prisma.user.findUnique({
+          where: { email: service.recipientEmail },
+          select: { id: true },
+        })
+      : service.recipientPhone
+        ? await prisma.user.findUnique({
+            where: { phone: service.recipientPhone },
+            select: { id: true, phoneVerified: true },
+          })
+        : null;
 
-    await prisma.serviceOfProcess.update({
-      where: { id: service.id },
-      data: {
-        status: ServiceStatus.FAILED,
-        lastError: 'SERVICE_NOT_CONFIGURED',
-      },
-    });
+    if (!recipientUser) {
+      const finishedAt = new Date();
+      await prisma.serviceAttempt.update({
+        where: { id: attempt.id },
+        data: {
+          status: ServiceAttemptStatus.FAILED,
+          finishedAt,
+          errorCode: 'RECIPIENT_NOT_FOUND',
+          errorMessage: 'Recipient user not found for PUSH channel',
+        },
+      });
+
+      await prisma.serviceOfProcess.update({
+        where: { id: service.id },
+        data: {
+          status: ServiceStatus.FAILED,
+          lastError: 'RECIPIENT_NOT_FOUND',
+        },
+      });
+    } else if ('phoneVerified' in recipientUser && recipientUser.phoneVerified === false) {
+      const finishedAt = new Date();
+      await prisma.serviceAttempt.update({
+        where: { id: attempt.id },
+        data: {
+          status: ServiceAttemptStatus.FAILED,
+          finishedAt,
+          errorCode: 'PHONE_NOT_VERIFIED',
+          errorMessage: 'Recipient phone not verified for PUSH channel',
+        },
+      });
+
+      await prisma.serviceOfProcess.update({
+        where: { id: service.id },
+        data: {
+          status: ServiceStatus.FAILED,
+          lastError: 'PHONE_NOT_VERIFIED',
+        },
+      });
+    } else {
+      const subscriptions = await prisma.webPushSubscription.findMany({
+        where: { userId: recipientUser.id, isActive: true },
+        select: { id: true, endpoint: true, p256dh: true, auth: true },
+      });
+
+      if (subscriptions.length === 0) {
+        const finishedAt = new Date();
+        await prisma.serviceAttempt.update({
+          where: { id: attempt.id },
+          data: {
+            status: ServiceAttemptStatus.FAILED,
+            finishedAt,
+            errorCode: 'NO_PUSH_SUBSCRIPTION',
+            errorMessage: 'No active push subscriptions for recipient',
+          },
+        });
+
+        await prisma.serviceOfProcess.update({
+          where: { id: service.id },
+          data: {
+            status: ServiceStatus.FAILED,
+            lastError: 'NO_PUSH_SUBSCRIPTION',
+          },
+        });
+      } else {
+        try {
+          const pushResult = await sendWebPushToSubscriptions({
+            subscriptions,
+            payload: {
+              title: service.subject,
+              body: service.message ?? '',
+              tag: `service_of_process:${service.id}`,
+              data: {
+                serviceId: service.id,
+                caseId: service.caseId,
+                documentId: service.documentId,
+              },
+            },
+          });
+
+          const updatedAt = new Date();
+          if (pushResult.invalidSubscriptionIds.length > 0) {
+            await prisma.webPushSubscription.updateMany({
+              where: { id: { in: pushResult.invalidSubscriptionIds } },
+              data: { isActive: false, disabledAt: updatedAt },
+            });
+          }
+
+          if (pushResult.deliveredSubscriptionIds.length > 0) {
+            await prisma.webPushSubscription.updateMany({
+              where: { id: { in: pushResult.deliveredSubscriptionIds } },
+              data: { lastUsedAt: updatedAt },
+            });
+          }
+
+          const deliveredCount = pushResult.deliveredSubscriptionIds.length;
+          const failedCount = pushResult.failed.length;
+          const invalidCount = pushResult.invalidSubscriptionIds.length;
+
+          if (deliveredCount > 0) {
+            deliveredAt = updatedAt;
+
+            await prisma.serviceAttempt.update({
+              where: { id: attempt.id },
+              data: {
+                status: ServiceAttemptStatus.DELIVERED,
+                finishedAt: deliveredAt,
+                provider: 'webpush',
+                metadata: {
+                  deliveredCount,
+                  invalidCount,
+                  failedCount,
+                  failed: pushResult.failed,
+                },
+              },
+            });
+
+            await prisma.serviceOfProcess.update({
+              where: { id: service.id },
+              data: {
+                status: ServiceStatus.DELIVERED,
+                deliveredAt,
+                effectiveAt: deliveredAt,
+                lastError: null,
+              },
+            });
+
+            await AuditLogger.log({
+              level: AuditLevel.INFO,
+              eventType: AuditEventType.EXTERNAL_SYSTEM_INVOCATION,
+              resource: 'service_of_process',
+              action: 'deliver_push',
+              details: {
+                traceId: payload.traceId,
+                serviceId: service.id,
+                attemptId: attempt.id,
+                channel: service.channel,
+                provider: 'webpush',
+                deliveredCount,
+                invalidCount,
+                failedCount,
+              },
+              result: 'SUCCESS',
+            });
+          } else {
+            const shouldRetry = pushResult.failed.some((f) => {
+              if (typeof f.statusCode !== 'number') return true;
+              return f.statusCode >= 500;
+            });
+
+            const finishedAt = updatedAt;
+            const hasTransientFailure = shouldRetry && failedCount > 0;
+
+            await prisma.serviceAttempt.update({
+              where: { id: attempt.id },
+              data: {
+                status: hasTransientFailure
+                  ? ServiceAttemptStatus.RETRYING
+                  : ServiceAttemptStatus.FAILED,
+                finishedAt,
+                provider: 'webpush',
+                errorCode: hasTransientFailure
+                  ? 'DELIVERY_FAILED'
+                  : invalidCount > 0
+                    ? 'NO_VALID_SUBSCRIPTIONS'
+                    : 'DELIVERY_FAILED',
+                errorMessage: hasTransientFailure
+                  ? 'PUSH_DELIVERY_FAILED'
+                  : invalidCount > 0
+                    ? 'NO_VALID_SUBSCRIPTIONS'
+                    : 'PUSH_DELIVERY_FAILED',
+                metadata: {
+                  deliveredCount,
+                  invalidCount,
+                  failedCount,
+                  failed: pushResult.failed,
+                },
+              },
+            });
+
+            await prisma.serviceOfProcess.update({
+              where: { id: service.id },
+              data: {
+                status: hasTransientFailure ? ServiceStatus.PROCESSING : ServiceStatus.FAILED,
+                lastError: hasTransientFailure
+                  ? 'PUSH_DELIVERY_FAILED'
+                  : invalidCount > 0
+                    ? 'NO_VALID_SUBSCRIPTIONS'
+                    : 'DELIVERY_FAILED',
+              },
+            });
+
+            await AuditLogger.log({
+              level: AuditLevel.WARNING,
+              eventType: AuditEventType.EXTERNAL_SYSTEM_INVOCATION,
+              resource: 'service_of_process',
+              action: 'deliver_push',
+              details: {
+                traceId: payload.traceId,
+                serviceId: service.id,
+                attemptId: attempt.id,
+                channel: service.channel,
+                provider: 'webpush',
+                deliveredCount,
+                invalidCount,
+                failedCount,
+                failed: pushResult.failed,
+              },
+              result: 'FAILURE',
+              errorMessage: hasTransientFailure
+                ? 'PUSH_DELIVERY_FAILED'
+                : invalidCount > 0
+                  ? 'NO_VALID_SUBSCRIPTIONS'
+                  : 'DELIVERY_FAILED',
+            });
+
+            if (hasTransientFailure) {
+              retryError = new Error('PUSH_DELIVERY_FAILED');
+            }
+          }
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          const finishedAt = new Date();
+          const isNotConfigured = message === 'SERVICE_NOT_CONFIGURED';
+
+          await prisma.serviceAttempt.update({
+            where: { id: attempt.id },
+            data: {
+              status: isNotConfigured
+                ? ServiceAttemptStatus.SERVICE_NOT_CONFIGURED
+                : ServiceAttemptStatus.RETRYING,
+              finishedAt,
+              provider: 'webpush',
+              errorCode: isNotConfigured ? 'SERVICE_NOT_CONFIGURED' : 'DELIVERY_FAILED',
+              errorMessage: message,
+            },
+          });
+
+          await prisma.serviceOfProcess.update({
+            where: { id: service.id },
+            data: {
+              status: isNotConfigured ? ServiceStatus.FAILED : ServiceStatus.PROCESSING,
+              lastError: message,
+            },
+          });
+
+          await AuditLogger.log({
+            level: isNotConfigured ? AuditLevel.INFO : AuditLevel.WARNING,
+            eventType: AuditEventType.EXTERNAL_SYSTEM_INVOCATION,
+            resource: 'service_of_process',
+            action: 'deliver_push',
+            details: {
+              traceId: payload.traceId,
+              serviceId: service.id,
+              attemptId: attempt.id,
+              channel: service.channel,
+              provider: 'webpush',
+              error: message,
+            },
+            result: 'FAILURE',
+            errorMessage: message,
+          });
+
+          if (!isNotConfigured) {
+            retryError = error instanceof Error ? error : new Error(message);
+          }
+        }
+      }
+    }
   } else if (service.channel === 'SMS') {
     if (!service.recipientPhone) {
       await prisma.serviceAttempt.update({

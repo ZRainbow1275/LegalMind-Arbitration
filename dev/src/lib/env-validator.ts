@@ -166,6 +166,16 @@ const envSchema = z.object({
   SMS_TEMPLATE_CODE_NOTIFICATION: z.string().optional(),
   SMS_TEMPLATE_CODE_SERVICE: z.string().optional(),
 
+  // WebPush 推送（可选：未配置则 push 投递降级为 SERVICE_NOT_CONFIGURED）
+  WEB_PUSH_VAPID_PUBLIC_KEY: z.string().min(10).optional(),
+  WEB_PUSH_VAPID_PRIVATE_KEY: z.string().min(10).optional(),
+  WEB_PUSH_VAPID_SUBJECT: z.string().min(1).optional(),
+  WEB_PUSH_DEFAULT_TTL_SECONDS: z
+    .string()
+    .transform(Number)
+    .pipe(z.number().min(0).max(86400))
+    .optional(),
+
   // WebRTC 配置（可选）
   LIVEKIT_URL: z.string().url().optional(),
   LIVEKIT_API_KEY: z.string().min(1).optional(),

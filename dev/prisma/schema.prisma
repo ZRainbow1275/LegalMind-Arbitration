@@ -394,15 +394,16 @@ model User {
   // 新增关联关系
   createdHearings        Hearing[]            @relation("HearingCreator")
   hearingParticipations  HearingParticipant[] @relation("HearingParticipantUser")
-  mediationApplications  Mediation[]          @relation("MediationApplicant")
-  mediationAssignments   Mediation[]          @relation("MediationMediator")
-  createdAgreements      MediationAgreement[] @relation("AgreementCreator")
-  notifications          Notification[]       @relation("UserNotifications")
-  createdTemplates       DocumentTemplate[]   @relation("TemplateCreator")
-  generatedDocuments     GeneratedDocument[]  @relation("DocumentGenerator")
+  mediationApplications  Mediation[]          @relation("MediationApplicant")   
+  mediationAssignments   Mediation[]          @relation("MediationMediator")    
+  createdAgreements      MediationAgreement[] @relation("AgreementCreator")     
+  notifications          Notification[]       @relation("UserNotifications")    
+  webPushSubscriptions   WebPushSubscription[] @relation("UserWebPushSubscriptions")
+  createdTemplates       DocumentTemplate[]   @relation("TemplateCreator")      
+  generatedDocuments     GeneratedDocument[]  @relation("DocumentGenerator")    
   batchOperations        BatchOperation[]     @relation("BatchOperationCreator")
-  paymentOrders          PaymentOrder[]       @relation("PaymentOrderPayer")
-  serviceRequests        ServiceOfProcess[]   @relation("ServiceRequestedBy")
+  paymentOrders          PaymentOrder[]       @relation("PaymentOrderPayer")    
+  serviceRequests        ServiceOfProcess[]   @relation("ServiceRequestedBy")   
   archivePackagesCreated ArchivePackage[]     @relation("ArchivePackageCreator")
   auditLogs              AuditLog[]
 
@@ -1662,6 +1663,33 @@ model Notification {
   @@index([scheduledAt])
   @@index([createdAt])
   @@map("notifications")
+}
+
+model WebPushSubscription {
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+
+  endpoint String @db.Text
+  p256dh   String @db.Text
+  auth     String @db.Text
+
+  userAgent      String?   @map("user_agent") @db.VarChar(500)
+  expirationTime DateTime? @map("expiration_time") @db.Timestamptz
+
+  isActive   Boolean   @default(true) @map("is_active")
+  lastUsedAt DateTime? @map("last_used_at") @db.Timestamptz
+  disabledAt DateTime? @map("disabled_at") @db.Timestamptz
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  user User @relation("UserWebPushSubscriptions", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([endpoint])
+  @@index([userId])
+  @@index([isActive])
+  @@index([createdAt])
+  @@map("web_push_subscriptions")
 }
 
 // ============================================================================
