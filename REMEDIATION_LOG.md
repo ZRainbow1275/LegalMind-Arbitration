@@ -5,6 +5,7 @@
 追加修复时间：2026-01-18 00:12:42
 再次追加修复时间：2026-01-18 01:06:20
 再次追加修复时间：2026-01-18 05:12:49
+再次追加修复时间：2026-01-18 17:27:01
 
 ## 仓库结构与交付风险
 
@@ -100,6 +101,11 @@
 - `fix(api): redirect mock-download to real documents endpoint [AUDIT-REPORT]`（`092ed2f`）
 - `fix(sms): enable SMS delivery for notifications and service [AUDIT-REPORT]`（`ef93325`）
 - `fix(log): eliminate remaining console in API routes [AUDIT-HIGH-2]`（`167c98b`）
+- `fix(documents): support pdf/docx downloads [AUDIT-REPORT]`（`b9c8be1`）
+- `fix(sms): implement multi-provider delivery [AUDIT-REPORT]`（`85e5828`）
+- `fix(ai): remove placeholders and add fallbacks [AUDIT-REPORT]`（`b8bd73d`）
+- `fix(integrations): harden external system errors [AUDIT-REPORT]`（`bf0fb65`）
+- `fix(queue): remove placeholder delivery states [AUDIT-REPORT]`（`59f0a3c`）
 
 根仓库（追加：仲裁员/回避后端补齐）：
 - `fix(audit): add recusal and review audit events [AUDIT-REPORT]`（`5f39612`）
@@ -131,6 +137,10 @@
 - `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
 追加验证（2026-01-18 05:12:49，仲裁员/回避后端补齐）：
+- `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS       
+- `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
+
+追加验证（2026-01-18 17:27:01，AI/SMS/文书与队列补齐）：
 - `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS
 - `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
@@ -147,6 +157,7 @@
 - 构建期副作用：`dev pnpm build` 日志出现 Redis 连接提示，说明部分模块在构建/预渲染阶段触发外部连接；建议将外部连接延后到运行期并做环境隔离。
 - 依赖安全：Next.js 15.4.6 存在安全公告提示（需按官方 CVE 指引升级到修复版本）；Prisma CLI 提示可升级（本轮未动以避免引入大版本迁移风险）。
 - E2E 仍未完全闭环：已补齐支付/送达/通知中心的后端 API + 队列/Worker，但前端接入、生产配置（SMTP/SMS/Webhook/对象存储/密钥）与外部系统真实对接仍需完成（证据见 `docs/TRACEABILITY_MATRIX.md`、`docs/GAP_ANALYSIS.md`）。
+- 通知 Push 通道：当前后端不再返回 `NOT_IMPLEMENTED` 占位，统一降级为 `SERVICE_NOT_CONFIGURED` 并保留审计留痕；如需浏览器 WebPush/企业微信/厂商推送仍需补齐订阅存储与投递实现。
 
 > 下方为旧记录（可忽略）：
 
