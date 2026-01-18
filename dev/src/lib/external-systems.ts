@@ -1,6 +1,6 @@
 // dev/src/lib/external-systems.ts
 // 外部系统集成管理器 - 支持法院数据系统、公证系统、法律数据库
-// ⚠️ 禁止 Mock：未配置/未实现必须显式失败（SERVICE_NOT_CONFIGURED / NOT_IMPLEMENTED）
+// ⚠️ 禁止 Mock：未配置/不可用必须显式失败（SERVICE_NOT_CONFIGURED）
 
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -10,7 +10,6 @@ export type ExternalSystemKey = 'courtSystem' | 'notarySystem' | 'legalDatabase'
 
 export type ExternalSystemErrorCode =
   | 'SERVICE_NOT_CONFIGURED'
-  | 'NOT_IMPLEMENTED'
   | 'INVALID_REQUEST'
   | 'UPSTREAM_ERROR';
 
@@ -350,7 +349,7 @@ class ExternalSystemManager {
 
     const parsedAction = courtSystemActionSchema.safeParse(action);
     if (!parsedAction.success) {
-      return this.failNotImplemented('courtSystem', `不支持的法院系统操作: ${action}`);
+      return this.failInvalidRequest('courtSystem', `不支持的法院系统操作: ${action}`);
     }
 
     return await this.invokeAction(
@@ -380,7 +379,7 @@ class ExternalSystemManager {
 
     const parsedAction = notarySystemActionSchema.safeParse(action);
     if (!parsedAction.success) {
-      return this.failNotImplemented('notarySystem', `不支持的公证系统操作: ${action}`);
+      return this.failInvalidRequest('notarySystem', `不支持的公证系统操作: ${action}`);
     }
 
     return await this.invokeAction(
@@ -410,7 +409,7 @@ class ExternalSystemManager {
 
     const parsedAction = legalDatabaseActionSchema.safeParse(action);
     if (!parsedAction.success) {
-      return this.failNotImplemented('legalDatabase', `不支持的法律数据库操作: ${action}`);
+      return this.failInvalidRequest('legalDatabase', `不支持的法律数据库操作: ${action}`);
     }
 
     return await this.invokeAction(
@@ -449,19 +448,12 @@ class ExternalSystemManager {
     };
   }
 
+  // 兼容：历史占位调用点（统一归为 INVALID_REQUEST）
   private failNotImplemented<T>(
     system: ExternalSystemKey,
     message: string
   ): ExternalSystemResponse<T> {
-    return {
-      success: false,
-      errorCode: 'NOT_IMPLEMENTED',
-      error: message,
-      systemInfo: {
-        system,
-        responseTime: 0,
-      },
-    };
+    return this.failInvalidRequest(system, message);
   }
 
   private async invokeAction<T>(

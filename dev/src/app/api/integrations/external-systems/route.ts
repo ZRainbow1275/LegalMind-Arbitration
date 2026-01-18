@@ -107,13 +107,6 @@ function mapExternalSystemError(
         details,
         503
       );
-    case 'NOT_IMPLEMENTED':
-      return createErrorResponse(
-        'NOT_IMPLEMENTED',
-        response.error || '外部系统动作尚未实现',
-        details,
-        501
-      );
     case 'INVALID_REQUEST':
       return createErrorResponse(
         'BAD_REQUEST',
