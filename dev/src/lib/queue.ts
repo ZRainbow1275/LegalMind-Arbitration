@@ -218,8 +218,12 @@ async function processNotificationDelivery(payload: NotificationDeliveryPayload)
     }
 
     if (channel === 'push') {
-      nextDeliveryStatus.push = 'NOT_IMPLEMENTED';
-      meta.push = { ...asJsonObject(meta.push), updatedAt: nowIso };
+      nextDeliveryStatus.push = 'SERVICE_NOT_CONFIGURED';
+      meta.push = {
+        ...asJsonObject(meta.push),
+        updatedAt: nowIso,
+        error: 'SERVICE_NOT_CONFIGURED',
+      };
       continue;
     }
 
@@ -269,13 +273,8 @@ async function processNotificationDelivery(payload: NotificationDeliveryPayload)
           continue;
         }
 
-        if (message === 'NOT_IMPLEMENTED') {
-          nextDeliveryStatus.sms = 'NOT_IMPLEMENTED';
-          continue;
-        }
-
         nextDeliveryStatus.sms = 'RETRYING';
-        retryError = error instanceof Error ? error : new Error(message);
+        retryError = error instanceof Error ? error : new Error(message);       
       }
 
       continue;
@@ -756,13 +755,14 @@ async function processServiceDelivery(payload: ServiceDeliveryPayload) {
   let deliveredAt: Date | null = null;
 
   if (service.channel === 'PUSH') {
+    const finishedAt = new Date();
     await prisma.serviceAttempt.update({
       where: { id: attempt.id },
       data: {
-        status: ServiceAttemptStatus.NOT_IMPLEMENTED,
-        finishedAt: new Date(),
-        errorCode: 'NOT_IMPLEMENTED',
-        errorMessage: `Channel ${service.channel} not implemented`,
+        status: ServiceAttemptStatus.SERVICE_NOT_CONFIGURED,
+        finishedAt,
+        errorCode: 'SERVICE_NOT_CONFIGURED',
+        errorMessage: `Channel ${service.channel} not configured`,
       },
     });
 
@@ -770,7 +770,7 @@ async function processServiceDelivery(payload: ServiceDeliveryPayload) {
       where: { id: service.id },
       data: {
         status: ServiceStatus.FAILED,
-        lastError: 'NOT_IMPLEMENTED',
+        lastError: 'SERVICE_NOT_CONFIGURED',
       },
     });
   } else if (service.channel === 'SMS') {
@@ -851,23 +851,18 @@ async function processServiceDelivery(payload: ServiceDeliveryPayload) {
         const message = error instanceof Error ? error.message : String(error);
         const finishedAt = new Date();
         const isNotConfigured = message === 'SERVICE_NOT_CONFIGURED';
-        const isNotImplemented = message === 'NOT_IMPLEMENTED';
 
         await prisma.serviceAttempt.update({
           where: { id: attempt.id },
           data: {
             status: isNotConfigured
               ? ServiceAttemptStatus.SERVICE_NOT_CONFIGURED
-              : isNotImplemented
-                ? ServiceAttemptStatus.NOT_IMPLEMENTED
-                : ServiceAttemptStatus.RETRYING,
+              : ServiceAttemptStatus.RETRYING,
             finishedAt,
             provider: 'unknown',
             errorCode: isNotConfigured
               ? 'SERVICE_NOT_CONFIGURED'
-              : isNotImplemented
-                ? 'NOT_IMPLEMENTED'
-                : 'DELIVERY_FAILED',
+              : 'DELIVERY_FAILED',
             errorMessage: message,
           },
         });
@@ -875,7 +870,7 @@ async function processServiceDelivery(payload: ServiceDeliveryPayload) {
         await prisma.serviceOfProcess.update({
           where: { id: service.id },
           data: {
-            status: isNotConfigured || isNotImplemented ? ServiceStatus.FAILED : ServiceStatus.PROCESSING,
+            status: isNotConfigured ? ServiceStatus.FAILED : ServiceStatus.PROCESSING,
             lastError: message,
           },
         });
@@ -897,8 +892,8 @@ async function processServiceDelivery(payload: ServiceDeliveryPayload) {
           errorMessage: message,
         });
 
-        if (!isNotConfigured && !isNotImplemented) {
-          retryError = error instanceof Error ? error : new Error(message);
+        if (!isNotConfigured) {
+          retryError = error instanceof Error ? error : new Error(message);     
         }
       }
     }
