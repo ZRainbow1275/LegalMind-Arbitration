@@ -66,18 +66,15 @@ export async function POST(request: NextRequest) {
       return validation.error;
     }
 
-    const { 
-      templateId, 
-      caseId, 
-      title, 
+    const {
+      templateId,
+      caseId,
+      title,
       variables,
       outputFormat,
       generateOptions
     } = validation.data;
-
-    if (outputFormat !== 'html') {
-      return ErrorResponses.NOT_IMPLEMENTED('当前仅支持生成 HTML 文书（pdf/docx 尚未实现）');
-    }
+    // pdf/docx 由下载端按 fileFormat 进行转换，避免在数据库中存储大二进制内容。
 
     // 获取模板信息
     const template = await prisma.documentTemplate.findUnique({
@@ -222,7 +219,7 @@ export async function POST(request: NextRequest) {
             variables: variablesJson,
             fileUrl,
             fileFormat: outputFormat,
-            fileSize: Buffer.byteLength(styledContent, 'utf8'),
+            fileSize: outputFormat === 'html' ? Buffer.byteLength(styledContent, 'utf8') : null,
             status: 'generated',
             generatedBy: authUser.id,
           },
