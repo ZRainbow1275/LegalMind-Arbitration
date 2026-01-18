@@ -123,11 +123,14 @@ export async function POST(request: NextRequest) {
       await redis.del(`${PHONE_TOKEN_PREFIX}${token}`);
       await redis.del(userKey);
       await redis.del(rateKey);
-      return error instanceof Error && error.message === 'SERVICE_NOT_CONFIGURED'
-        ? ErrorResponses.SERVICE_NOT_CONFIGURED('短信服务')
-        : error instanceof Error && error.message === 'NOT_IMPLEMENTED'
-          ? ErrorResponses.NOT_IMPLEMENTED('当前 SMS_PROVIDER 尚未实现')
-          : ErrorResponses.INTERNAL_ERROR();
+      const message = error instanceof Error ? error.message : '';
+      if (message === 'SERVICE_NOT_CONFIGURED') {
+        return ErrorResponses.SERVICE_NOT_CONFIGURED('短信服务');
+      }
+      if (message.startsWith('SMS_UPSTREAM_ERROR_') || message.startsWith('SMS_PROVIDER_ERROR_')) {
+        return ErrorResponses.OPERATION_FAILED('短信发送失败');
+      }
+      return ErrorResponses.INTERNAL_ERROR();
     }
 
     await AuditLogger.log({

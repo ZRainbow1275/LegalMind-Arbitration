@@ -96,6 +96,8 @@ const envSchema = z.object({
   TENCENT_SECRET_ID: z.string().optional(),
   TENCENT_SECRET_KEY: z.string().optional(),
   TENCENT_OCR_REGION: z.string().optional(),
+  TENCENT_SMS_SDK_APP_ID: z.string().optional(),
+  TENCENT_SMS_REGION: z.string().optional(),
   
   IFLYTEK_APP_ID: z.string().optional(),
   IFLYTEK_API_KEY: z.string().optional(),
@@ -154,6 +156,11 @@ const envSchema = z.object({
   SMS_ACCESS_KEY_SECRET: z.string().optional(),
   SMS_SIGN_NAME: z.string().optional(),
   SMS_TEMPLATE_CODE: z.string().optional(),
+  // Twilio（可选：用于 SMS_PROVIDER=twilio）
+  TWILIO_ACCOUNT_SID: z.string().optional(),
+  TWILIO_AUTH_TOKEN: z.string().optional(),
+  TWILIO_FROM: z.string().optional(),
+  TWILIO_MESSAGING_SERVICE_SID: z.string().optional(),
   // 场景化模板（可选；未设置则回退 SMS_TEMPLATE_CODE）
   SMS_TEMPLATE_CODE_VERIFY_PHONE: z.string().optional(),
   SMS_TEMPLATE_CODE_NOTIFICATION: z.string().optional(),
