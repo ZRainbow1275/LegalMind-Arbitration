@@ -211,23 +211,19 @@ export async function POST(request: NextRequest) {
       });
 
       if (!aiFill.success) {
-        if (aiFill.error === 'SERVICE_NOT_CONFIGURED') {
-          return ErrorResponses.SERVICE_NOT_CONFIGURED('AI 文书生成/变量填充');
-        }
-        if (aiFill.error?.endsWith('_NOT_IMPLEMENTED')) {
-          return ErrorResponses.NOT_IMPLEMENTED(
-            `AI 文书生成尚未实现：${aiFill.error}`
-          );
-        }
-        return ErrorResponses.OPERATION_FAILED(aiFill.error || 'AI 文书生成失败');
-      }
-
-      const filled = aiFill.data ?? {};
-      for (const [key, value] of Object.entries(filled)) {
-        if (hasNonEmptyValue(value)) {
-          variables[key] = value;
-        } else if (requiredKeySet.has(key)) {
+        // AI 未配置或上游异常：禁止“假成功”，因此用明确占位符标记待补充字段并继续生成文书。
+        // 这样仍能形成可下载/可审计的 GeneratedDocument，并在 UI 中提示补齐。
+        for (const key of pendingPlaceholders) {
           variables[key] = '【待补充】';
+        }
+      } else {
+        const filled = aiFill.data ?? {};
+        for (const [key, value] of Object.entries(filled)) {
+          if (hasNonEmptyValue(value)) {
+            variables[key] = value;
+          } else if (requiredKeySet.has(key)) {
+            variables[key] = '【待补充】';
+          }
         }
       }
 

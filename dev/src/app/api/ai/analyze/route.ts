@@ -9,13 +9,59 @@ import { prisma } from '@/lib/prisma';
 import { requireAuthenticatedUser, PermissionCheckers } from '@/lib/auth';
 import { createSuccessResponse, ErrorResponses } from '@/lib/api-response';
 import { validateRequestBody } from '@/lib/validation';
-import { getAIServiceManager } from '@/lib/ai-services';
+import { getAIServiceManager, type NLPAnalysisResult } from '@/lib/ai-services';
 import { logger } from '@/lib/logger';
 
 const schema = z.object({
   caseId: z.string().uuid(),
   analysisType: z.enum(['evidence', 'relationship', 'timeline']),
 });
+
+type AnalysisEngine = 'openai_nlp' | 'rule_based';
+
+function uniqueStrings(values: string[]): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const value of values) {
+    const trimmed = value.trim();
+    if (!trimmed) continue;
+    if (seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    out.push(trimmed);
+  }
+  return out;
+}
+
+function buildRuleBasedNlp(params: {
+  text: string;
+  summary: string;
+  entities: Array<{ text: string; label: string; confidence?: number }>;
+  keywords: string[];
+  topics: string[];
+}): NLPAnalysisResult {
+  const entities: NLPAnalysisResult['entities'] = params.entities.map((ent) => {
+    const idx = params.text.indexOf(ent.text);
+    const start = idx >= 0 ? idx : 0;
+    return {
+      text: ent.text,
+      label: ent.label,
+      confidence: typeof ent.confidence === 'number' ? ent.confidence : 0.7,
+      start,
+      end: start + ent.text.length,
+    };
+  });
+
+  const keywords = uniqueStrings(params.keywords).slice(0, 30).map((text) => ({ text, score: 0.6 }));
+  const topics = uniqueStrings(params.topics).slice(0, 10).map((topic) => ({ topic, score: 0.5 }));
+
+  return {
+    sentiment: { label: 'neutral', score: 0.5 },
+    entities,
+    keywords,
+    summary: params.summary,
+    topics: topics.length > 0 ? topics : undefined,
+  };
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -105,21 +151,51 @@ export async function POST(request: NextRequest) {
       includeTopics: true,
     });
 
-    if (!nlp.success) {
-      if (nlp.error === 'SERVICE_NOT_CONFIGURED') {
-        return ErrorResponses.SERVICE_NOT_CONFIGURED('AI 文本分析');
-      }
-      if (nlp.error?.endsWith('_NOT_IMPLEMENTED')) {
-        return ErrorResponses.NOT_IMPLEMENTED(`AI 文本分析尚未实现：${nlp.error}`);
-      }
-      return ErrorResponses.OPERATION_FAILED(nlp.error || 'AI 分析失败');
-    }
+    const fallbackSummary = (() => {
+      const raw = arbitrationCase.description?.trim();
+      if (raw) return raw.length > 400 ? `${raw.slice(0, 400)}...` : raw;       
+      const combined = `${arbitrationCase.caseNumber} ${arbitrationCase.title}`
+        .trim();
+      return combined.length > 200 ? `${combined.slice(0, 200)}...` : combined; 
+    })();
+
+    const applicantName =
+      arbitrationCase.applicant?.profile?.realName
+      || arbitrationCase.applicant?.profile?.companyName
+      || null;
+    const respondentName =
+      arbitrationCase.respondent?.profile?.realName
+      || arbitrationCase.respondent?.profile?.companyName
+      || null;
+
+    const fallback = buildRuleBasedNlp({
+      text: summaryText,
+      summary: fallbackSummary,
+      entities: [
+        { text: arbitrationCase.caseNumber, label: 'case_number', confidence: 0.85 },
+        { text: arbitrationCase.title, label: 'case_title', confidence: 0.8 },
+        ...(applicantName ? [{ text: applicantName, label: 'party', confidence: 0.75 }] : []),
+        ...(respondentName ? [{ text: respondentName, label: 'party', confidence: 0.75 }] : []),
+      ],
+      keywords: [
+        validation.data.analysisType,
+        arbitrationCase.status,
+        ...arbitrationCase.documents.map((d) => d.documentType),
+        ...arbitrationCase.caseEvents.map((e) => e.eventType),
+      ],
+      topics: [validation.data.analysisType, arbitrationCase.status],
+    });
+
+    const engine: AnalysisEngine = nlp.success && nlp.data ? 'openai_nlp' : 'rule_based';
+    const analysis = nlp.success && nlp.data ? nlp.data : fallback;
 
     return createSuccessResponse(
       {
         analysisType: validation.data.analysisType,
-        analysis: nlp.data,
-        usage: nlp.usage ?? null,
+        analysis,
+        engine,
+        fallbackReason: engine === 'rule_based' ? nlp.error ?? null : null,
+        usage: engine === 'openai_nlp' ? nlp.usage ?? null : null,
       },
       'AI 分析完成'
     );

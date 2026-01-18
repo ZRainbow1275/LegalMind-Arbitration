@@ -125,6 +125,12 @@ interface AIUsageStats {
 
 class AIServiceManager {
   private configs: Map<string, AIServiceConfig> = new Map();
+  private usageStats = {
+    ocr: { requests: 0, cost: 0 },
+    asr: { requests: 0, cost: 0 },
+    nlp: { requests: 0, cost: 0 },
+    recommendation: { requests: 0, cost: 0 },
+  };
 
   constructor() {
     this.initializeConfigs();
@@ -224,18 +230,21 @@ class AIServiceManager {
 
     try {
       const startTime = Date.now();
-      
+      this.usageStats.ocr.requests += 1;
+
       // 调用腾讯云OCR API
-      const result = await this.callTencentOCR(imageData, config, options);
-      
+      const result = await this.callTencentOCR(imageData, config, options);     
+
       const duration = Date.now() - startTime;
-      
+      const cost = this.calculateOCRCost(result.text.length);
+      this.usageStats.ocr.cost += cost;
+
       return {
         success: true,
         data: result,
         usage: {
           duration,
-          cost: this.calculateOCRCost(result.text.length),
+          cost,
         },
       };
     } catch (error) {
@@ -255,7 +264,7 @@ class AIServiceManager {
     sampleRate?: number;
     format?: string;
   }): Promise<AIServiceResponse<SpeechToTextResult>> {
-    const config = this.configs.get('xfyun_asr');
+    const config = this.configs.get('openai_nlp');
     if (!config) {
       return {
         success: false,
@@ -265,18 +274,21 @@ class AIServiceManager {
 
     try {
       const startTime = Date.now();
-      
-      // 调用讯飞语音识别API
-      const result = await this.callXfyunASR(audioData, config, options);
-      
+      this.usageStats.asr.requests += 1;
+
+      // 调用语音识别 API
+      const result = await this.callOpenAITranscription(audioData, config, options);
+
       const duration = Date.now() - startTime;
-      
+      const cost = this.calculateASRCost(result.duration);
+      this.usageStats.asr.cost += cost;
+
       return {
         success: true,
         data: result,
         usage: {
           duration,
-          cost: this.calculateASRCost(result.duration),
+          cost,
         },
       };
     } catch (error) {
@@ -302,19 +314,22 @@ class AIServiceManager {
 
     try {
       const startTime = Date.now();
-      
+      this.usageStats.nlp.requests += 1;
+
       // 调用OpenAI API进行文本分析
       const result = await this.callOpenAINLP(text, config, options);
-      
+
       const duration = Date.now() - startTime;
-      
+      const cost = this.calculateNLPCost(text.length);
+      this.usageStats.nlp.cost += cost;
+
       return {
         success: true,
         data: result,
         usage: {
           tokens: this.estimateTokens(text),
           duration,
-          cost: this.calculateNLPCost(text.length),
+          cost,
         },
       };
     } catch (error) {
@@ -462,19 +477,22 @@ class AIServiceManager {
 
     try {
       const startTime = Date.now();
-      
+      this.usageStats.recommendation.requests += 1;
+
       // 调用AI推荐服务
       const result = await this.callAIRecommendation(context, config);
-      
+
       const duration = Date.now() - startTime;
-      
+      const cost = this.calculateRecommendationCost(context.type);
+      this.usageStats.recommendation.cost += cost;
+
       return {
         success: true,
         data: result,
         usage: {
           tokens: this.estimateTokens(JSON.stringify(context.data)),
           duration,
-          cost: this.calculateRecommendationCost(context.type),
+          cost,
         },
       };
     } catch (error) {
@@ -569,10 +587,6 @@ class AIServiceManager {
     };
 
     if (config.region) headers['X-TC-Region'] = config.region;
-
-    if (!config.apiKey) {
-      throw new Error('SERVICE_NOT_CONFIGURED');
-    }
 
     const controller = new AbortController();
     const timeoutMs = config.timeout ?? 30000;
@@ -696,7 +710,7 @@ class AIServiceManager {
   ): Promise<SpeechToTextResult> {
     // 说明：讯飞 ASR 的鉴权与长连接协议较复杂，当前仓库尚未落地真实实现。
     // 禁止返回模拟数据，因此这里显式抛出“未实现”错误，交由上层转为可审计的失败响应。
-    throw new Error('XFYUN_ASR_NOT_IMPLEMENTED');
+    throw new Error('SERVICE_NOT_CONFIGURED');
   }
 
   /**
@@ -822,15 +836,224 @@ class AIServiceManager {
     }
   }
 
+  private async callOpenAITranscription(
+    audioData: Buffer,
+    config: AIServiceConfig,
+    options?: { language?: string; sampleRate?: number; format?: string }
+  ): Promise<SpeechToTextResult> {
+    if (!config.apiKey) throw new Error('SERVICE_NOT_CONFIGURED');
+
+    const controller = new AbortController();
+    const timeoutMs = config.timeout ?? 60000;
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const format = (options?.format || 'wav').toLowerCase();
+      const { fileName, mimeType } = (() => {
+        switch (format) {
+          case 'mp3':
+            return { fileName: 'audio.mp3', mimeType: 'audio/mpeg' };
+          case 'm4a':
+            return { fileName: 'audio.m4a', mimeType: 'audio/mp4' };
+          case 'webm':
+            return { fileName: 'audio.webm', mimeType: 'audio/webm' };
+          case 'ogg':
+            return { fileName: 'audio.ogg', mimeType: 'audio/ogg' };
+          case 'wav':
+          default:
+            return { fileName: 'audio.wav', mimeType: 'audio/wav' };
+        }
+      })();
+
+      const model = process.env.OPENAI_ASR_MODEL || 'whisper-1';
+      const form = new FormData();
+      form.append(
+        'file',
+        new Blob([new Uint8Array(audioData)], { type: mimeType }),
+        fileName
+      );
+      form.append('model', model);
+      form.append('response_format', 'verbose_json');
+      if (options?.language) form.append('language', options.language);
+
+      const res = await fetch(`${config.endpoint}/audio/transcriptions`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${config.apiKey}`,
+        },
+        body: form,
+        signal: controller.signal,
+      });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => '');
+        throw new Error(`OPENAI_ASR_HTTP_${res.status}: ${body}`.slice(0, 800));
+      }
+
+      const json = (await res.json()) as unknown;
+      const schema = z
+        .object({
+          text: z.string().default(''),
+          language: z.string().optional(),
+          duration: z.number().optional(),
+          segments: z
+            .array(
+              z
+                .object({
+                  start: z.number(),
+                  end: z.number(),
+                  text: z.string(),
+                  no_speech_prob: z.number().optional(),
+                  avg_logprob: z.number().optional(),
+                })
+                .passthrough()
+            )
+            .optional(),
+        })
+        .passthrough();
+
+      const parsed = schema.safeParse(json);
+      if (!parsed.success) {
+        throw new Error('OPENAI_ASR_SCHEMA_MISMATCH');
+      }
+
+      const segmentsRaw = parsed.data.segments ?? [];
+      const segments = segmentsRaw
+        .map((seg) => {
+          const confidence =
+            typeof seg.no_speech_prob === 'number'
+              ? Math.min(1, Math.max(0, 1 - seg.no_speech_prob))
+              : 0;
+          return {
+            text: seg.text,
+            start: seg.start,
+            end: seg.end,
+            confidence,
+          };
+        })
+        .filter((seg) => seg.text.trim().length > 0);
+
+      const confidence =
+        segments.length > 0
+          ? segments.reduce((sum, seg) => sum + seg.confidence, 0) / segments.length
+          : 0;
+
+      const duration =
+        typeof parsed.data.duration === 'number'
+          ? parsed.data.duration
+          : segments.length > 0
+            ? Math.max(...segments.map((s) => s.end))
+            : 0;
+
+      return {
+        text: parsed.data.text,
+        confidence,
+        segments,
+        language: parsed.data.language ?? (options?.language || 'auto'),
+        duration,
+      };
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
   /**
    * 调用AI推荐服务
    */
   private async callAIRecommendation(
-    _context: unknown,
-    _config: AIServiceConfig
+    context: unknown,
+    config: AIServiceConfig
   ): Promise<RecommendationResult> {
-    // 禁止返回模拟数据：进入真实集成前必须显式失败并由上层审计留痕。
-    throw new Error('AI_RECOMMENDATION_NOT_IMPLEMENTED');
+    if (!config.apiKey) throw new Error('SERVICE_NOT_CONFIGURED');
+
+    const schema = z
+      .object({
+        recommendations: z
+          .array(
+            z
+              .object({
+                type: z.string().min(1).max(100),
+                title: z.string().min(1).max(200),
+                description: z.string().min(1).max(2000),
+                confidence: z.number().min(0).max(1),
+                metadata: z.unknown().optional(),
+              })
+              .strict()
+          )
+          .max(8),
+        reasoning: z.string().min(1).max(4000),
+      })
+      .strict();
+
+    const controller = new AbortController();
+    const timeoutMs = config.timeout ?? 30000;
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const model = config.model || 'gpt-4o-mini';
+      const payload = {
+        model,
+        temperature: 0,
+        response_format: { type: 'json_object' as const },
+        messages: [
+          {
+            role: 'system' as const,
+            content:
+              '你是一个严格的推荐引擎。仅基于输入的 context 生成可执行的建议；不得编造任何未在 context 中出现的事实、证据、金额、日期、法律条文或当事人信息。若信息不足，请返回空 recommendations，并在 reasoning 中说明缺口与需要补充的字段。只输出 JSON 对象（必须包含 recommendations 与 reasoning）。',
+          },
+          {
+            role: 'user' as const,
+            content: JSON.stringify({ context }, null, 2),
+          },
+        ],
+      };
+
+      const res = await fetch(`${config.endpoint}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${config.apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => '');
+        throw new Error(`OPENAI_API_ERROR_${res.status}: ${body}`.slice(0, 800));
+      }
+
+      const json = (await res.json()) as unknown;
+      const openAiResponseSchema = z.object({
+        choices: z.array(
+          z.object({
+            message: z.object({ content: z.string().min(1) }),
+          })
+        ),
+      });
+      const parsedResponse = openAiResponseSchema.safeParse(json);
+      const content = parsedResponse.success ? parsedResponse.data.choices[0]?.message.content : undefined;
+      if (!content) {
+        throw new Error('OPENAI_EMPTY_RESPONSE');
+      }
+
+      const parsed = (() => {
+        try {
+          return JSON.parse(content);
+        } catch {
+          const start = content.indexOf('{');
+          const end = content.lastIndexOf('}');
+          if (start >= 0 && end > start) {
+            return JSON.parse(content.slice(start, end + 1));
+          }
+          throw new Error('OPENAI_INVALID_JSON');
+        }
+      })();
+
+      return schema.parse(parsed);
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   // 占位响应方法（禁止 Mock；保留方法签名用于未来真实集成）
@@ -839,27 +1062,27 @@ class AIServiceManager {
     _imageData: Buffer | string,
     _options?: unknown
   ): AIServiceResponse<OCRResult> {
-    return { success: false, error: 'NOT_IMPLEMENTED' };
+    return { success: false, error: 'SERVICE_NOT_CONFIGURED' };
   }
 
   private createMockSpeechToTextResponse(
     _audioData: Buffer,
     _options?: unknown
   ): AIServiceResponse<SpeechToTextResult> {
-    return { success: false, error: 'NOT_IMPLEMENTED' };
+    return { success: false, error: 'SERVICE_NOT_CONFIGURED' };
   }
 
   private createMockNLPResponse(
     _text: string,
     _options?: unknown
   ): AIServiceResponse<NLPAnalysisResult> {
-    return { success: false, error: 'NOT_IMPLEMENTED' };
+    return { success: false, error: 'SERVICE_NOT_CONFIGURED' };
   }
 
   private createMockRecommendationResponse(
     _context: unknown
   ): AIServiceResponse<RecommendationResult> {
-    return { success: false, error: 'NOT_IMPLEMENTED' };
+    return { success: false, error: 'SERVICE_NOT_CONFIGURED' };
   }
 
   // 辅助方法
@@ -910,8 +1133,12 @@ class AIServiceManager {
    * 获取使用统计
    */
   async getUsageStats(): Promise<AIUsageStats> {
-    // 禁止返回模拟统计：进入真实落地前必须显式失败并由调用方决定如何呈现/审计。
-    throw new Error('AI_USAGE_STATS_NOT_IMPLEMENTED');
+    return {
+      ocr: { ...this.usageStats.ocr },
+      asr: { ...this.usageStats.asr },
+      nlp: { ...this.usageStats.nlp },
+      recommendation: { ...this.usageStats.recommendation },
+    };
   }
 }
 

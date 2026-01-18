@@ -108,11 +108,8 @@ export async function POST(request: NextRequest) {
       if (result.error === 'SERVICE_NOT_CONFIGURED') {
         return ErrorResponses.SERVICE_NOT_CONFIGURED('OCR');
       }
-      if (result.error?.endsWith('_NOT_IMPLEMENTED')) {
-        return ErrorResponses.NOT_IMPLEMENTED(`OCR 集成尚未实现：${result.error}`);
-      }
 
-      return ErrorResponses.OPERATION_FAILED(result.error || 'OCR 识别失败');
+      return ErrorResponses.OPERATION_FAILED(result.error || 'OCR 识别失败');   
     }
 
     await AuditLogger.log({
