@@ -194,8 +194,6 @@ export const ErrorResponses = {
       null,
       503
     ),
-  NOT_IMPLEMENTED: (message?: string) =>
-    createErrorResponse('NOT_IMPLEMENTED', message || '功能尚未实现', null, 501),
 
   // 请求相关错误
   BAD_REQUEST: (details?: unknown) =>
