@@ -6,6 +6,7 @@
 再次追加修复时间：2026-01-18 01:06:20
 再次追加修复时间：2026-01-18 05:12:49
 再次追加修复时间：2026-01-18 17:27:01
+再次追加修复时间：2026-01-18 18:26:21
 
 ## 仓库结构与交付风险
 
@@ -106,6 +107,8 @@
 - `fix(ai): remove placeholders and add fallbacks [AUDIT-REPORT]`（`b8bd73d`）
 - `fix(integrations): harden external system errors [AUDIT-REPORT]`（`bf0fb65`）
 - `fix(queue): remove placeholder delivery states [AUDIT-REPORT]`（`59f0a3c`）
+- `fix(push): implement webpush subscriptions+delivery [AUDIT-REPORT]`（`8a6a4d1`）
+- `fix(prisma): remove NOT_IMPLEMENTED placeholders [AUDIT-REPORT]`（`9b7f0af`）
 
 根仓库（追加：仲裁员/回避后端补齐）：
 - `fix(audit): add recusal and review audit events [AUDIT-REPORT]`（`5f39612`）
@@ -144,6 +147,10 @@
 - `dev/`：`pnpm build` PASS；`pnpm lint` PASS；`npx prisma generate` PASS
 - `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
 
+追加验证（2026-01-18 18:26:21，WebPush 投递闭环 + 清理 NOT_IMPLEMENTED）：
+- `dev/`：`npx prisma migrate deploy` PASS；`npx prisma generate` PASS；`pnpm build` PASS；`pnpm lint` PASS
+- `Prototype/`：`pnpm build` PASS；`pnpm test -- --run` PASS
+
 ## 审计项核对（误报/过期项）
 
 - 审计 13.4 “公证 Worker 缺失”：`dev/src/lib/queue.ts` 已注册 `NOTARY_TASKS` Worker 并调用 `processNotaryTask()`；但生产化仍需明确 Worker 进程部署/开关（默认仅 `NODE_ENV=development` 或 `BULLMQ_RUN_WORKERS=true` 启动）。
@@ -157,7 +164,7 @@
 - 构建期副作用：`dev pnpm build` 日志出现 Redis 连接提示，说明部分模块在构建/预渲染阶段触发外部连接；建议将外部连接延后到运行期并做环境隔离。
 - 依赖安全：Next.js 15.4.6 存在安全公告提示（需按官方 CVE 指引升级到修复版本）；Prisma CLI 提示可升级（本轮未动以避免引入大版本迁移风险）。
 - E2E 仍未完全闭环：已补齐支付/送达/通知中心的后端 API + 队列/Worker，但前端接入、生产配置（SMTP/SMS/Webhook/对象存储/密钥）与外部系统真实对接仍需完成（证据见 `docs/TRACEABILITY_MATRIX.md`、`docs/GAP_ANALYSIS.md`）。
-- 通知 Push 通道：当前后端不再返回 `NOT_IMPLEMENTED` 占位，统一降级为 `SERVICE_NOT_CONFIGURED` 并保留审计留痕；如需浏览器 WebPush/企业微信/厂商推送仍需补齐订阅存储与投递实现。
+- 通知 Push 通道：已补齐浏览器 WebPush（订阅存储 + 队列投递 + 失效订阅自动禁用），不再使用 `NOT_IMPLEMENTED`；仍需前端接入 service worker 与订阅/退订 UI（否则 push 永远无有效订阅）。
 
 > 下方为旧记录（可忽略）：
 
